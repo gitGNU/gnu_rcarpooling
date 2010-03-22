@@ -1,0 +1,79 @@
+Copyright (C) 2010  Roberto Maestroni
+
+Rcarpooling is a web application that everyone can use to realize
+a car-pooling service.
+Essentially people can:
+  - Offer their car, specifying where they departure and when, and
+    where they want arrive;
+  - Ask for a passage, specifying where they departure and where
+    they want arrive, the minimum departure time and the latest
+    arrival time;
+
+People can departure and arrive in a predetermined set of places:
+for each pair you can specify the distance and the travel duration,
+either by car and on foot.
+The feedback from the system to a requester is:
+  - A list of passengers for a driver;
+  - A solution (if ever) for a traveller, composed of
+    - Eventually, "a branch" on foot;
+    - A trip on someone's car;
+    - Eventually, another "branch" on foot;
+
+Rcarpooling implements a web-service. It responds to HTTP requests
+serving xml and json.
+Rcarpooling can interact with human users with e-mail but probably
+you will need a "html oriented" web application to talk to users'
+browsers.
+
+
+
+== AUTHORS ==
+
+Roberto Maestroni <r.maestroni@gmail.com>
+
+
+
+== LICENSE ==
+
+Rcarpooling is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Rcarpooling is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero Public License for more details.
+
+You should have received a copy of the GNU Affero Public License
+along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
+
+
+
+== FILES WITH OTHER COPYRIGHT STATEMENT ==
+
+Rcarpooling works with the well known Ruby On Rails framework,
+<http://rubyonrails.org/> distributed under the MIT License (X11
+License).
+All the following files are from Ruby On Rails and, strictly
+speaking, are not part of Rcarpooling:
+
+  - All files under config/ and sub-directories;
+
+  - db/schema.rb (it is automatically produced by some Rails
+    script);
+
+  - log/development.log, log/test.log, log/production.log (these are
+    merely log files produced by the test suite and by the Rails
+    web-server);
+
+  - public/dispatch.rb
+  - public/robots.txt
+
+  - All files under script/ and sub-directories;
+
+  - All files under tmp/ and sub-directories;
+
+  - All files under vendor/ and sub-directories;
+
+  - Rakefile in the root directory;

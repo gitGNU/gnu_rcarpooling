@@ -1,0 +1,65 @@
+# Copyright (C) 2010  Roberto Maestroni
+#
+# This file is part of Rcarpooling.
+#
+# Rcarpooling is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Rcarpooling is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero Public License for more details.
+#
+# You should have received a copy of the GNU Affero Public License
+# along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
+
+sede_via_ravasi_sede_via_dunant:
+  type: EdgeByCar
+  departure_place: sede_di_via_ravasi
+  arrival_place: sede_di_via_dunant
+  length: 5000
+  travel_duration: 20
+
+x1_x2_F:
+  type: EdgeOnFoot
+  departure_place: x1
+  arrival_place: x2
+  length: 400
+  travel_duration: 3
+
+x1_x3_F:
+  type: EdgeOnFoot
+  departure_place: x1
+  arrival_place: x3
+  length: 400
+  travel_duration: 3
+
+x2_x1_F:
+  type: EdgeOnFoot
+  departure_place: x2
+  arrival_place: x1
+  length: 400
+  travel_duration: 3
+
+x3_x1_F:
+  type: EdgeOnFoot
+  departure_place: x3
+  arrival_place: x1
+  length: 400
+  travel_duration: 3
+
+y1_y3_F:
+  type: EdgeOnFoot
+  departure_place: y1
+  arrival_place: y3
+  length: 500
+  travel_duration: 5
+
+y4_y2_F:
+  type: EdgeOnFoot
+  departure_place: y4
+  arrival_place: y2
+  length: 500
+  travel_duration: 5

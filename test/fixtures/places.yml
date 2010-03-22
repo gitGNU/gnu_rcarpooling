@@ -1,0 +1,117 @@
+# Copyright (C) 2010  Roberto Maestroni
+#
+# This file is part of Rcarpooling.
+#
+# Rcarpooling is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Rcarpooling is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero Public License for more details.
+#
+# You should have received a copy of the GNU Affero Public License
+# along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
+
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+sede_di_via_ravasi:
+  name: sede di via Ravasi
+  city: Varese
+  street: via Ravasi
+  civic_number: 2
+  latitude: 0.0
+  longitude: 0.0
+  description: MyText
+
+sede_di_via_dunant:
+  name: sede di via Dunant
+  city: Varese
+  street: via H.J. Dunant
+  civic_number: 6
+  latitude: 0.1
+  longitude: 0.1
+  description: MyText
+
+stazione_fnm:
+  name: stazione FNM
+  city: Varese
+  street: boh
+  civic_number: boh
+  latitude: 0.2
+  longitude: 0.2
+  description: bla bla
+
+sede_di_via_monte_generoso:
+  name: sede di via Monte Generoso
+  city: Varese
+  street: via Monte Generoso
+  civic_number: 66
+  latitude: 0.3
+  longitude: 0.3
+  description: bla bla
+
+x1:
+  name: place x1
+  city: Varese
+  street: bla
+  civic_number: bla
+  latitude: 1.0
+  longitude: 1.0
+  description: bla
+
+x2:
+  name: place x2
+  city: Varese
+  street: bla
+  civic_number: bla
+  latitude: 1.0
+  longitude: 1.0
+  description: bla
+
+x3:
+  name: place x3
+  city: Varese
+  street: bla
+  civic_number: bla
+  latitude: 1.0
+  longitude: 1.0
+  description: bla
+
+y1:
+  name: place y1
+  city: Varese
+  street: bla
+  civic_number: bla
+  latitude: 1.0
+  longitude: 1.0
+  description: bla
+
+y2:
+  name: place y2
+  city: Varese
+  street: bla
+  civic_number: bla
+  latitude: 1.0
+  longitude: 1.0
+  description: bla
+
+y3:
+  name: place y3
+  city: Varese
+  street: bla
+  civic_number: bla
+  latitude: 1.0
+  longitude: 1.0
+  description: bla
+
+y4:
+  name: place y4
+  city: Varese
+  street: bla
+  civic_number: bla
+  latitude: 1.0
+  longitude: 1.0
+  description: bla

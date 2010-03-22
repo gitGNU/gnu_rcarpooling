@@ -1,0 +1,28 @@
+<%
+# Copyright (C) 2010  Roberto Maestroni
+#
+# This file is part of Rcarpooling.
+#
+# Rcarpooling is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Rcarpooling is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero Public License for more details.
+#
+# You should have received a copy of the GNU Affero Public License
+# along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
+-%>
+<% departure_place = offering.departure_place -%>
+<% arrival_place = offering.arrival_place -%>
+partenza: <%= departure_place.address("it") %>
+
+arrivo: <%= arrival_place.address("it") %>
+
+data e ora di partenza: <%= italian_date_time(offering.departure_time) %>
+data e ora di arrivo: <%= italian_date_time(offering.arrival_time) %>
+data e ora di scadenza: <%= italian_date_time(offering.expiry_time) %>
+posti disponibili: <%= offering.seating_capacity %>

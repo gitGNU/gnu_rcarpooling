@@ -1,0 +1,58 @@
+<%
+# Copyright (C) 2010  Roberto Maestroni
+#
+# This file is part of Rcarpooling.
+#
+# Rcarpooling is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Rcarpooling is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero Public License for more details.
+#
+# You should have received a copy of the GNU Affero Public License
+# along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
+-%>
+<% departure_place = @fulfilled_demand.departure_place -%>
+<% arrival_place = @fulfilled_demand.arrival_place -%>
+<% car_departure_place = @fulfilled_demand.car_departure_place -%>
+<% car_arrival_place = @fulfilled_demand.car_arrival_place -%>
+<% driver = @fulfilled_demand.used_offering.offerer -%>
+<% car_departure_time = @fulfilled_demand.car_departure_time -%>
+<% car_arrival_time = @fulfilled_demand.car_arrival_time -%>
+You will departure from <%= departure_place.name %>, located at this address:
+    <%= departure_place.address("en") %>
+
+<% if @fulfilled_demand.has_initial_walk? -%>
+You have to departure on <%= english_date_time(@fulfilled_demand.departure_time) %>
+and walk for <%= @fulfilled_demand.initial_walk_duration %> minutes towards
+<%= car_departure_place.name %> located at this address:
+  <%= car_departure_place.address("en") %>
+
+Here you get in the car of <%= driver.qualified_name %>
+that will departure at <%= hour_minute(car_departure_time) %>
+and go towards <%= car_arrival_place.name %> located at this address:
+  <%= car_arrival_place.address("en") %>
+where you will arrive at <%= hour_minute(car_arrival_time) %>
+<% else -%>
+You will get in the car of <%= driver.qualified_name %>
+that will departure on <%= english_date_time(car_departure_time) %>
+and go towards <%= car_arrival_place.name %> located at this address:
+  <%= car_arrival_place.address("en") %>
+where you will arrive at <%= hour_minute(car_arrival_time) %>
+<% end -%>
+
+<% if @fulfilled_demand.has_final_walk? -%>
+When you get off the car, you have to walk for <%= @fulfilled_demand.final_walk_duration %> minutes
+towards your final destination, <%= arrival_place.name %>, located at this address:
+  <%= arrival_place.address("en") %>
+<% end -%>
+
+You can recede from this solution until <%= english_date_time(@fulfilled_demand.chilled_since) %>
+
+<% if !@fulfilled_demand.guaranteed? -%>
+We cannot ensure this solution until <%= english_date_time(@fulfilled_demand.guaranteed_since) %>
+<% end -%>

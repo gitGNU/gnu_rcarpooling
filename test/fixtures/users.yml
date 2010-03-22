@@ -1,0 +1,50 @@
+# Copyright (C) 2010  Roberto Maestroni
+#
+# This file is part of Rcarpooling.
+#
+# Rcarpooling is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Rcarpooling is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero Public License for more details.
+#
+# You should have received a copy of the GNU Affero Public License
+# along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
+
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+donald_duck:
+  first_name: Donald
+  last_name: Duck
+  nick_name: dd
+  email: donald.duck@foo.bar
+  password: donald
+  language: en
+
+mickey_mouse:
+  first_name: Mickey
+  last_name: Mouse
+  nick_name: mm
+  email: mickey.mouse@foo.bar
+  password: mickey
+  language: en
+
+usery:
+  first_name: user
+  last_name: y
+  nick_name: usery
+  email: user@y.boh
+  password: usery
+  language: en
+
+useryD:
+  first_name: user
+  last_name: yD
+  nick_name: useryD
+  email: user@yD.boh
+  password: useryD
+  language: en
