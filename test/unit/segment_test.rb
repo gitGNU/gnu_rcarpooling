@@ -43,6 +43,7 @@ class SegmentTest < ActiveSupport::TestCase
     segment = Segment.new(:order_number => -1)
     assert !segment.valid?
     assert segment.errors.invalid?(:order_number)
-    assert_equal "must be greater than 0",segment.errors.on(:order_number)
+    assert_equal I18n.t('activerecord.errors.messages.greater_than',
+                        :count => 0), segment.errors.on(:order_number)
   end
 end

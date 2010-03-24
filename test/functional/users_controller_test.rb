@@ -65,4 +65,44 @@ class UsersControllerTest < ActionController::TestCase
   end
 
 
+  test "user xml contents" do
+    user = users(:donald_duck)
+    user.drivers_in_black_list << users(:mickey_mouse)
+    user.passengers_in_black_list << users(:mickey_mouse)
+    user.save!
+    set_authorization_header(user.nick_name, user.password)
+    get :show, :id => user.id
+    assert_response :success
+    # testing response content
+    assert_select "user:root[id=#{user.id}][href=#{user_url(user)}]" do
+      assert_select "first_name", user.first_name
+      assert_select "last_name", user.last_name
+      assert_select "sex", user.sex
+      assert_select "nick_name", user.nick_name
+      assert_select "email", user.email
+      assert_select "lang", user.lang
+      assert_select "max_foot_length", user.max_foot_length.to_s
+      # black list
+      assert_select "black_list" do
+        user.drivers_in_black_list.each do |driver|
+          assert_select "user[id=#{driver.id}]" +
+              "[href=#{user_url(driver)}][rel=driver]" do
+            assert_select "first_name", driver.first_name
+            assert_select "last_name", driver.last_name
+            assert_select "nick_name", driver.nick_name
+          end
+        end # loop on drivers
+        user.passengers_in_black_list.each do |pass|
+          assert_select "user[id=#{pass.id}]" +
+              "[href=#{user_url(pass)}][rel=passenger]" do
+            assert_select "first_name", pass.first_name
+            assert_select "last_name", pass.last_name
+            assert_select "nick_name", pass.nick_name
+          end
+        end # loop on passengers
+      end
+    end
+  end
+
+
 end

@@ -36,7 +36,9 @@ class BlackListPassengersEntry < ActiveRecord::Base
 
   def passenger_must_be_distinct_from_user
     if user and passenger and passenger == user
-      errors.add(:passenger, "must be distinct from user")
+      errors.add(:passenger, I18n.t("activerecord.errors.messages." +
+                                    "black_list_passengers_entry." +
+                                   "passenger_must_be_distinct_from_user"))
     end
   end
 

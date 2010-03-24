@@ -36,7 +36,9 @@ class BlackListDriversEntry < ActiveRecord::Base
 
   def driver_must_be_distinct_from_user
     if user and driver and driver == user
-      errors.add(:driver, "must be distinct from user")
+      errors.add(:driver, I18n.t("activerecord.errors.messages." +
+                                 "black_list_drivers_entry." +
+                                "driver_must_be_distinct_from_user"))
     end
   end
 end

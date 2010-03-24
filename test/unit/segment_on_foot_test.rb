@@ -59,7 +59,9 @@ class SegmentOnFootTest < ActiveSupport::TestCase
     f_seg.arrival_place = places(:sede_di_via_ravasi)
     assert ! f_seg.valid?
     assert f_seg.errors.invalid?(:arrival_place)
-    assert_equal "must be distinct from departure place",
+    assert_equal I18n.t("activerecord.errors.messages." +
+                                        "segment_on_foot.arrival_place_" +
+                                       "must_be_distinct_from_departure_place"),
         f_seg.errors.on(:arrival_place)
   end
 
@@ -69,7 +71,8 @@ class SegmentOnFootTest < ActiveSupport::TestCase
     f_seg.length = 0
     assert ! f_seg.valid?
     assert f_seg.errors.invalid?(:length)
-    assert_equal "must be greater than 0", f_seg.errors.on(:length)
+    assert_equal I18n.t('activerecord.errors.messages.greater_than',
+                        :count => 0), f_seg.errors.on(:length)
   end
 
 
@@ -78,7 +81,8 @@ class SegmentOnFootTest < ActiveSupport::TestCase
     f_seg.travel_duration = 0
     assert ! f_seg.valid?
     assert f_seg.errors.invalid?(:travel_duration)
-    assert_equal "must be greater than 0", f_seg.errors.on(:travel_duration)
+    assert_equal I18n.t("activerecord.errors.messages.greater_than",
+                        :count => 0), f_seg.errors.on(:travel_duration)
   end
 
 end

@@ -46,8 +46,10 @@ class BlackListDriversEntryTest < ActiveSupport::TestCase
     entry.driver = users(:mickey_mouse)
     assert !entry.valid?
     assert entry.errors.invalid?(:driver)
-    assert_equal "must be distinct from user",
-        entry.errors.on(:driver)
+    assert_equal I18n.t("activerecord.errors.messages." +
+                                 "black_list_drivers_entry." +
+                                "driver_must_be_distinct_from_user"),
+                            entry.errors.on(:driver)
   end
 
 end

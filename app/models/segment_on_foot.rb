@@ -53,7 +53,9 @@ class SegmentOnFoot < Segment
 
   def arrival_place_must_be_distinct_from_departure_place
     if departure_place and arrival_place and departure_place == arrival_place
-      errors.add(:arrival_place, "must be distinct from departure place")
+      errors.add(:arrival_place, I18n.t("activerecord.errors.messages." +
+                                        "segment_on_foot.arrival_place_" +
+                                       "must_be_distinct_from_departure_place"))
     end
   end
 

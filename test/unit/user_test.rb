@@ -153,8 +153,9 @@ class UserTest < ActiveSupport::TestCase
     user = User.new(:max_foot_length => -1)
     assert !user.valid?
     assert user.errors.invalid?(:max_foot_length)
-    assert_equal "must be greater than or equal to 0",
-        user.errors.on(:max_foot_length)
+    assert_equal I18n.t(
+      'activerecord.errors.messages.greater_than_or_equal_to',
+      :count => 0), user.errors.on(:max_foot_length)
   end
 
 

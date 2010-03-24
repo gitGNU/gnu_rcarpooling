@@ -1,5 +1,51 @@
-# Sample localization file for English. Add more files in this directory for other locales.
-# See http://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
+# Copyright (C) 2010  Roberto Maestroni
+#
+# This file is part of Rcarpooling.
+#
+# Rcarpooling is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Rcarpooling is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero Public License for more details.
+#
+# You should have received a copy of the GNU Affero Public License
+# along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
 
 en:
-  hello: "Hello world"
+
+  activerecord:
+    errors:
+      messages:
+
+        black_list_drivers_entry:
+          driver_must_be_distinct_from_user: "must be distinct from user"
+
+        black_list_passengers_entry:
+          passenger_must_be_distinct_from_user: "must be distinct \
+                                                from user"
+
+        demand:
+          latest_arrival_time_must_be_later_than_earliest_departure_time: "must be later than earliest departure time"
+          earliest_departure_time_must_be_later_than_10_minutes_from_now: "must be later than 10 minutes from now"
+          expiry_time_must_be_earlier_than_or_equal_to_earliest_departure_time: "must be earlier than or equal to earliest departure time"
+          expiry_time_must_be_later_than_5_minutes_from_now: "must be later than 5 minutes from now"
+
+        edge:
+          arrival_place_must_be_distinct_from_departure_place: "must be distinct from departure place"
+
+        offering:
+          expiry_time_must_be_earlier_than_or_equal_to_departure_time: "must be earlier than or equal to departure time"
+          departure_time_must_be_later_than_10_minutes_from_now: "must be later than 10 minutes from now"
+          expiry_time_must_be_later_than_5_minutes_from_now: "must be later than 5 minutes from now"
+          expiry_time_must_be_later_than_or_equal_to_2_hours_before_departure_time: "must be later than or equal to 2 hours before departure time"
+          arrival_place_must_be_distinct_from_departure_place: "must be distinct from departure place"
+          arrival_time_must_be_later_than_departure_time: "must be later than departure time"
+
+        segment_on_foot:
+          arrival_place_must_be_distinct_from_departure_place: "must be distinct from departure place"
+
+

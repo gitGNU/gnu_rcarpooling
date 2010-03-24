@@ -52,7 +52,9 @@ class EdgeTest < ActiveSupport::TestCase
                     :arrival_place => places(:sede_di_via_ravasi))
     assert !edge.valid?
     assert edge.errors.invalid?(:arrival_place)
-    assert_equal "must be distinct from departure place",
+    assert_equal I18n.t("activerecord.errors.messages.edge." +
+                                        "arrival_place_must_be_distinct_" +
+                                       "from_departure_place"),
         edge.errors.on(:arrival_place)
   end
 
@@ -61,8 +63,8 @@ class EdgeTest < ActiveSupport::TestCase
     edge = Edge.new(:length => 0)
     assert !edge.valid?
     assert edge.errors.invalid?(:length)
-    assert_equal "must be greater than 0",
-        edge.errors.on(:length)
+    assert_equal I18n.t('activerecord.errors.messages.greater_than',
+                        :count => 0), edge.errors.on(:length)
   end
 
 
@@ -70,8 +72,8 @@ class EdgeTest < ActiveSupport::TestCase
     edge = Edge.new(:travel_duration => 0)
     assert !edge.valid?
     assert edge.errors.invalid?(:travel_duration)
-    assert_equal "must be greater than 0",
-        edge.errors.on(:travel_duration)
+    assert_equal I18n.t('activerecord.errors.messages.greater_than',
+                        :count => 0), edge.errors.on(:travel_duration)
   end
 
 end

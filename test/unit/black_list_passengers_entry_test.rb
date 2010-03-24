@@ -46,7 +46,9 @@ class BlackListPassengersEntryTest < ActiveSupport::TestCase
     entry.passenger = users(:donald_duck)
     assert !entry.valid?
     assert entry.errors.invalid?(:passenger)
-    assert_equal "must be distinct from user",
+    assert_equal I18n.t("activerecord.errors.messages." +
+                                    "black_list_passengers_entry." +
+                                   "passenger_must_be_distinct_from_user"),
         entry.errors.on(:passenger)
   end
 

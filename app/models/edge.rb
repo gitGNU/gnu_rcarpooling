@@ -47,7 +47,9 @@ class Edge < ActiveRecord::Base
 
   def arrival_place_must_be_distinct_from_departure_place
     if departure_place and arrival_place and arrival_place == departure_place
-      errors.add(:arrival_place, "must be distinct from departure place")
+      errors.add(:arrival_place, I18n.t("activerecord.errors.messages.edge." +
+                                        "arrival_place_must_be_distinct_" +
+                                       "from_departure_place"))
     end
   end
 

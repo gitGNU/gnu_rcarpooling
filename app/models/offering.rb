@@ -86,7 +86,10 @@ class Offering < ActiveRecord::Base
   def expiry_time_must_be_earlier_than_or_equal_to_departure_time
     if expiry_time and departure_time
       unless expiry_time <= departure_time
-        errors.add(:expiry_time, "must be earlier than or equal to departure time")
+        errors.add(:expiry_time, I18n.t("activerecord.errors.messages." +
+                                        "offering.expiry_time_must_be_" +
+                                       "earlier_than_or_equal_to_" +
+                                       "departure_time"))
       end
     end
   end
@@ -94,14 +97,17 @@ class Offering < ActiveRecord::Base
 
   def departure_time_must_be_later_than_10_minutes_from_now
     if departure_time and ! (departure_time > 10.minutes.from_now)
-      errors.add(:departure_time, "must be later than 10 minutes from now")
+      errors.add(:departure_time, I18n.t("activerecord.errors.messages." +
+                                         "offering.departure_time_must_be_" +
+                                        "later_than_10_minutes_from_now"))
     end
   end
 
 
   def expiry_time_must_be_later_than_5_minutes_from_now
     if expiry_time and ! (expiry_time > 5.minutes.from_now)
-      errors.add(:expiry_time, "must be later than 5 minutes from now")
+      errors.add(:expiry_time, I18n.t("activerecord.errors.messages.offering." +
+                                      "expiry_time_must_be_later_than_5_minutes_from_now"))
     end
   end
 
@@ -109,8 +115,9 @@ class Offering < ActiveRecord::Base
   def expiry_time_must_be_later_than_or_equal_to_2_hours_before_departure_time
     if expiry_time and departure_time
       unless expiry_time >= (departure_time - 2.hours)
-        errors.add(:expiry_time,
-                   "must be later than or equal to 2 hours before departure time")
+        errors.add(:expiry_time, I18n.t("activerecord.errors.messages." +
+                                        "expiry_time_must_be_later_than_" +
+                                       "or_equal_to_2_hours_before_departure_time"))
       end
     end
   end
@@ -119,7 +126,9 @@ class Offering < ActiveRecord::Base
   def arrival_place_must_be_distinct_from_departure_place
     if arrival_place and departure_place
       unless arrival_place != departure_place
-        errors.add(:arrival_place, "must be distinct from departure place")
+        errors.add(:arrival_place, I18n.t("activerecord.errors.messages." +
+                                          "offering.arrival_place_must_be_" +
+                                         "distinct_from_departure_place"))
       end
     end
   end
@@ -127,7 +136,9 @@ class Offering < ActiveRecord::Base
 
   def arrival_time_must_be_later_than_departure_time
     if departure_time and arrival_time and arrival_time <= departure_time
-      errors.add(:arrival_time, "must be later than departure time")
+      errors.add(:arrival_time, I18n.t("activerecord.errors.messages." +
+                                       "offering.arrival_time_must_be_" +
+                                      "later_than_departure_time"))
     end
   end
 

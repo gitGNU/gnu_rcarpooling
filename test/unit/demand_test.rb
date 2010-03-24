@@ -62,7 +62,9 @@ class DemandTest < ActiveSupport::TestCase
     demand.latest_arrival_time = demand.earliest_departure_time
     assert ! demand.valid?
     assert demand.errors.invalid?(:latest_arrival_time)
-    assert_equal "must be later than earliest departure time",
+    assert_equal I18n.t("activerecord.errors.messages.demand." +
+                "latest_arrival_time_must_be_later_than_earliest_" +
+                       "departure_time"),
         demand.errors.on(:latest_arrival_time)
   end
 
@@ -72,7 +74,7 @@ class DemandTest < ActiveSupport::TestCase
     demand.earliest_departure_time = 10.minutes.from_now
     assert ! demand.valid?
     assert demand.errors.invalid?(:earliest_departure_time)
-    assert_equal "must be later than 10 minutes from now",
+    assert_equal I18n.t("activerecord.errors.messages.demand.earliest_departure_time_must_be_later_than_10_minutes_from_now"),
         demand.errors.on(:earliest_departure_time)
     # for already saved demands doesn't matter
     old_demand = demands(:mickey_mouse_demand_n_2_dep_in_past)
@@ -87,7 +89,8 @@ class DemandTest < ActiveSupport::TestCase
     demand.expiry_time = demand.earliest_departure_time + 1.second
     assert ! demand.valid?
     assert demand.errors.invalid?(:expiry_time)
-    assert_equal "must be earlier than or equal to earliest departure time",
+    assert_equal I18n.t("activerecord.errors.messages.demand.expiry_time_must_be_" +
+                        "earlier_than_or_equal_to_earliest_departure_time"),
         demand.errors.on(:expiry_time)
   end
 
@@ -97,7 +100,8 @@ class DemandTest < ActiveSupport::TestCase
     demand.expiry_time = 4.minutes.from_now
     assert !demand.valid?
     assert demand.errors.invalid?(:expiry_time)
-    assert_equal "must be later than 5 minutes from now",
+    assert_equal I18n.t("activerecord.errors.messages.demand.expiry_time_" +
+                        "must_be_later_than_5_minutes_from_now"),
         demand.errors.on(:expiry_time)
     # for already saved demands doesn't matter
     old_demand = demands(:mickey_mouse_demand_n_2_dep_in_past)

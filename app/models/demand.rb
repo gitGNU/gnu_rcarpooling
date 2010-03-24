@@ -79,8 +79,11 @@ class Demand < ActiveRecord::Base
   def latest_arrival_time_must_be_later_than_earliest_departure_time
     if latest_arrival_time and earliest_departure_time
       unless latest_arrival_time > earliest_departure_time
-        errors.add(:latest_arrival_time,
-                   "must be later than earliest departure time")
+        errors.add(:latest_arrival_time, I18n.t("activerecord.errors." +
+                                                "messages.demand." +
+                                               "latest_arrival_time_" +
+                                               "must_be_later_than_" +
+                                               "earliest_departure_time"))
       end
     end
   end
@@ -89,8 +92,11 @@ class Demand < ActiveRecord::Base
   def earliest_departure_time_must_be_later_than_10_minutes_from_now
     if earliest_departure_time and !(earliest_departure_time >
                                      10.minutes.from_now)
-      errors.add(:earliest_departure_time,
-                 "must be later than 10 minutes from now")
+      errors.add(:earliest_departure_time, I18n.t("activerecord.errors." +
+                                                  "messages.demand." +
+                                                 "earliest_departure_" +
+                                                 "time_must_be_later_than" +
+                                                 "_10_minutes_from_now"))
     end
   end
 
@@ -98,9 +104,10 @@ class Demand < ActiveRecord::Base
   def expiry_time_must_be_earlier_than_or_equal_to_earliest_departure_time
     if expiry_time and earliest_departure_time
       unless expiry_time <= earliest_departure_time
-        errors.add(:expiry_time,
-                   "must be earlier than or " +
-                   "equal to earliest departure time")
+        errors.add(:expiry_time, I18n.t("activerecord.errors.messages." +
+                                        "demand.expiry_time_must_be_" +
+                                       "earlier_than_or_equal_to_" +
+                                       "earliest_departure_time"))
       end
     end
   end
@@ -108,7 +115,9 @@ class Demand < ActiveRecord::Base
 
   def expiry_time_must_be_later_than_5_minutes_from_now
     if expiry_time and !(expiry_time > 5.minutes.from_now)
-      errors.add(:expiry_time, "must be later than 5 minutes from now")
+      errors.add(:expiry_time, I18n.t("activerecord.errors.messages." +
+                                      "demand.expiry_time_must_be_later" +
+                                     "_than_5_minutes_from_now"))
     end
   end
 

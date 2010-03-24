@@ -45,8 +45,8 @@ class UsedOfferingTest < ActiveSupport::TestCase
     uo.seating_capacity = -1
     assert !uo.valid?
     assert uo.errors.invalid?(:seating_capacity)
-    assert_equal "must be greater than or equal to 0",
-        uo.errors.on(:seating_capacity)
+    assert_equal I18n.t('activerecord.errors.messages.greater_than_or_equal_to',
+                        :count => 0), uo.errors.on(:seating_capacity)
   end
 
 

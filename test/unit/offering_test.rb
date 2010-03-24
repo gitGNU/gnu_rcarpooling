@@ -69,7 +69,8 @@ class OfferingTest < ActiveSupport::TestCase
     offering.length = -1
     assert !offering.valid?
     assert offering.errors.invalid?(:length)
-    assert_equal "must be greater than 0",
+    assert_equal I18n.t('activerecord.errors.messages.greater_than',
+                        :count => 0),
         offering.errors.on(:length)
   end
 
@@ -80,7 +81,9 @@ class OfferingTest < ActiveSupport::TestCase
     offering.arrival_time = offering.departure_time
     assert ! offering.valid?
     assert offering.errors.invalid?(:arrival_time)
-    assert_equal "must be later than departure time",
+    assert_equal I18n.t("activerecord.errors.messages." +
+                                       "offering.arrival_time_must_be_" +
+                                      "later_than_departure_time"),
         offering.errors.on(:arrival_time)
   end
 
@@ -90,8 +93,8 @@ class OfferingTest < ActiveSupport::TestCase
     offering.seating_capacity = 0
     assert ! offering.valid?
     assert offering.errors.invalid?(:seating_capacity)
-    assert_equal "must be greater than 0",
-        offering.errors.on(:seating_capacity)
+    assert_equal I18n.t('activerecord.errors.messages.greater_than',
+                        :count => 0), offering.errors.on(:seating_capacity)
   end
 
 
@@ -100,7 +103,9 @@ class OfferingTest < ActiveSupport::TestCase
     offering.departure_time = (9.minutes + 59.seconds).from_now
     assert !offering.valid?
     assert offering.errors.invalid?(:departure_time)
-    assert_equal "must be later than 10 minutes from now",
+    assert_equal I18n.t("activerecord.errors.messages." +
+                                         "offering.departure_time_must_be_" +
+                                        "later_than_10_minutes_from_now"),
         offering.errors.on(:departure_time)
     # for an old offering (already saved) don't matter
     old_offering = offerings(:donald_duck_offering_n_2_dep_in_the_past)
@@ -114,7 +119,8 @@ class OfferingTest < ActiveSupport::TestCase
     offering.expiry_time = (4.minutes + 59.seconds).from_now
     assert ! offering.valid?
     assert offering.errors.invalid?(:expiry_time)
-    assert_equal "must be later than 5 minutes from now",
+    assert_equal I18n.t("activerecord.errors.messages.offering." +
+                                      "expiry_time_must_be_later_than_5_minutes_from_now"),
         offering.errors.on(:expiry_time)
     # for an old offering (already saved) don't matter
     old_offering = offerings(:donald_duck_offering_n_2_dep_in_the_past)
@@ -129,7 +135,10 @@ class OfferingTest < ActiveSupport::TestCase
     offering.expiry_time = 2.hours.from_now
     assert !offering.valid?
     assert offering.errors.invalid?(:expiry_time)
-    assert_equal "must be earlier than or equal to departure time",
+    assert_equal I18n.t("activerecord.errors.messages." +
+                                        "offering.expiry_time_must_be_" +
+                                       "earlier_than_or_equal_to_" +
+                                       "departure_time"),
         offering.errors.on(:expiry_time)
   end
 
@@ -140,7 +149,9 @@ class OfferingTest < ActiveSupport::TestCase
     offering.expiry_time = offering.departure_time - (2.hours + 1.second)
     assert !offering.valid?
     assert offering.errors.invalid?(:expiry_time)
-    assert_equal "must be later than or equal to 2 hours before departure time",
+    assert_equal I18n.t("activerecord.errors.messages." +
+                                        "expiry_time_must_be_later_than_" +
+                                       "or_equal_to_2_hours_before_departure_time"),
         offering.errors.on(:expiry_time)
   end
 
@@ -151,7 +162,9 @@ class OfferingTest < ActiveSupport::TestCase
     offering.arrival_place = offering.departure_place
     assert ! offering.valid?
     assert offering.errors.invalid?(:arrival_place)
-    assert_equal "must be distinct from departure place",
+    assert_equal I18n.t("activerecord.errors.messages." +
+                                          "offering.arrival_place_must_be_" +
+                                         "distinct_from_departure_place"),
         offering.errors.on(:arrival_place)
   end
 
