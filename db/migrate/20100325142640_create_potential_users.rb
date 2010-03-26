@@ -15,40 +15,17 @@
 # You should have received a copy of the GNU Affero Public License
 # along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
 
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+class CreatePotentialUsers < ActiveRecord::Migration
+  def self.up
+    create_table :potential_users do |t|
+      t.string :account_name
+      t.string :password
 
-donald_duck:
-  first_name: Donald
-  last_name: Duck
-  nick_name: dd
-  email: donald.duck@foo.bar
-  password: donald
-  language: en
-  sex: M
+      t.timestamps
+    end
+  end
 
-mickey_mouse:
-  first_name: Mickey
-  last_name: Mouse
-  nick_name: mm
-  email: mickey.mouse@foo.bar
-  password: mickey
-  language: en
-  sex: M
-
-usery:
-  first_name: user
-  last_name: y
-  nick_name: usery
-  email: user@y.boh
-  password: usery
-  language: en
-  sex: M
-
-useryD:
-  first_name: user
-  last_name: yD
-  nick_name: useryD
-  email: user@yD.boh
-  password: useryD
-  language: en
-  sex: M
+  def self.down
+    drop_table :potential_users
+  end
+end

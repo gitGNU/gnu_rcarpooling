@@ -20,6 +20,12 @@
 # in the application.
 module ApplicationHelper
 
+
+  def title
+    @page_title ||= "rcarpooling unconfigured"
+  end
+
+
   def english_date(time)
     time.localtime.to_date.to_s
   end

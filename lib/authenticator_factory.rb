@@ -15,40 +15,32 @@
 # You should have received a copy of the GNU Affero Public License
 # along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
 
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+class AuthenticatorFactory
 
-donald_duck:
-  first_name: Donald
-  last_name: Duck
-  nick_name: dd
-  email: donald.duck@foo.bar
-  password: donald
-  language: en
-  sex: M
 
-mickey_mouse:
-  first_name: Mickey
-  last_name: Mouse
-  nick_name: mm
-  email: mickey.mouse@foo.bar
-  password: mickey
-  language: en
-  sex: M
+  @@factory = nil
 
-usery:
-  first_name: user
-  last_name: y
-  nick_name: usery
-  email: user@y.boh
-  password: usery
-  language: en
-  sex: M
+  # the authenticator.authenticate returns false if the credentials
+  # are invalid, a uid number if the user is valid.
+  # If the user is authenticated but he is not in the DB uid == -1
 
-useryD:
-  first_name: user
-  last_name: yD
-  nick_name: useryD
-  email: user@yD.boh
-  password: useryD
-  language: en
-  sex: M
+  def self.build_authenticator(account_name, password)
+    if @@factory
+      @@factory.build_authenticator(account_name, password)
+    else
+      Authenticator.new(account_name, password)
+    end
+  end
+
+
+  def self.set_factory(factory)
+    @@factory = factory
+  end
+
+
+  def self.clear_factory
+    @@factory = nil
+  end
+
+
+end

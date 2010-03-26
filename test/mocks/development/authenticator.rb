@@ -15,40 +15,34 @@
 # You should have received a copy of the GNU Affero Public License
 # along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
 
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+require 'lib/authenticator'
 
-donald_duck:
-  first_name: Donald
-  last_name: Duck
-  nick_name: dd
-  email: donald.duck@foo.bar
-  password: donald
-  language: en
-  sex: M
+class Authenticator # this is a fake only for development
 
-mickey_mouse:
-  first_name: Mickey
-  last_name: Mouse
-  nick_name: mm
-  email: mickey.mouse@foo.bar
-  password: mickey
-  language: en
-  sex: M
+  # the authenticator.authenticate returns false if the credentials
+  # are invalid, a uid number if the user is valid.
+  # If the user is authenticated but he is not in the DB uid == -1
 
-usery:
-  first_name: user
-  last_name: y
-  nick_name: usery
-  email: user@y.boh
-  password: usery
-  language: en
-  sex: M
 
-useryD:
-  first_name: user
-  last_name: yD
-  nick_name: useryD
-  email: user@yD.boh
-  password: useryD
-  language: en
-  sex: M
+  def initialize(account_name, password)
+    @account_name = account_name
+    @password = password
+  end
+
+
+  def authenticate
+    uid = User.authenticate(@account_name, @password)
+    if uid
+      uid # it is a known user, already signed
+    else
+      pu = PotentialUser.find_by_account_name_and_password(
+        @account_name, @password)
+      if pu
+        -1
+      else
+        false
+      end
+    end
+  end
+
+end

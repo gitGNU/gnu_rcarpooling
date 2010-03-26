@@ -1,0 +1,56 @@
+<%
+# Copyright (C) 2010  Roberto Maestroni
+#
+# This file is part of Rcarpooling.
+#
+# Rcarpooling is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Rcarpooling is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero Public License for more details.
+#
+# You should have received a copy of the GNU Affero Public License
+# along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
+-%>
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <head>
+    <title><%= title %></title>
+    <!-- stylesheets -->
+    <%= stylesheet_link_tag :all%>
+    <!-- javascripts -->
+    <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=ABQIAAAA_aphsmAvHiqO-k55YnE0UxSfEdPd_3OY3V4ny-iDWd6IGSAlsBTe58RyV3GR6UZwnIRQRbMSzHNJ4A" type="text/javascript"></script>
+    <%= javascript_include_tag "sarissa-compressed.js" %>
+    <!-- favicon.ico -->
+    <link rel="icon" type="image/vnd.microsoft.icon" href="/images/favicon.ico" />
+  </head>
+  <body>
+    <div id="header"> <!-- HEADER -->
+      <span class="h1">rcarpooling</span>
+      <span class="h4"><%= I18n.t('layout.subtitle') %></span>
+    </div> <!-- end header -->
+    <div id="sidebar"> <!-- SIDEBAR -->
+      <%= render :partial => "partials/sidebar" %>
+    </div> <!-- end sidebar -->
+    <div id="content"> <!-- CONTENT -->
+      <div id="navigation-path">
+        <%= yield :navigation_path %>
+      </div>
+      <% if flash[:notice] -%>
+        <div class="notice"><%= flash[:notice] %></div>
+      <% end -%>
+      <%= yield :layout %>
+    </div> <!-- end content -->
+    <div id="footer"> <!-- FOOTER -->
+      <%= image_tag "valid-xhtml10.png", :size => "88x31" %>&nbsp;&nbsp;
+      <%= image_tag "vcss.gif", :size => "88x31" %>
+    </div> <!-- end footer -->
+  </body>
+</html>

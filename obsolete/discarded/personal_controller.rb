@@ -15,40 +15,20 @@
 # You should have received a copy of the GNU Affero Public License
 # along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
 
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+class PersonalController < ApplicationController
 
-donald_duck:
-  first_name: Donald
-  last_name: Duck
-  nick_name: dd
-  email: donald.duck@foo.bar
-  password: donald
-  language: en
-  sex: M
 
-mickey_mouse:
-  first_name: Mickey
-  last_name: Mouse
-  nick_name: mm
-  email: mickey.mouse@foo.bar
-  password: mickey
-  language: en
-  sex: M
+  # GET /personal/transform/user.xsl
+  def user
+    respond_to do |format|
+      format.xml { render :template => "personal/user.xsl",
+                   :layout => "layouts/xsl_transform.xsl" }
+    end
+  end
 
-usery:
-  first_name: user
-  last_name: y
-  nick_name: usery
-  email: user@y.boh
-  password: usery
-  language: en
-  sex: M
 
-useryD:
-  first_name: user
-  last_name: yD
-  nick_name: useryD
-  email: user@yD.boh
-  password: useryD
-  language: en
-  sex: M
+  def edit
+    @user_id = params[:user_id]
+  end
+
+end

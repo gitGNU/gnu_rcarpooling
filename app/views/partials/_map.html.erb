@@ -1,0 +1,82 @@
+<%
+# Copyright (C) 2010  Roberto Maestroni
+#
+# This file is part of Rcarpooling.
+#
+# Rcarpooling is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Rcarpooling is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero Public License for more details.
+#
+# You should have received a copy of the GNU Affero Public License
+# along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
+-%>
+<div id="map" style="width: 550px; height: 450px" onunload="GUnload()"></div>
+<noscript><%= I18n.translate('partials.map.noscript') %></noscript>
+<script type="text/javascript">
+  //<![CDATA[
+  if (GBrowserIsCompatible())
+  {
+    // A function to create the marker and set up the event window
+    // Dont try to unroll this function. It has to be here for the function closure
+    // Each instance of the function preserves the contends of a different instance
+    // of the "marker" and "html" variables which will be needed later when the event
+    // triggers.
+    function createMarker(point, html)
+    {
+      var marker = new GMarker(point);
+      GEvent.addListener(marker, "click", function() {
+        marker.openInfoWindowHtml(html);
+      });
+      return marker;
+    }
+    // Display the map, with some controls and set the initial location
+    var map = new GMap2(document.getElementById("map"));
+    map.addControl(new GLargeMapControl());
+    map.addControl(new GMapTypeControl());
+    map.setCenter(new GLatLng(45.7130433,8.9513295),10);
+
+
+    function showMarkers(xmlDoc)
+    {
+      var places = xmlDoc.getElementsByTagName("place");
+      for (var i = 0; i < places.length; i++)
+      {
+        var lat = parseFloat(places[i].getElementsByTagName("latitude")[0].childNodes[0].nodeValue);
+        var lng = parseFloat(places[i].getElementsByTagName("longitude")[0].childNodes[0].nodeValue);
+        var point = new GLatLng(lat,lng);
+        var placeName = places[i].getElementsByTagName("name")[0].childNodes[0].nodeValue;
+        // create the marker
+        var marker = createMarker(point, '<span class="map-marker">' + placeName + '</span>');
+        map.addOverlay(marker);
+      }
+    }
+
+    // getting data from the ws
+    xhr = new XMLHttpRequest();
+    xhr.open("GET", <%= "\"" + places_url + "\"" %>, true);
+    xhr.onreadystatechange = function() {
+      if (4 == xhr.readyState)
+      {
+        showMarkers(xhr.responseXML);
+      }
+    }
+    xhr.send(null);
+  } // end if
+  else
+  {
+    //display a warning if the browser was not compatible
+    alert("Sorry, the Google Maps API is not compatible with this browser");
+  }
+
+  // This Javascript is based on code provided by the
+  // Community Church Javascript Team
+  // http://www.bisphamchurch.org.uk/
+  // http://econym.org.uk/gmap/
+  //]]>
+</script>

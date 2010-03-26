@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100316131951) do
+ActiveRecord::Schema.define(:version => 20100325142640) do
 
   create_table "black_list_drivers_entries", :force => true do |t|
     t.integer  "user_id"
@@ -81,6 +81,13 @@ ActiveRecord::Schema.define(:version => 20100316131951) do
     t.float    "latitude"
     t.float    "longitude"
     t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "potential_users", :force => true do |t|
+    t.string   "account_name"
+    t.string   "password"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -21,6 +21,19 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :demands, :only => [:show, :create, :destroy]
   map.resources :fulfilled_demands, :only => [:show, :destroy]
   map.resources :places, :only => [:index, :show]
-  map.resources :users, :only => [:show],
+  map.resources :users, :only => [:show, :update, :create, :edit, :new],
       :collection => { :me => :get }
+  #
+  map.connect '',
+      :conditions => { :method => :get },
+      :controller => "home",
+      :action => "index"
+  map.connect '/authors',
+      :conditions => { :method => :get },
+      :controller => "home",
+      :action => "authors"
+  map.connect '/guide',
+      :conditions => { :method => :get },
+      :controller => "home",
+      :action => "guide"
 end

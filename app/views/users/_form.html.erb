@@ -1,0 +1,86 @@
+<%
+# Copyright (C) 2010  Roberto Maestroni
+#
+# This file is part of Rcarpooling.
+#
+# Rcarpooling is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Rcarpooling is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero Public License for more details.
+#
+# You should have received a copy of the GNU Affero Public License
+# along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
+-%>
+<% @languages = Language.find(:all).map { |l| [l.name, l.id] } -%>
+
+<%= form.error_messages :class => "errors" %>
+<table class="user-data-outline">
+  <tr>
+    <td class="user-field">
+      <%= I18n.t('personal.user_data.first_name')%>:
+    </td>
+    <td>
+      <%= form.text_field :first_name, :size => 30 %>
+    </td>
+  </tr>
+  <tr>
+    <td class="user-field">
+      <%= I18n.t('personal.user_data.last_name')%>:
+    </td>
+    <td>
+      <%= form.text_field :last_name, :size => 30 %>
+    </td>
+  </tr>
+  <tr>
+    <td class="user-field">
+      <%= I18n.t('personal.user_data.email')%>:
+    </td>
+    <td>
+      <%= form.text_field :email, :size => 30 %>
+    </td>
+  </tr>
+  <tr>
+    <td class="user-field">
+      <%= I18n.t('personal.user_data.sex')%>:
+    </td>
+    <td class="user-field">
+      <%= I18n.t('gender.male')%>&nbsp;
+      <%= form.radio_button :sex, "M" %>&nbsp;&nbsp;
+      <%= I18n.t('gender.female')%>&nbsp;
+      <%= form.radio_button :sex, "F" %>
+    </td>
+  </tr>
+  <tr>
+    <td class="user-field">
+      <%= I18n.t('personal.user_data.max_foot_length')%>:
+    </td>
+    <td>
+      <%= form.select(:max_foot_length, [['500 m', 500],
+                                         ['1 km', 1000],
+                                         ['1.5 km', 1500],
+                                         ['2 km', 2000],
+                                         ['2.5 km', 2500],
+                                         ['3 km', 3000],
+                                         ['4 km', 4000],
+                                         ['5 km', 5000]])%>
+    </td>
+  </tr>
+  <tr>
+    <td class="user-field">
+      <%= I18n.t('personal.user_data.lang')%>:
+    </td>
+    <td>
+      <%= form.select(:language_id, @languages)%>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <%= submit_tag I18n.t('personal.user_data.actions.save_button_label') %>
+    </td>
+  </tr>
+</table>

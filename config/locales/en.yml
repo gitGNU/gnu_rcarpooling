@@ -48,4 +48,76 @@ en:
         segment_on_foot:
           arrival_place_must_be_distinct_from_departure_place: "must be distinct from departure place"
 
+        user:
+          sex_inclusion: "should be 'M' or 'F'"
 
+  layout:
+    subtitle: "this is Rcarpooling"
+
+  navigation_path:
+    title: "You are in:&nbsp;"
+    home_index: "Home"
+    home_guide: "user&nbsp;guide"
+    home_authors: "about&nbsp;us"
+    users_show: "personal&nbsp;details"
+    users_edit: "edit"
+    users_new: "sign&nbsp;up"
+
+  sidebar:
+    guide: "User guide"
+    about_us: "About us"
+    personal_area: "Personal area"
+    sign_up: "Sign up"
+    not_logged_in: "You are not logged in"
+    logged_as: "You are logged in as:"
+    login_warning: "close your browser to log out"
+    language: "Language:"
+
+  notices:
+    user_updated: "Your data have been successfuly updated"
+    user_created: "Registration succeded"
+
+  home:
+    index:
+      intro: "Welcome to the new car-pooling system :)"
+    authors: "about authors"
+    guide: "this is the user guide"
+
+  partials:
+    map:
+      noscript: "JavaScript must be enabled in order for you to \
+                use Google Maps. \
+                However, it seems JavaScript is either disabled or \
+                not supported \
+                by your browser. \
+                To view Google Maps, enable JavaScript by changing \
+                your browser \
+                options, and then try again."
+
+  personal:
+    index:
+      personal_tab_intro: "Here are your personal information and \
+                          preferences"
+
+    user_data:
+      actions:
+        edit_button_label: "Edit"
+        save_button_label: "Save changes"
+      heading_details: "Personal details"
+      heading_prefs: "Preferences"
+      heading_drivers_black_list: "Unwelcome drivers"
+      heading_passengers_black_list: "Unwelcome passengers"
+      first_name: "First name"
+      last_name: "Last name"
+      nick_name: "Account name"
+      sex: "Sex"
+      email: "E-mail address"
+      score: "Score"
+      max_foot_length: "Max distance acceptable on foot"
+      lang: "Favourite language for notifications"
+      no_drivers_in_black_list: "There are no drivers in your black list"
+      no_passengers_in_black_list: "There are no passengers in your black list"
+
+  gender:
+    male: "Male"
+    female: "Female"

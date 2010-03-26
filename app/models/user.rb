@@ -52,7 +52,7 @@ class User < ActiveRecord::Base
 
 
   validates_presence_of :first_name, :last_name, :email, :nick_name,
-      :password, :language
+      :language
 
 
   validates_uniqueness_of :nick_name, :email
@@ -60,6 +60,10 @@ class User < ActiveRecord::Base
 
   validates_numericality_of :max_foot_length, :only_integer => true,
       :greater_than_or_equal_to => 0
+
+
+  validates_inclusion_of :sex, :in => %w{M F},
+      :message => I18n.t('activerecord.errors.messages.user.sex_inclusion')
 
 
   def self.authenticate(nick_name, password)

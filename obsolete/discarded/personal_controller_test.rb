@@ -15,40 +15,19 @@
 # You should have received a copy of the GNU Affero Public License
 # along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
 
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+require 'test_helper'
+require 'xml'
 
-donald_duck:
-  first_name: Donald
-  last_name: Duck
-  nick_name: dd
-  email: donald.duck@foo.bar
-  password: donald
-  language: en
-  sex: M
+class PersonalControllerTest < ActionController::TestCase
 
-mickey_mouse:
-  first_name: Mickey
-  last_name: Mouse
-  nick_name: mm
-  email: mickey.mouse@foo.bar
-  password: mickey
-  language: en
-  sex: M
 
-usery:
-  first_name: user
-  last_name: y
-  nick_name: usery
-  email: user@y.boh
-  password: usery
-  language: en
-  sex: M
+  test "xsl transform user is well formed" do
+    get :user
+    assert_response :success
+    #
+    xsl_doc = XML::Document.string(@response.body)
+    context = XML::Parser::Context.document(xsl_doc)
+    assert context.well_formed?
+  end
 
-useryD:
-  first_name: user
-  last_name: yD
-  nick_name: useryD
-  email: user@yD.boh
-  password: useryD
-  language: en
-  sex: M
+end

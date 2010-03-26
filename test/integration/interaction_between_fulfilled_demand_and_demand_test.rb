@@ -23,11 +23,15 @@ class InteractionBetweenFulfilledDemandAndDemandTest < ActionController::Integra
 
 
   def setup
+    AuthenticatorFactory.set_factory(AuthenticatorFactoryMock.new)
+    #
     DemandProcessorFactory.set_factory(DemandProcessorMockFactory.new)
   end
 
 
   def tear_down
+    DemandProcessorFactory.clear_factory
+    #
     DemandProcessorFactory.clear_factory
   end
 

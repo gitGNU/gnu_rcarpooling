@@ -21,6 +21,8 @@ class UsedOfferingsControllerTest < ActionController::TestCase
 
 
   def setup
+    AuthenticatorFactory.set_factory(AuthenticatorFactoryMock.new)
+    #
     @processor = OfferingProcessorMock.new
     OfferingProcessorFactory.set_factory(OfferingProcessorMockFactory.
                                          new(@processor))
@@ -28,6 +30,8 @@ class UsedOfferingsControllerTest < ActionController::TestCase
 
 
   def tear_down
+    AuthenticatorFactory.clear_factory
+    #
     OfferingProcessorFactory.clear_factory
   end
 

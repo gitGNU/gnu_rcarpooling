@@ -1,0 +1,111 @@
+<%
+# Copyright (C) 2010  Roberto Maestroni
+#
+# This file is part of Rcarpooling.
+#
+# Rcarpooling is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Rcarpooling is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero Public License for more details.
+#
+# You should have received a copy of the GNU Affero Public License
+# along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
+-%>
+
+<xsl:template name="content">
+  <xsl:apply-templates/>
+</xsl:template>
+
+<xsl:template match="/">
+  <div class="user-data-outline">
+    <!-- personal details -->
+    <div class="user-data-heading">
+      <%= I18n.t('personal.user_data.heading_details')%>
+    </div>
+    <div class="user-personal-details"><table>
+      <tr><td class="user-field"><%= I18n.t('personal.user_data.first_name')%>
+        </td><td><xsl:value-of select="/user/first_name"/></td>
+      </tr>
+      <tr><td class="user-field"><%= I18n.t('personal.user_data.last_name')%>
+        </td><td><xsl:value-of select="/user/last_name"/></td>
+      </tr>
+      <tr><td class="user-field"><%= I18n.t('personal.user_data.sex')%>
+        </td><td><xsl:value-of select="/user/sex"/></td>
+      </tr>
+      <tr><td class="user-field"><%= I18n.t('personal.user_data.nick_name')%>
+        </td><td><xsl:value-of select="/user/nick_name"/></td>
+      </tr>
+      <tr><td class="user-field"><%= I18n.t('personal.user_data.email')%>
+        </td><td><xsl:value-of select="/user/email"/></td>
+      </tr>
+      <tr><td class="user-field"><%= I18n.t('personal.user_data.score')%>
+        </td><td><xsl:value-of select="/user/score"/></td>
+      </tr>
+    </table></div>
+    <!-- personal prefs -->
+    <div class="user-data-heading">
+      <%= I18n.t('personal.user_data.heading_prefs')%>
+    </div>
+    <div class="user-preferences"><table>
+      <tr><td class="user-field"><%= I18n.t('personal.user_data.lang')%>
+        </td><td><xsl:value-of select="/user/lang"/></td>
+      </tr>
+      <tr><td class="user-field"><%= I18n.t('personal.user_data.max_foot_length')%>
+        </td><td><xsl:value-of select="/user/max_foot_length"/></td>
+      </tr>
+    </table></div>
+    <!-- BLACK LIST -->
+    <div class="user-data-heading">
+      <%= I18n.t('personal.user_data.heading_drivers_black_list')%>
+    </div>
+    <!-- black list of drivers -->
+    <div class="user-black-list">
+      <xsl:choose>
+        <xsl:when test="/user/black_list/user[@rel='driver']">
+          <table>
+            <xsl:for-each select="/user/black_list/user[@rel='driver']">
+              <tr><td><xsl:value-of select="first_name"/>
+                <xsl:value-of select="last_name"/></td>
+                  <td><xsl:value-of select="nick_name"/></td>
+              </tr>
+            </xsl:for-each>
+          </table>
+        </xsl:when>
+        <xsl:otherwise>
+          <span class="user-black-list-empty">
+            <%= I18n.t('personal.user_data.no_drivers_in_black_list')%>
+          </span>
+        </xsl:otherwise>
+      </xsl:choose>
+    </div>
+    <!-- BLACK LIST -->
+    <div class="user-data-heading">
+      <%= I18n.t('personal.user_data.heading_passengers_black_list')%>
+    </div>
+    <!-- black list of passengers -->
+    <div class="user-black-list">
+      <xsl:choose>
+        <xsl:when test="/user/black_list/user[@rel='passenger']">
+          <table>
+            <xsl:for-each select="/user/black_list/user[@rel='passenger']">
+              <tr><td><xsl:value-of select="first_name"/>
+                <xsl:value-of select="last_name"/></td>
+                  <td><xsl:value-of select="nick_name"/></td>
+              </tr>
+            </xsl:for-each>
+          </table>
+        </xsl:when>
+        <xsl:otherwise>
+          <span class="user-black-list-empty">
+            <%= I18n.t('personal.user_data.no_passengers_in_black_list')%>
+          </span>
+        </xsl:otherwise>
+      </xsl:choose>
+    </div>
+  </div> <!-- end div class user-data -->
+</xsl:template>

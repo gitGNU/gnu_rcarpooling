@@ -1,0 +1,151 @@
+# Copyright (C) 2010  Roberto Maestroni
+#
+# This file is part of Rcarpooling.
+#
+# Rcarpooling is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Rcarpooling is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero Public License for more details.
+#
+# You should have received a copy of the GNU Affero Public License
+# along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
+
+it:
+
+  activerecord:
+
+    models:
+      user: "utente"
+
+    attributes:
+
+      user:
+        first_name: "Nome"
+        last_name: "Cognome"
+        nick_name: "Nome utente"
+        email: "Email"
+        score: "Punteggio"
+        sex: "Sesso"
+        max_foot_length: "Massima distanza a piedi"
+
+
+    errors:
+      template:
+        body: "Vi sono dei problemi con i seguenti campi:"
+        header:
+          one: "1 errore ha impedito di salvare questo {{model}}"
+          other: "{{count}} errori hanno impedito di salvare questo \
+                  {{model}}"
+      messages:
+        # STANDARD MESSAGES
+        blank: "non pu&ograve; essere vuoto"
+        taken: "&egrave; gi&agrave; presente"
+        not_a_number: "non &egrave; un numero"
+        greater_than: "must be greater than {{count}}"
+        greater_than_or_equal_to: "deve essere maggiore o uguale a \
+                                  {{count}}"
+
+        # SPECIFIC MESSAGES
+        black_list_drivers_entry:
+          driver_must_be_distinct_from_user: "deve essere diverso dall'utente"
+
+        black_list_passengers_entry:
+          passenger_must_be_distinct_from_user: "deve essere diverso dall'utente"
+
+        demand:
+          latest_arrival_time_must_be_later_than_earliest_departure_time: "deve essere posteriore all'istante di partenza pi&ugrave; prossimo"
+          earliest_departure_time_must_be_later_than_10_minutes_from_now: "deve essere pi&ugrave; tardi di 10 minuti da ora"
+          expiry_time_must_be_earlier_than_or_equal_to_earliest_departure_time: "deve essere precedente o uguale all'istante di partenza pi&ugrave; prossimo"
+          expiry_time_must_be_later_than_5_minutes_from_now: "deve essere pi&ugrave; tardi di 5 minuti da ora"
+
+        edge:
+          arrival_place_must_be_distinct_from_departure_place: "deve essere distinto dal luogo di partenza"
+
+        offering:
+          expiry_time_must_be_earlier_than_or_equal_to_departure_time: "deve essere precedente o uguale all'istante di partenza"
+          departure_time_must_be_later_than_10_minutes_from_now: "deve essere pi&ugrave; tardi di 10 minuti da ora"
+          expiry_time_must_be_later_than_5_minutes_from_now: "deve essere pi&ugrave; tardi di 5 minuti da ora"
+          expiry_time_must_be_later_than_or_equal_to_2_hours_before_departure_time: "deve essere posteriore o uguale a 2 ore prima dell'istante di partenza"
+          arrival_place_must_be_distinct_from_departure_place: "deve essere distinto dal luogo di partenza"
+          arrival_time_must_be_later_than_departure_time: "deve essere posteriore all'istante di partenza"
+
+        segment_on_foot:
+          arrival_place_must_be_distinct_from_departure_place: "deve essere distinto dal luogo di partenza"
+
+        user:
+          sex_inclusion: "deve essere 'M' oppure 'F'"
+
+
+  layout:
+    subtitle: "questo &egrave; Rcarpooling"
+
+  navigation_path:
+    title: "Sei in:&nbsp;"
+    home_index: "Home"
+    home_guide: "guida&nbsp;utente"
+    home_authors: "chi&nbsp;siamo"
+    users_show: "dati&nbsp;personali"
+    users_edit: "modifica"
+    users_new: "registrazione"
+
+  sidebar:
+    guide: "Istruzioni per l'uso"
+    about_us: "Chi siamo"
+    personal_area: "Area personale"
+    sign_up: "Registrati"
+    not_logged_in: "Non sei autenticato"
+    logged_as: "Sei autenticato come:"
+    login_warning: "per uscire chiudi il browser"
+    language: "Lingua:"
+
+  notices:
+    user_updated: "Le modifiche sono state registrate con successo"
+    user_created: "Registrazione effettuata con successo"
+
+  home:
+    index:
+      intro: "Benvenuto nel nuovo sistema per il car-pooling :)"
+    authors: "sugli autori"
+    guide: "questa &egrave; la guida per gli utenti"
+
+  partials:
+    map:
+      noscript: "JavaScript deve essere abilitato per l'utilizzo \
+                di Google Maps. \
+                Sembrerebbe che JavaScript sia disabilitato oppure \
+                non supportato dal tuo browser. \
+                Per visualizzare Google Maps, abilita JavaScript \
+                modificando le impostazioni del tuo browser e \
+                riprova."
+
+  personal:
+    index:
+      personal_tab_intro: "Di seguito le tue informazioni personali e \
+                          preferenze"
+    user_data:
+      actions:
+        edit_button_label: "Modifica"
+        save_button_label: "Salva"
+      heading_details: "Dati personali"
+      heading_prefs: "Preferenze"
+      heading_drivers_black_list: "Autisti indesiderati"
+      heading_passengers_black_list: "Passeggeri indesiderati"
+      first_name: "Nome"
+      last_name: "Cognome"
+      nick_name: "Nome utente"
+      sex: "Sesso"
+      email: "Indirizzo e-mail"
+      score: "Punteggio"
+      max_foot_length: "Massima distanza accettabile a piedi"
+      lang: "Lingua per i messaggi di notifica"
+      no_drivers_in_black_list: "Nessun autista nella black list"
+      no_passengers_in_black_list: "Nessun passeggero nella black list"
+
+  gender:
+    male: "Maschio"
+    female: "Femmina"

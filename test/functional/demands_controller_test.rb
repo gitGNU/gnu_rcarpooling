@@ -21,6 +21,8 @@ class DemandsControllerTest < ActionController::TestCase
 
 
   def setup
+    AuthenticatorFactory.set_factory(AuthenticatorFactoryMock.new)
+    #
     @processor = DemandProcessorMock.new
     DemandProcessorFactory.set_factory(
       DemandProcessorMockFactory.new(@processor))
@@ -29,6 +31,8 @@ class DemandsControllerTest < ActionController::TestCase
 
   def tear_down
     DemandProcessorFactory.clear_factory
+    #
+    AuthenticatorFactory.clear_factory
   end
 
 

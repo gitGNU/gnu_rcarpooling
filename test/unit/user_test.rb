@@ -34,21 +34,30 @@ class UserTest < ActiveSupport::TestCase
     assert user.errors.invalid?(:email)
     assert_equal I18n.translate('activerecord.errors.messages.blank'),
         user.errors.on(:email)
-    assert user.errors.invalid?(:password)
-    assert_equal I18n.translate('activerecord.errors.messages.blank'),
-        user.errors.on(:password)
     assert user.errors.invalid?(:language)
     assert_equal I18n.translate('activerecord.errors.messages.blank'),
         user.errors.on(:language)
+    assert user.errors.invalid?(:sex)
+    assert_equal I18n.t('activerecord.errors.messages.user.sex_inclusion'),
+        user.errors.on(:sex)
   end
 
 
   test "valid user" do
     user = User.new :first_name => "Uncle", :last_name => "Scrooge",
         :nick_name => "us", :email => "uncle.scrooge@foo.bar",
-        :password => "uncle", :language => languages(:en)
+        :password => "uncle", :language => languages(:en), :sex => "M"
     assert user.valid?
     assert user.save
+  end
+
+
+  test "sex must be M or F" do
+    user = User.new(:sex => "invalid")
+    assert !user.valid?
+    assert user.errors.invalid?(:sex)
+    assert_equal I18n.t('activerecord.errors.messages.user.sex_inclusion'),
+        user.errors.on(:sex)
   end
 
 

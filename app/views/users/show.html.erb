@@ -1,0 +1,98 @@
+<%
+# Copyright (C) 2010  Roberto Maestroni
+#
+# This file is part of Rcarpooling.
+#
+# Rcarpooling is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Rcarpooling is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero Public License for more details.
+#
+# You should have received a copy of the GNU Affero Public License
+# along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
+-%>
+<% content_for(:navigation_path) do -%>
+  <%= render :partial => "partials/navigation_path",
+      :object => ["/", user_path(@user)] %>
+<% end -%>
+<div class="user-data-outline">
+  <div class="user-data-heading">
+    <%= I18n.t('personal.user_data.heading_details')%>
+  </div>
+    <%= button_to I18n.t('personal.user_data.actions.edit_button_label'),
+      edit_user_url(@user), :method => :get, :class => "button" %>
+  <div class="user-personal-details">
+    <table>
+    <tr><td class="user-field"><%= I18n.t('personal.user_data.first_name')%>
+      </td><td><%= h @user.first_name %></td>
+    </tr>
+    <tr><td class="user-field"><%= I18n.t('personal.user_data.last_name')%>
+      </td><td><%= h @user.last_name %></td>
+    </tr>
+    <tr><td class="user-field"><%= I18n.t('personal.user_data.sex')%>
+      </td><td><%= h @user.sex %></td>
+    </tr>
+    <tr><td class="user-field"><%= I18n.t('personal.user_data.nick_name')%>
+      </td><td><%= h @user.nick_name %></td>
+    </tr>
+    <tr><td class="user-field"><%= I18n.t('personal.user_data.email')%>
+      </td><td><%= h @user.email %></td>
+    </tr>
+    <tr><td class="user-field"><%= I18n.t('personal.user_data.score')%>
+      </td><td><%= h @user.score %></td>
+    </tr>
+  </table></div>
+  <div class="user-data-heading">
+    <%= I18n.t('personal.user_data.heading_prefs')%>
+  </div>
+  <%= button_to I18n.t('personal.user_data.actions.edit_button_label'),
+      edit_user_url(@user), :method => :get, :class => "button" %>
+  <div class="user-preferences"><table>
+    <tr><td class="user-field"><%= I18n.t('personal.user_data.lang')%>
+      </td><td><%= h @user.lang %></td>
+    </tr>
+    <tr><td class="user-field"><%= I18n.t('personal.user_data.max_foot_length')%>
+      </td><td><%= h @user.max_foot_length %></td>
+    </tr>
+  </table></div>
+  <!-- BLACK LISTS -->
+  <div class="user-data-heading">
+    <%= I18n.t('personal.user_data.heading_drivers_black_list')%>
+  </div>
+  <!-- black list of drivers -->
+  <div class="user-black-list">
+    <% if @user.drivers_in_black_list.empty? -%>
+      <span class="user-black-list-empty">
+        <%= I18n.t('personal.user_data.no_drivers_in_black_list')%>
+      </span>
+    <% else -%>
+      <table>
+        <% @user.drivers_in_black_list.each do |driver| -%>
+          <tr><td><%= h driver.name%></td><td><%= h driver.nick_name%></td></tr>
+        <% end -%>
+      </table>
+    <% end -%>
+  </div>
+  <!-- black list of passengers -->
+  <div class="user-data-heading">
+    <%= I18n.t('personal.user_data.heading_passengers_black_list')%>
+  </div>
+  <div class="user-black-list">
+    <% if @user.drivers_in_black_list.empty? -%>
+      <span class="user-black-list-empty">
+        <%= I18n.t('personal.user_data.no_passengers_in_black_list')%>
+      </span>
+    <% else -%>
+      <table>
+        <% @user.passengers_in_black_list.each do |pass| -%>
+          <tr><td><%= h pass.name%></td><td><%= h pass.nick_name%></td></tr>
+        <% end -%>
+      </table>
+    <% end -%>
+  </div>
+</div> <!-- end div class user-data -->

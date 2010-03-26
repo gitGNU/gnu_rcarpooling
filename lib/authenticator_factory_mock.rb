@@ -15,40 +15,39 @@
 # You should have received a copy of the GNU Affero Public License
 # along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
 
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+class AuthenticatorFactoryMock
 
-donald_duck:
-  first_name: Donald
-  last_name: Duck
-  nick_name: dd
-  email: donald.duck@foo.bar
-  password: donald
-  language: en
-  sex: M
+  def build_authenticator(account_name, password)
+    AuthenticatorMock.new(account_name, password)
+  end
 
-mickey_mouse:
-  first_name: Mickey
-  last_name: Mouse
-  nick_name: mm
-  email: mickey.mouse@foo.bar
-  password: mickey
-  language: en
-  sex: M
 
-usery:
-  first_name: user
-  last_name: y
-  nick_name: usery
-  email: user@y.boh
-  password: usery
-  language: en
-  sex: M
+  private
 
-useryD:
-  first_name: user
-  last_name: yD
-  nick_name: useryD
-  email: user@yD.boh
-  password: useryD
-  language: en
-  sex: M
+  class AuthenticatorMock
+
+    def initialize(account_name, password)
+      @account_name = account_name
+      @password = password
+    end
+
+
+    def authenticate
+      uid = User.authenticate(@account_name, @password)
+      if uid
+        uid # it is a known user, already signed
+      else
+        pu = PotentialUser.find_by_account_name_and_password(
+          @account_name, @password)
+        if pu
+          -1
+        else
+          false
+        end
+      end
+    end # method authenticate
+
+  end # private class
+
+
+end

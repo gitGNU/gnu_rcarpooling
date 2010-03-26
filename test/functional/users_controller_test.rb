@@ -19,6 +19,16 @@ require 'test_helper'
 
 class UsersControllerTest < ActionController::TestCase
 
+  def setup
+    AuthenticatorFactory.set_factory(AuthenticatorFactoryMock.new)
+  end
+
+
+  def tear_down
+    AuthenticatorFactory.clear_factory
+  end
+
+
   test "get a user" do
     user = users(:donald_duck)
     set_authorization_header(user.nick_name, user.password)
@@ -71,7 +81,7 @@ class UsersControllerTest < ActionController::TestCase
     user.passengers_in_black_list << users(:mickey_mouse)
     user.save!
     set_authorization_header(user.nick_name, user.password)
-    get :show, :id => user.id
+    get :show, :format => "xml", :id => user.id
     assert_response :success
     # testing response content
     assert_select "user:root[id=#{user.id}][href=#{user_url(user)}]" do
@@ -102,6 +112,320 @@ class UsersControllerTest < ActionController::TestCase
         end # loop on passengers
       end
     end
+  end
+
+
+  test "get a form to create a new user" do
+    get :new
+    assert_response :success
+    assert_equal "text/html", @response.content_type
+  end
+
+
+  # PUT /users/:id
+
+
+  test "update a user, format XML" do
+    user = users(:mickey_mouse)
+    set_authorization_header(user.nick_name, user.password)
+    #
+    put :update, :format => "xml",
+                 :id => user.id, :user => {:first_name => "Minnie",
+                                           :last_name => "MinnieLast",
+                                           :email => "new@email",
+                                           :sex => "F",
+                                           :max_foot_length => 1000,
+                                           :language_id =>
+                                              languages(:it).id
+                                          }
+    assert_response :success
+    assert_not_nil assigns(:user)
+    # check the entity-body returned
+    user_updated = assigns(:user)
+    assert_equal "Minnie", user_updated.first_name
+    assert_equal "MinnieLast", user_updated.last_name
+    assert_equal "new@email", user_updated.email
+    assert_equal "F", user_updated.sex
+    assert_equal 1000, user_updated.max_foot_length
+    assert_equal languages(:it), user_updated.language
+  end
+
+
+  test "update a user, format HTML" do
+    user = users(:mickey_mouse)
+    set_authorization_header(user.nick_name, user.password)
+    #
+    put :update, :format => "html",
+                :id => user.id, :user => {:first_name => "Minnie",
+                                           :last_name => "MinnieLast",
+                                           :email => "new@email",
+                                           :sex => "F",
+                                           :max_foot_length => 1000,
+                                           :language_id =>
+                                              languages(:it).id
+                                          }
+    assert_redirected_to user_url(user)
+    assert_not_nil assigns(:user)
+    # check the entity-body returned
+    user_updated = assigns(:user)
+    assert_equal "Minnie", user_updated.first_name
+    assert_equal "MinnieLast", user_updated.last_name
+    assert_equal "new@email", user_updated.email
+    assert_equal "F", user_updated.sex
+    assert_equal 1000, user_updated.max_foot_length
+    assert_equal languages(:it), user_updated.language
+
+  end
+
+
+  test "cannot update a user without credentials" do
+    user = users(:mickey_mouse)
+    #
+    put :update, :id => user.id, :user => {:first_name => "Minnie",
+                                           :last_name => "MinnieLast",
+                                           :email => "new@email",
+                                           :sex => "F",
+                                           :max_foot_length => 1000,
+                                           :language_id =>
+                                              languages(:it).id
+                                          }
+    assert_response :unauthorized
+  end
+
+
+  test "cannot update someone's other" do
+    user = users(:mickey_mouse)
+    set_authorization_header(users(:donald_duck).nick_name,
+                             users(:donald_duck).password)
+    #
+    put :update, :id => user.id, :user => {:first_name => "Minnie",
+                                           :last_name => "MinnieLast",
+                                           :email => "new@email",
+                                           :sex => "F",
+                                           :max_foot_length => 1000,
+                                           :language_id =>
+                                              languages(:it).id
+                                          }
+    assert_response :forbidden
+  end
+
+
+  test "updating a non-existent user" do
+    user = users(:mickey_mouse)
+    set_authorization_header(user.nick_name, user.password)
+    #
+    put :update, :id => -1, :user => {:first_name => "Minnie",
+                                      :last_name => "MinnieLast",
+                                      :email => "new@email",
+                                      :sex => "F",
+                                      :max_foot_length => 1000,
+                                      :language_id =>
+                                            languages(:it).id
+                                     }
+    assert_response :not_found
+  end
+
+
+  test "updating with invalid params, format XML" do
+    user = users(:mickey_mouse)
+    set_authorization_header(user.nick_name, user.password)
+    #
+    put :update, :format => "xml",
+                 :id => user.id, :user => {:first_name => "",
+                                           :last_name => "MinnieLast",
+                                           :email => "new@email",
+                                           :sex => "F",
+                                           :max_foot_length => 1000,
+                                           :language_id =>
+                                              languages(:it).id
+                                          }
+    assert_response :unprocessable_entity
+  end
+
+
+  test "updating with invalid params, format HTML" do
+    user = users(:mickey_mouse)
+    set_authorization_header(user.nick_name, user.password)
+    #
+    put :update, :format => "html",
+                 :id => user.id, :user => {:first_name => "",
+                                           :last_name => "MinnieLast",
+                                           :email => "new@email",
+                                           :sex => "F",
+                                           :max_foot_length => 1000,
+                                           :language_id =>
+                                              languages(:it).id
+                                          }
+    assert_template "users/edit.html.erb"
+    assert_select ".errors"
+  end
+
+
+  test "password and other fields don't change" do
+    user = users(:mickey_mouse)
+    set_authorization_header(user.nick_name, user.password)
+    #
+    put :update, :id => user.id, :user => {:nick_name => "NEW_NICK",
+                                           :password => "NEW_PASS",
+                                           :score => 9999999
+                                          }
+    assert_response :success
+    assert_not_nil assigns(:user)
+    # check the entity-body returned
+    user_updated = assigns(:user)
+    # nothing was changed :P
+    assert_equal user, user_updated
+  end
+
+
+  # POST /users
+
+
+  test "create a user, format XML" do
+    requester = potential_users(:uncle_scrooge)
+    set_authorization_header(requester.account_name, requester.password)
+    assert_difference('User.count', 1) do
+      post :create, :format => "xml",
+                    :user => {:first_name => "Uncle",
+                              :last_name => "Scrooge",
+                              :email => "uncle@scrooge",
+                              :sex => "M",
+                              :language_id => languages(:it).id,
+                              :max_foot_length => 1000
+                            }
+    end
+    assert_response :created
+    assert_not_nil assigns(:user)
+    uncle_scrooge = assigns(:user)
+    assert_equal user_url(uncle_scrooge), @response.location
+    # nick name and password are the same of auth header
+    assert_equal requester.account_name, uncle_scrooge.nick_name
+    assert_equal requester.password, uncle_scrooge.password
+  end
+
+
+  test "create a user, format HTML" do
+    requester = potential_users(:uncle_scrooge)
+    set_authorization_header(requester.account_name, requester.password)
+    assert_difference('User.count', 1) do
+      post :create, :format => "html",
+                    :user => {:first_name => "Uncle",
+                              :last_name => "Scrooge",
+                              :email => "uncle@scrooge",
+                              :sex => "M",
+                              :language_id => languages(:it).id,
+                              :max_foot_length => 1000
+                            }
+    end
+    assert_not_nil assigns(:user)
+    uncle_scrooge = assigns(:user)
+    assert_redirected_to user_url(uncle_scrooge)
+    # nick name and password are the same of auth header
+    assert_equal requester.account_name, uncle_scrooge.nick_name
+    assert_equal requester.password, uncle_scrooge.password
+  end
+
+
+  test "cannot create a user without credentials" do
+    assert_difference('User.count', 0) do
+      post :create, :user => {:first_name => "Uncle",
+                              :last_name => "Scrooge",
+                              :email => "uncle@scrooge",
+                              :sex => "M",
+                              :language_id => languages(:it).id,
+                              :max_foot_length => 1000
+                            }
+    end
+    assert_response :unauthorized
+  end
+
+
+  test "cannot create a user if my account is already registered" do
+    set_authorization_header(users(:mickey_mouse).nick_name,
+                             users(:mickey_mouse).password)
+    assert_difference('User.count', 0) do
+      post :create, :user => {:first_name => "Uncle",
+                              :last_name => "Scrooge",
+                              :email => "uncle@scrooge",
+                              :sex => "M",
+                              :language_id => languages(:it).id,
+                              :max_foot_length => 1000
+                            }
+    end
+    assert_response :unauthorized
+  end
+
+
+  test "cannot create a user with wrong params, format XML" do
+    requester = potential_users(:uncle_scrooge)
+    set_authorization_header(requester.account_name, requester.password)
+    assert_difference('User.count', 0) do
+      post :create, :format => "xml",
+                  :user => {# first name missed
+                              :last_name => "Scrooge",
+                              :email => "uncle@scrooge",
+                              :sex => "M",
+                              :language_id => languages(:it).id,
+                              :max_foot_length => 1000
+                            }
+    end
+    assert_response :unprocessable_entity
+  end
+
+
+  test "cannot create a user with wrong params, format HTML" do
+    requester = potential_users(:uncle_scrooge)
+    set_authorization_header(requester.account_name, requester.password)
+    assert_difference('User.count', 0) do
+      post :create, :format => "html",
+                  :user => {# first name missed
+                              :last_name => "Scrooge",
+                              :email => "uncle@scrooge",
+                              :sex => "M",
+                              :language_id => languages(:it).id,
+                              :max_foot_length => 1000
+                            }
+    end
+    assert_template "users/new.html.erb"
+    assert_select ".errors"
+  end
+
+
+  # GET /users/:id/edit
+
+
+  test "form for editing user's data" do
+    user = users(:donald_duck)
+    set_authorization_header(user.nick_name, user.password)
+    #
+    get :edit, :id => user.id
+    assert_response :success
+    assert_not_nil assigns(:user)
+    assert_equal "text/html", @response.content_type
+  end
+
+
+  test "cannot get the form for editing without credentials" do
+    get :edit, :id => users(:donald_duck).id
+    assert_response :unauthorized
+  end
+
+
+  test "cannot get someone's other form for editing" do
+    user = users(:donald_duck)
+    set_authorization_header(user.nick_name, user.password)
+    #
+    get :edit, :id => users(:mickey_mouse).id
+    assert_response :forbidden
+  end
+
+
+  test "get a non-existent user's form for editing" do
+    user = users(:donald_duck)
+    set_authorization_header(user.nick_name, user.password)
+    #
+    get :edit, :id => -1
+    assert_response :not_found
   end
 
 

@@ -25,12 +25,16 @@ class InteractionBetweenUsedOfferingAndOfferingTest <
 
 
   def setup
+    AuthenticatorFactory.set_factory(AuthenticatorFactoryMock.new)
+    #
     OfferingProcessorFactory.set_factory(OfferingProcessorMockFactory.
                                          new)
   end
 
 
   def tear_down
+    DemandProcessorFactory.clear_factory
+    #
     OfferingProcessorFactory.clear_factory
   end
 

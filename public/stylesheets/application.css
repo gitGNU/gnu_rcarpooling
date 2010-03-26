@@ -1,0 +1,166 @@
+/*
+ * Copyright (C) 2010  Roberto Maestroni
+ *
+ * This file is part of Rcarpooling.
+ *
+ * Rcarpooling is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Rcarpooling is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero Public License
+ * along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+body {
+  /* dimensions */
+  width: 90%;
+  margin-top: 2em;
+  margin-bottom: 2em;
+  margin-left: auto;
+  margin-right: auto;
+  /* colours */
+  color: black;
+  background-color: white;
+  /* border: 1px solid black; */
+  /* font */
+  font-size: 14pt;
+  font-family: Helvetica, sans-serif;
+  text-align: left;
+  }
+
+
+#header {
+  clear: both;
+  margin-bottom: 1em;
+  padding: 0.5em;
+  border-bottom: 1px solid green;
+  }
+
+
+#footer {
+  clear: both;
+  margin-top: 1em;
+  padding: 0.5em;
+  border-top: 1px solid green;
+  text-align: center;
+  }
+
+/* SIDEBAR */
+#sidebar {
+  clear:left;
+  float: left;
+  width: 20%;
+  height: 100%;
+  padding: 0.5em;
+  text-align: right;
+  /*border: 1px solid red;*/
+  }
+
+
+.sidebar-entry {
+  clear: both;
+  padding: 0.5em;
+  text-align: right;
+  border-bottom: 1px solid green;
+  }
+
+
+.sidebar-entry a {
+  text-decoration: none;
+  font-weight: bold;
+  }
+
+
+.sidebar-entry .sidebar-little {
+  font-size: 0.8em;
+  font-style: italic;
+  }
+
+
+.sidebar-entry .sidebar-little-warning {
+  display: block;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  text-align: center;
+  color: red;
+  border-top: 1px solid red;
+  border-bottom: 1px solid red;
+  font-size: 0.8em;
+  font-weight: bold;
+  }
+
+
+.locale {
+  }
+/* end sidebar */
+
+/* CONTENT */
+#content {
+  clear: right;
+  float: right;
+  width: 70%;
+  margin: 1em;
+  padding: 0.5em;
+  /*border: 1px solid blue;*/
+  }
+
+#navigation-path {
+  margin-bottom: 1em;
+  font-size: 0.8em;
+  font-style: italic;
+  }
+/* end of content */
+
+.h1 {
+  font-size: 3em;
+  }
+
+
+.h3 {
+  font-size: 1em;
+  }
+
+
+.h4 {
+  font-size: 0.8em;
+  }
+
+a {
+  color: rgb(128, 128, 128);
+  }
+
+.button {
+  margin: 0.5em;
+  font-weight: bold;
+  }
+
+.errors {
+  width: 80%;
+  margin: 0.5em;
+  padding: 1em;
+  color: red;
+  background-color: rgb(255, 200, 200);
+  border: 2px dashed red;
+  font-size: 1em;
+  }
+
+.fieldWithErrors {
+  border: 1px solid red;
+  padding: 1px;
+  }
+
+.notice {
+  width: 80%;
+  margin: 0.5em;
+  padding: 1em;
+  border: 1px dashed black;
+  font-size: 0.8em;
+  font-style: italic;
+  }
+
