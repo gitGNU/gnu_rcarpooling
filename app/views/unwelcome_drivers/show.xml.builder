@@ -15,6 +15,14 @@
 # You should have received a copy of the GNU Affero Public License
 # along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
 
-one:
-  user: user_N
-  driver: user_N_1
+driver = @unwelcome_driver.driver
+
+xml.unwelcome_driver(:id => @unwelcome_driver.id,
+  :href => user_unwelcome_driver_url(:user_id =>
+    @unwelcome_driver.user.id, :id => @unwelcome_driver.id)) do
+  xml.user(:id => driver.id, :href => user_url(driver)) do
+    xml.first_name(h driver.first_name)
+    xml.last_name(h driver.last_name)
+    xml.nick_name(h driver.nick_name)
+  end
+end

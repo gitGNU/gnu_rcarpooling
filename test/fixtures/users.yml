@@ -52,3 +52,22 @@ useryD:
   password: useryD
   language: en
   sex: M
+
+user_N:
+  first_name: user
+  last_name: N
+  nick_name: user_N
+  email: bla
+  password: bla
+  language: en
+  sex: M
+
+user_N_1:
+  first_name: user
+  last_name: N_1
+  nick_name: user_N_1
+  email: bla
+  password: bla
+  language: en
+  sex: M
+
