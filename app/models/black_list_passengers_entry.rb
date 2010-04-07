@@ -31,6 +31,9 @@ class BlackListPassengersEntry < ActiveRecord::Base
   validate :passenger_must_be_distinct_from_user
 
 
+  validates_uniqueness_of :passenger_id, :scope => "user_id"
+
+
   private
 
 

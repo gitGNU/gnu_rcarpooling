@@ -52,4 +52,25 @@ class BlackListPassengersEntryTest < ActiveSupport::TestCase
         entry.errors.on(:passenger)
   end
 
+
+  test "invalid repeated items" do
+    user = users(:donald_duck)
+    passenger = users(:mickey_mouse)
+    entry_1 = BlackListPassengersEntry.new(:user => user,
+                                           :passenger => passenger)
+    entry_1.save!
+    #
+    entry_2 = BlackListPassengersEntry.new(:user => user,
+                                           :passenger => passenger)
+    assert !entry_2.valid?
+    assert entry_2.errors.invalid?(:passenger_id)
+    assert_equal I18n.t('activerecord.errors.messages.taken'),
+        entry_2.errors.on(:passenger_id)
+    # but the same passenger for 2 different users is ok :)
+    user_2 = users(:user_N)
+    entry_3 = BlackListPassengersEntry.new(:user => user_2,
+                                           :passenger => passenger)
+    assert entry_3.save
+  end
+
 end

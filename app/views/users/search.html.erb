@@ -1,3 +1,4 @@
+<%
 # Copyright (C) 2010  Roberto Maestroni
 #
 # This file is part of Rcarpooling.
@@ -14,34 +15,20 @@
 #
 # You should have received a copy of the GNU Affero Public License
 # along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
-
-class BlackListDriversEntry < ActiveRecord::Base
-
-  belongs_to :user
-
-
-  belongs_to :driver,
-      :foreign_key => "driver_id",
-      :class_name => "User"
-
-
-  validates_presence_of :user, :driver
-
-
-  validate :driver_must_be_distinct_from_user
-
-
-  validates_uniqueness_of :driver_id, :scope => "user_id"
-
-
-  private
-
-
-  def driver_must_be_distinct_from_user
-    if user and driver and driver == user
-      errors.add(:driver, I18n.t("activerecord.errors.messages." +
-                                 "black_list_drivers_entry." +
-                                "driver_must_be_distinct_from_user"))
-    end
-  end
-end
+-%>
+<% if @users.empty? -%>
+  <div class="italic_little">
+    <%= I18n.t('user.search.empty_results_set') %>
+  </div>
+<% else -%>
+  <ul>
+    <% @users.each do |user| -%>
+      <% domid = "user_#{user.id}" -%>
+      <li class="user" id='<%= domid %>'>
+        <span class="span_spaced"><%= h user.name %></span>
+        <span class="span_spaced"><%= h user.nick_name %></span>
+      </li>
+      <%= draggable_element(domid, :ghosting => true, :revert => true) %>
+    <% end -%>
+  </ul>
+<% end -%>

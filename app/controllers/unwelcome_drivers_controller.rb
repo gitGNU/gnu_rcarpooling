@@ -21,10 +21,16 @@ class UnwelcomeDriversController < ApplicationController
   before_filter :authenticate, :find_user
 
 
+  # GET /users/:user_id/unwelcome_drivers
+  def index
+    @unwelcome_drivers = @user.drivers_in_black_list
+  end
+
+
   # GET /users/:user_id/unwelcome_drivers/:id
   def show
     @unwelcome_driver =
-        @user.black_list_drivers_entries.find_by_id(params[:id])
+        @user.drivers_in_black_list.find_by_id(params[:id])
     if @unwelcome_driver
       respond_to do |format|
         format.xml
@@ -37,21 +43,29 @@ class UnwelcomeDriversController < ApplicationController
 
   # POST /users/:user_id/unwelcome_drivers
   def create
-    @unwelcome_driver = BlackListDriversEntry.new
-    @unwelcome_driver.user = @user
-    @unwelcome_driver.driver = User.find_by_id(
-      params[:unwelcome_driver][:id]) if params[:unwelcome_driver]
-    if @unwelcome_driver.save
-      respond_to do |format|
-        format.xml { render :action => "show",
-                     :status => :created,
-                     :location => user_unwelcome_driver_url(
-                                :id => @unwelcome_driver.id,
-                                :user_id => @unwelcome_driver.user.id)}
+    @unwelcome_driver = User.find_by_id(params[:unwelcome_driver])
+    entry = BlackListDriversEntry.new(:user => @user,
+                                         :driver => @unwelcome_driver)
+    if entry.save
+      if request.xhr?
+        render :update do |page|
+          page.replace 'unwelcome_drivers_set',
+              :partial => "unwelcome_drivers",
+              :object => @user.drivers_in_black_list,
+              :locals => { :user => @user }
+        end
+      else
+        respond_to do |format|
+          format.xml { render :action => "show",
+                       :status => :created,
+                       :location => user_unwelcome_driver_url(
+                                    :id => @unwelcome_driver.id,
+                                    :user_id => @user.id)}
+        end
       end
     else
       respond_to do |format|
-        format.xml { render :xml => @unwelcome_driver.errors,
+        format.xml { render :xml => entry.errors,
                       :status => :unprocessable_entity }
       end
     end
@@ -60,11 +74,22 @@ class UnwelcomeDriversController < ApplicationController
 
   # DELETE /users/:user_id/unwelcome_drivers/:id
   def destroy
-    @unwelcome_driver = BlackListDriversEntry.find_by_id(
+    @unwelcome_driver = @user.drivers_in_black_list.find_by_id(
       params[:id])
     if @unwelcome_driver
-      @unwelcome_driver.destroy
-      head :ok
+      entry = @user.black_list_drivers_entries.
+        find_by_user_id_and_driver_id(@user.id, @unwelcome_driver.id)
+      entry.destroy
+      if request.xhr?
+        render :update do |page|
+          page.replace 'unwelcome_drivers_set',
+              :partial => "unwelcome_drivers",
+              :object => @user.drivers_in_black_list,
+              :locals => { :user => @user }
+        end
+      else
+        head :ok
+      end
     else
       head :not_found
     end

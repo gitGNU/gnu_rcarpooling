@@ -52,4 +52,25 @@ class BlackListDriversEntryTest < ActiveSupport::TestCase
                             entry.errors.on(:driver)
   end
 
+
+  test "invalid repeated items" do
+    user = users(:donald_duck)
+    driver = users(:mickey_mouse)
+    entry_1 = BlackListDriversEntry.new(:user => user,
+                                           :driver => driver)
+    entry_1.save!
+    #
+    entry_2 = BlackListDriversEntry.new(:user => user,
+                                           :driver => driver)
+    assert !entry_2.valid?
+    assert entry_2.errors.invalid?(:driver_id)
+    assert_equal I18n.t('activerecord.errors.messages.taken'),
+        entry_2.errors.on(:driver_id)
+    # but the same driver for 2 different users is ok :)
+    user_2 = users(:user_N)
+    entry_3 = BlackListDriversEntry.new(:user => user_2,
+                                           :driver => driver)
+    assert entry_3.save
+  end
+
 end

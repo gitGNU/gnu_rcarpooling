@@ -15,14 +15,10 @@
 # You should have received a copy of the GNU Affero Public License
 # along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
 
-passenger = @unwelcome_passenger.passenger
-
-xml.unwelcome_passenger(:id => @unwelcome_passenger.id,
-  :href => user_unwelcome_passenger_url(:user_id =>
-    @unwelcome_passenger.user.id, :id => @unwelcome_passenger.id)) do
-  xml.user(:id => passenger.id, :href => user_url(passenger)) do
-    xml.first_name(h passenger.first_name)
-    xml.last_name(h passenger.last_name)
-    xml.nick_name(h passenger.nick_name)
-  end
+xml.user(:id => @unwelcome_passenger.id,
+         :href => user_url(@unwelcome_passenger)) do
+  xml.first_name(h @unwelcome_passenger.first_name)
+  xml.last_name(h @unwelcome_passenger.last_name)
+  xml.nick_name(h @unwelcome_passenger.nick_name)
 end
+

@@ -1,3 +1,4 @@
+<%
 # Copyright (C) 2010  Roberto Maestroni
 #
 # This file is part of Rcarpooling.
@@ -14,34 +15,20 @@
 #
 # You should have received a copy of the GNU Affero Public License
 # along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
+-%>
+<% content_for(:navigation_path) do -%>
+  <%= render :partial => "partials/navigation_path",
+             :object => ["/", user_path(@user),
+              user_unwelcome_passengers_path(:user_id => @user.id)]
+  %>
+<% end -%>
+<div>
+  <%= I18n.t('unwelcome_passengers.index') %>
+</div>
+<div class="user-data-outline">
+  <%= render :partial => "unwelcome_passengers",
+    :object => @unwelcome_passengers,
+    :locals => { :user => @user } %>
+</div>
 
-class BlackListDriversEntry < ActiveRecord::Base
-
-  belongs_to :user
-
-
-  belongs_to :driver,
-      :foreign_key => "driver_id",
-      :class_name => "User"
-
-
-  validates_presence_of :user, :driver
-
-
-  validate :driver_must_be_distinct_from_user
-
-
-  validates_uniqueness_of :driver_id, :scope => "user_id"
-
-
-  private
-
-
-  def driver_must_be_distinct_from_user
-    if user and driver and driver == user
-      errors.add(:driver, I18n.t("activerecord.errors.messages." +
-                                 "black_list_drivers_entry." +
-                                "driver_must_be_distinct_from_user"))
-    end
-  end
-end
+<%= render :partial => "partials/user_search" %>

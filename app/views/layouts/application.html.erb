@@ -27,7 +27,7 @@
     <%= stylesheet_link_tag :all%>
     <!-- javascripts -->
     <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=ABQIAAAA_aphsmAvHiqO-k55YnE0UxSfEdPd_3OY3V4ny-iDWd6IGSAlsBTe58RyV3GR6UZwnIRQRbMSzHNJ4A" type="text/javascript"></script>
-    <%= javascript_include_tag "sarissa-compressed.js" %>
+    <%= javascript_include_tag :defaults %>
     <!-- favicon.ico -->
     <link rel="icon" type="image/vnd.microsoft.icon" href="/images/favicon.ico" />
   </head>
@@ -44,7 +44,9 @@
         <%= yield :navigation_path %>
       </div>
       <% if flash[:notice] -%>
-        <div class="notice"><%= flash[:notice] %></div>
+        <div id="flash_notice" class="notice">
+          <%= flash[:notice] %>
+        </div>
       <% end -%>
       <%= yield :layout %>
     </div> <!-- end content -->

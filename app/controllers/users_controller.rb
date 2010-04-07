@@ -23,6 +23,25 @@ class UsersController < ApplicationController
   before_filter :authenticate_for_create_a_user, :only => "create"
 
 
+  # GET /users/search
+  def search
+    @users = []
+    name = params[:name]
+    parts = name.split(nil)
+    if parts.size == 1
+      @users.concat(User.find_all_by_last_name(parts[0]))
+      @users.concat(User.find_all_by_first_name(parts[0]))
+    elsif parts.size > 1
+      @users.concat(User.find(:all, :conditions => ["first_name = ? " +
+                                                    "and last_name = ?",
+                                                    parts[0], parts.last]))
+    end
+    respond_to do |format|
+      format.html { render :layout => false }
+    end
+  end
+
+
   # GET /users/:id
   def show
     @user = User.find_by_id(params[:id])

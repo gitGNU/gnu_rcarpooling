@@ -21,10 +21,16 @@ class UnwelcomePassengersController < ApplicationController
   before_filter :authenticate, :find_user
 
 
+  # GET /users/:user_id/unwelcome_passengers
+  def index
+    @unwelcome_passengers = @user.passengers_in_black_list
+  end
+
+
   # GET /users/:user_id/unwelcome_passengers/:id
   def show
     @unwelcome_passenger =
-        @user.black_list_passengers_entries.find_by_id(params[:id])
+        @user.passengers_in_black_list.find_by_id(params[:id])
     if @unwelcome_passenger
       respond_to do |format|
         format.xml
@@ -37,21 +43,29 @@ class UnwelcomePassengersController < ApplicationController
 
   # POST /users/:user_id/unwelcome_passengers
   def create
-    @unwelcome_passenger = BlackListPassengersEntry.new
-    @unwelcome_passenger.user = @user
-    @unwelcome_passenger.passenger = User.find_by_id(
-      params[:unwelcome_passenger][:id]) if params[:unwelcome_passenger]
-    if @unwelcome_passenger.save
-      respond_to do |format|
-        format.xml { render :action => "show",
-                     :status => :created,
-                     :location => user_unwelcome_passenger_url(
-                                :id => @unwelcome_passenger.id,
-                                :user_id => @unwelcome_passenger.user.id)}
+    @unwelcome_passenger = User.find_by_id(params[:unwelcome_passenger])
+    entry = BlackListPassengersEntry.new(:user => @user,
+                                         :passenger => @unwelcome_passenger)
+    if entry.save
+      if request.xhr?
+        render :update do |page|
+          page.replace 'unwelcome_passengers_set',
+              :partial => "unwelcome_passengers",
+              :object => @user.passengers_in_black_list,
+              :locals => { :user => @user }
+        end
+      else
+        respond_to do |format|
+          format.xml { render :action => "show",
+                       :status => :created,
+                       :location => user_unwelcome_passenger_url(
+                                    :id => @unwelcome_passenger.id,
+                                    :user_id => @user.id)}
+        end
       end
     else
       respond_to do |format|
-        format.xml { render :xml => @unwelcome_passenger.errors,
+        format.xml { render :xml => entry.errors,
                       :status => :unprocessable_entity }
       end
     end
@@ -60,11 +74,22 @@ class UnwelcomePassengersController < ApplicationController
 
   # DELETE /users/:user_id/unwelcome_passengers/:id
   def destroy
-    @unwelcome_passenger = BlackListPassengersEntry.find_by_id(
+    @unwelcome_passenger = @user.passengers_in_black_list.find_by_id(
       params[:id])
     if @unwelcome_passenger
-      @unwelcome_passenger.destroy
-      head :ok
+      entry = @user.black_list_passengers_entries.
+        find_by_user_id_and_passenger_id(@user.id, @unwelcome_passenger.id)
+      entry.destroy
+      if request.xhr?
+        render :update do |page|
+          page.replace 'unwelcome_passengers_set',
+              :partial => "unwelcome_passengers",
+              :object => @user.passengers_in_black_list,
+              :locals => { :user => @user }
+        end
+      else
+        head :ok
+      end
     else
       head :not_found
     end

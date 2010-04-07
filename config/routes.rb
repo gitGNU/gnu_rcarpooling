@@ -22,11 +22,11 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :fulfilled_demands, :only => [:show, :destroy]
   map.resources :places, :only => [:index, :show]
   map.resources :users, :only => [:show, :update, :create, :edit, :new],
-      :collection => { :me => :get } do |user|
+      :collection => { :me => :get, :search => :get } do |user|
     user.resources :unwelcome_passengers,
-        :only => [:show, :create, :destroy]
+        :only => [:show, :create, :destroy, :index]
     user.resources :unwelcome_drivers,
-        :only => [:show, :create, :destroy]
+        :only => [:show, :create, :destroy, :index]
   end
   #
   map.connect '',

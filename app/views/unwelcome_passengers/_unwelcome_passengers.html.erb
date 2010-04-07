@@ -1,0 +1,52 @@
+<%
+# Copyright (C) 2010  Roberto Maestroni
+#
+# This file is part of Rcarpooling.
+#
+# Rcarpooling is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Rcarpooling is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero Public License for more details.
+#
+# You should have received a copy of the GNU Affero Public License
+# along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
+-%>
+  <div class="user-black-list" id="unwelcome_passengers_set">
+    <% if unwelcome_passengers.empty? -%>
+      <div>
+        <span class="user-black-list-empty">
+          <%= I18n.t('personal.user_data.no_passengers_in_black_list') %>
+        </span>
+      </div>
+    <% else -%>
+      <table>
+        <tr>
+          <td class="heading"><%= I18n.t('personal.user_data.name')%></td>
+          <td class="heading"><%= I18n.t('personal.user_data.nick_name')%></td>
+        </tr>
+        <% unwelcome_passengers.each do |passenger| -%>
+          <tr>
+            <td><%= h passenger.name %></td>
+            <td><%= h passenger.nick_name %></td>
+            <td><%= link_to_remote I18n.t(
+              'personal.user_data.actions.delete_link_name'),
+              :url => user_unwelcome_passenger_url(
+              :user_id => user.id, :id => passenger.id),
+              :method => :delete,
+              :confirm => I18n.t('are_you_sure?') %>
+            </td>
+          </tr>
+        <% end -%>
+      </table>
+    <% end -%>
+  </div>
+<%= drop_receiving_element('unwelcome_passengers_set',
+  :accept => "user",
+  :hoverclass => "hover",
+  :with => "'unwelcome_passenger=' + encodeURIComponent(element.id.split('_').last())",
+  :url => user_unwelcome_passengers_url(:user_id => @user.id))%>

@@ -30,64 +30,94 @@ class UnwelcomePassengersControllerTest < ActionController::TestCase
   end
 
 
+  test "get index" do
+    user = users(:user_N)
+    set_authorization_header(user.nick_name, user.password)
+    get :index, :user_id => user.id
+    assert_response :success
+    #
+    assert_not_nil assigns(:unwelcome_passengers)
+  end
+
+
+  test "cannot get index without credentials" do
+    user = users(:user_N)
+    get :index, :user_id => user.id
+    assert_response :unauthorized
+  end
+
+
+  test "cannot get someone's other index" do
+    user = users(:user_N)
+    set_authorization_header(user.nick_name, user.password)
+    get :index, :user_id => users(:donald_duck).id
+    assert_response :forbidden
+  end
+
+
+  # get ids
+
+
   test "get" do
-    entry = black_list_passengers_entries(:one)
-    set_authorization_header(entry.user.nick_name, entry.user.password)
-    get :show, :user_id => entry.user.id, :id => entry.id
+    user = users(:user_N)
+    unwanted_passenger = user.passengers_in_black_list[0]
+    set_authorization_header(user.nick_name, user.password)
+    get :show, :user_id => user.id, :id => unwanted_passenger.id
     assert_response :success
     assert_not_nil assigns(:unwelcome_passenger)
     up = assigns(:unwelcome_passenger)
+    assert_equal unwanted_passenger, up
     # testing response content
-    assert_select "unwelcome_passenger:root[id=#{up.id}]" +
-        "[href=#{user_unwelcome_passenger_url(:user_id => up.user.id,
-                                              :id => up.id)}]" do
-      assert_select "user[id=#{up.passenger.id}][href=#{user_url(
-        up.passenger)}]" do
-        assert_select "first_name", up.passenger.first_name
-        assert_select "last_name", up.passenger.last_name
-        assert_select "nick_name", up.passenger.nick_name
-      end
+    assert_select "user[id=#{up.id}][href=#{user_url(up)}]" do
+      assert_select "first_name", up.first_name
+      assert_select "last_name", up.last_name
+      assert_select "nick_name", up.nick_name
     end
   end
 
 
   test "can get only XML" do
-    entry = black_list_passengers_entries(:one)
-    set_authorization_header(entry.user.nick_name, entry.user.password)
-    get :show, :format => "html", :user_id => entry.user.id,
-        :id => entry.id
+    user = users(:user_N)
+    unwanted_passenger = user.passengers_in_black_list[0]
+    set_authorization_header(user.nick_name, user.password)
+    get :show, :format => "html", :user_id => user.id,
+        :id => unwanted_passenger.id
     assert_response :not_acceptable
   end
 
 
   test "cannot get without credentials" do
-    entry = black_list_passengers_entries(:one)
-    get :show, :user_id => entry.user.id, :id => entry.id
+    user = users(:user_N)
+    unwanted_passenger = user.passengers_in_black_list[0]
+    get :show, :user_id => user.id, :id => unwanted_passenger.id
     assert_response :unauthorized
   end
 
 
   test "cannot get someone other's" do
-    entry = black_list_passengers_entries(:one)
-    u = users(:donald_duck)
-    set_authorization_header(u.nick_name, u.password)
-    get :show, :user_id => entry.user.id, :id => entry.id
+    user = users(:user_N)
+    unwanted_passenger = user.passengers_in_black_list[0]
+    set_authorization_header(users(:donald_duck).nick_name,
+                             users(:donald_duck).password)
+    get :show, :user_id => user.id, :id => unwanted_passenger.id
     assert_response :forbidden
   end
 
 
   test "get with wrong user id" do
-    entry = black_list_passengers_entries(:one)
-    set_authorization_header(entry.user.nick_name, entry.user.password)
-    get :show, :user_id => -1, :id => entry.id
+    user = users(:user_N)
+    unwanted_passenger = user.passengers_in_black_list[0]
+    set_authorization_header(user.nick_name, user.password)
+    get :show, :user_id => -1, :id => unwanted_passenger.id
     assert_response :not_found
   end
 
 
   test "get with wrong id" do
-    entry = black_list_passengers_entries(:one)
-    set_authorization_header(entry.user.nick_name, entry.user.password)
-    get :show, :user_id => entry.user.id, :id => -1
+    user = users(:user_N)
+    unwanted_passenger = user.passengers_in_black_list[0]
+    set_authorization_header(user.nick_name, user.password)
+    get :show, :user_id => user.id, :id => -1
     assert_response :not_found
   end
 
@@ -104,24 +134,38 @@ class UnwelcomePassengersControllerTest < ActionController::TestCase
     set_authorization_header(user.nick_name, user.password)
     assert_difference('BlackListPassengersEntry.count', 1) do
       post :create, :user_id => user.id,
-          :unwelcome_passenger => { :id => passenger.id }
+          :unwelcome_passenger => passenger.id
     end
     assert_response :created
     assert_not_nil assigns(:unwelcome_passenger)
-    #
-    assert user.passengers_in_black_list.include?(passenger)
-    # testing response content
     up = assigns(:unwelcome_passenger)
-    assert_select "unwelcome_passenger:root[id=#{up.id}]" +
-        "[href=#{user_unwelcome_passenger_url(:user_id => up.user.id,
-                                              :id => up.id)}]" do
-      assert_select "user[id=#{up.passenger.id}][href=#{user_url(
-        up.passenger)}]" do
-        assert_select "first_name", up.passenger.first_name
-        assert_select "last_name", up.passenger.last_name
-        assert_select "nick_name", up.passenger.nick_name
-      end
+    assert_equal passenger, up
+    assert user.passengers_in_black_list.include?(up)
+    # testing response content
+    assert_select "user[id=#{up.id}][href=#{user_url(up)}]" do
+      assert_select "first_name", up.first_name
+      assert_select "last_name", up.last_name
+      assert_select "nick_name", up.nick_name
     end
+  end
+
+
+  test "add a passenger to black list xhr" do
+    user = users(:donald_duck)
+    passenger = users(:mickey_mouse)
+    #
+    assert !user.passengers_in_black_list.include?(passenger)
+    #
+    set_authorization_header(user.nick_name, user.password)
+    assert_difference('BlackListPassengersEntry.count', 1) do
+      xhr(:post, :create, :user_id => user.id,
+          :unwelcome_passenger => passenger.id)
+    end
+    assert_response :success
+    assert_not_nil assigns(:unwelcome_passenger)
+    up = assigns(:unwelcome_passenger)
+    assert_equal passenger, up
+    assert user.passengers_in_black_list.include?(up)
   end
 
 
@@ -130,7 +174,7 @@ class UnwelcomePassengersControllerTest < ActionController::TestCase
     passenger = users(:mickey_mouse)
     assert_difference('BlackListPassengersEntry.count', 0) do
       post :create, :user_id => user.id,
-          :unwelcome_passenger => { :id => passenger.id }
+          :unwelcome_passenger =>  passenger.id
     end
     assert_response :unauthorized
   end
@@ -143,7 +187,7 @@ class UnwelcomePassengersControllerTest < ActionController::TestCase
     set_authorization_header(user.nick_name, user.password)
     assert_difference('BlackListPassengersEntry.count', 0) do
       post :create, :user_id => other_user.id,
-          :unwelcome_passenger => { :id => passenger.id }
+          :unwelcome_passenger => passenger.id
     end
     assert_response :forbidden
   end
@@ -155,7 +199,7 @@ class UnwelcomePassengersControllerTest < ActionController::TestCase
     set_authorization_header(user.nick_name, user.password)
     assert_difference('BlackListPassengersEntry.count', 0) do
       post :create, :user_id => -1,
-          :unwelcome_passenger => { :id => passenger.id }
+          :unwelcome_passenger => passenger.id
     end
     assert_response :not_found
   end
@@ -166,7 +210,18 @@ class UnwelcomePassengersControllerTest < ActionController::TestCase
     set_authorization_header(user.nick_name, user.password)
     assert_difference('BlackListPassengersEntry.count', 0) do
       post :create, :user_id => user.id,
-          :unwelcome_passenger => { :id => -1 }
+          :unwelcome_passenger => -1
+    end
+    assert_response :unprocessable_entity
+  end
+
+
+  test "add him her self to black list" do
+    user = users(:donald_duck)
+    set_authorization_header(user.nick_name, user.password)
+    assert_difference('BlackListPassengersEntry.count', 0) do
+      post :create, :user_id => user.id,
+          :unwelcome_passenger => user.id
     end
     assert_response :unprocessable_entity
   end
@@ -176,55 +231,75 @@ class UnwelcomePassengersControllerTest < ActionController::TestCase
 
 
   test "delete an entry" do
-    entry = black_list_passengers_entries(:one)
-    user = entry.user
-    passenger = entry.passenger
-    set_authorization_header(entry.user.nick_name, entry.user.password)
+    user = users(:user_N)
+    unwanted_passenger = user.passengers_in_black_list[0]
+    set_authorization_header(user.nick_name, user.password)
     assert_difference('BlackListPassengersEntry.count', -1) do
-      delete :destroy, :user_id => entry.user.id, :id => entry.id
+      delete :destroy, :user_id => user.id,
+          :id => unwanted_passenger.id
     end
     assert_response :ok
     #
-    assert !user.passengers_in_black_list.include?(passenger)
+    user.reload
+    assert !user.passengers_in_black_list.include?(unwanted_passenger)
+  end
+
+
+  test "delete an entry xhr" do
+    user = users(:user_N)
+    unwanted_passenger = user.passengers_in_black_list[0]
+    set_authorization_header(user.nick_name, user.password)
+    assert_difference('BlackListPassengersEntry.count', -1) do
+      xhr(:delete, :destroy, :user_id => user.id,
+          :id => unwanted_passenger.id)
+    end
+    assert_response :ok
+    #
+    user.reload
+    assert !user.passengers_in_black_list.include?(unwanted_passenger)
   end
 
 
   test "cannot delete without credentials" do
-    entry = black_list_passengers_entries(:one)
+    user = users(:user_N)
+    unwanted_passenger = user.passengers_in_black_list[0]
     assert_difference('BlackListPassengersEntry.count', 0) do
-      delete :destroy, :user_id => entry.user.id, :id => entry.id
+      delete :destroy, :user_id => user.id,
+          :id => unwanted_passenger.id
     end
     assert_response :unauthorized
   end
 
 
   test "cannot delete someone's other entry" do
-    entry = black_list_passengers_entries(:one)
-    other_user = users(:donald_duck)
-    set_authorization_header(other_user.nick_name,
-                             other_user.password)
+    user = users(:user_N)
+    unwanted_passenger = user.passengers_in_black_list[0]
+    set_authorization_header(users(:donald_duck).nick_name,
+                             users(:donald_duck).password)
     assert_difference('BlackListPassengersEntry.count', 0) do
-      delete :destroy, :user_id => entry.user.id, :id => entry.id
+      delete :destroy, :user_id => user.id,
+          :id => unwanted_passenger.id
     end
     assert_response :forbidden
   end
 
 
   test "not found if delete a non existent user" do
-    entry = black_list_passengers_entries(:one)
-    set_authorization_header(entry.user.nick_name, entry.user.password)
+    user = users(:user_N)
+    unwanted_passenger = user.passengers_in_black_list[0]
+    set_authorization_header(user.nick_name, user.password)
     assert_difference('BlackListPassengersEntry.count', 0) do
-      delete :destroy, :user_id => -1, :id => entry.id
+      delete :destroy, :user_id => -1, :id => unwanted_passenger.id
     end
     assert_response :not_found
   end
 
 
   test "not found if delete a non existent id" do
-    entry = black_list_passengers_entries(:one)
-    set_authorization_header(entry.user.nick_name, entry.user.password)
+    user = users(:user_N)
+    set_authorization_header(user.nick_name, user.password)
     assert_difference('BlackListPassengersEntry.count', 0) do
-      delete :destroy, :user_id => entry.user.id, :id => -1
+      delete :destroy, :user_id => user.id, :id => -1
     end
     assert_response :not_found
   end

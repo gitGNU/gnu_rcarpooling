@@ -1,3 +1,4 @@
+<%
 # Copyright (C) 2010  Roberto Maestroni
 #
 # This file is part of Rcarpooling.
@@ -14,34 +15,20 @@
 #
 # You should have received a copy of the GNU Affero Public License
 # along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
+-%>
+<div class="search_block">
+<div class="bold">
+  <%= I18n.t('user.search.title')%>
+</div>
+<div id="user_search_form">
+  <% form_remote_tag :url => search_users_url, :method => :get,
+      :update => "user_search_results" do -%> <div>
+    <%= text_field_tag "name", nil, :size => 30, :maxlength => 40 %>&nbsp;
+    <%= submit_tag I18n.t(
+      'user.search.search_button_label') %></div>
+  <% end -%>
+</div>
 
-class BlackListDriversEntry < ActiveRecord::Base
-
-  belongs_to :user
-
-
-  belongs_to :driver,
-      :foreign_key => "driver_id",
-      :class_name => "User"
-
-
-  validates_presence_of :user, :driver
-
-
-  validate :driver_must_be_distinct_from_user
-
-
-  validates_uniqueness_of :driver_id, :scope => "user_id"
-
-
-  private
-
-
-  def driver_must_be_distinct_from_user
-    if user and driver and driver == user
-      errors.add(:driver, I18n.t("activerecord.errors.messages." +
-                                 "black_list_drivers_entry." +
-                                "driver_must_be_distinct_from_user"))
-    end
-  end
-end
+<div id="user_search_results">
+</div>
+</div>

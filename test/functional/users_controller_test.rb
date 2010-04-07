@@ -429,4 +429,36 @@ class UsersControllerTest < ActionController::TestCase
   end
 
 
+  # GET /users/search
+
+
+  test "search" do
+    set_authorization_header(users(:donald_duck).nick_name,
+                             users(:donald_duck).password)
+    get :search, :name => "#{users(:mickey_mouse).last_name}"
+    assert_response :success
+    assert_not_nil assigns(:users)
+    users = assigns(:users)
+    assert users.size > 0
+  end
+
+
+  test "cannot search without credentials" do
+    get :search, :name => "bla"
+    assert_response :unauthorized
+  end
+
+
+  test "search1" do
+    set_authorization_header(users(:donald_duck).nick_name,
+                             users(:donald_duck).password)
+    u = users(:mickey_mouse)
+    get :search, :name => "#{u.first_name.downcase} #{u.last_name.upcase}"
+    assert_response :success
+    assert_not_nil assigns(:users)
+    users = assigns(:users)
+    assert_equal u, users[0]
+  end
+
+
 end

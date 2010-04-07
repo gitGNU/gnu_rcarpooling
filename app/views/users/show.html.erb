@@ -61,10 +61,13 @@
     </tr>
   </table></div>
   <!-- BLACK LISTS -->
+  <!-- black list of drivers -->
   <div class="user-data-heading">
     <%= I18n.t('personal.user_data.heading_drivers_black_list')%>
   </div>
-  <!-- black list of drivers -->
+  <%= button_to I18n.t('personal.user_data.actions.edit_button_label'),
+      user_unwelcome_drivers_url(:user_id => @user.id),
+      :method => :get, :class => "button" %>
   <div class="user-black-list">
     <% if @user.drivers_in_black_list.empty? -%>
       <span class="user-black-list-empty">
@@ -72,6 +75,10 @@
       </span>
     <% else -%>
       <table>
+        <tr>
+          <td class="heading"><%= I18n.t('personal.user_data.name')%></td>
+          <td class="heading"><%= I18n.t('personal.user_data.nick_name')%></td>
+        </tr>
         <% @user.drivers_in_black_list.each do |driver| -%>
           <tr><td><%= h driver.name%></td><td><%= h driver.nick_name%></td></tr>
         <% end -%>
@@ -82,13 +89,20 @@
   <div class="user-data-heading">
     <%= I18n.t('personal.user_data.heading_passengers_black_list')%>
   </div>
+  <%= button_to I18n.t('personal.user_data.actions.edit_button_label'),
+      user_unwelcome_passengers_url(:user_id => @user.id),
+      :method => :get, :class => "button" %>
   <div class="user-black-list">
-    <% if @user.drivers_in_black_list.empty? -%>
+    <% if @user.passengers_in_black_list.empty? -%>
       <span class="user-black-list-empty">
         <%= I18n.t('personal.user_data.no_passengers_in_black_list')%>
       </span>
     <% else -%>
       <table>
+        <tr>
+          <td class="heading"><%= I18n.t('personal.user_data.name')%></td>
+          <td class="heading"><%= I18n.t('personal.user_data.nick_name')%></td>
+        </tr>
         <% @user.passengers_in_black_list.each do |pass| -%>
           <tr><td><%= h pass.name%></td><td><%= h pass.nick_name%></td></tr>
         <% end -%>
