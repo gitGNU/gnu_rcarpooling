@@ -26,3 +26,7 @@ used_offering_2:
 used_offering_3_to_a_frozen_offering:
   offering: offering_with_used_offering_and_frozen
   seating_capacity: 3
+
+used_offering_N:
+  offering: offering_N
+  seating_capacity: 2

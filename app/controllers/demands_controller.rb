@@ -17,17 +17,36 @@
 
 class DemandsController < ApplicationController
 
-  before_filter :authenticate
+  before_filter :authenticate, :except => "new"
 
 
-  # GET /demands/id
+  # GET /demands
+  def index
+    @user = User.find(params[:uid])
+    @demands = @user.demands.find(:all, :order => "created_at DESC")
+    respond_to do |format|
+      format.xml
+      format.html
+    end
+  end
+
+
+  # GET /demands/new
+  def new
+    @demand = Demand.new
+    @places = Place.find :all
+  end
+
+
+  # GET /demands/:id
   def show
     @demand = Demand.find_by_id(params[:id])
     if @demand
       if @demand.suitor == User.find(params[:uid])
         unless @demand.fulfilled?
           respond_to do |format|
-            format.xml { render :xml => @demand }
+            format.xml
+            format.html
           end
         else
           redirect_to(fulfilled_demand_url(@demand.fulfilled_demand),
@@ -52,28 +71,41 @@ class DemandsController < ApplicationController
       processor.process_incoming_demand(@demand)
       #
       respond_to do |format|
-        format.xml { render :xml => @demand, :location => @demand,
+        format.xml { render :action => "show", :location => @demand,
                      :status => :created }
+        format.html { flash[:notice] = I18n.t 'notices.demand_created'
+                      redirect_to demand_url(@demand) }
       end
     else
       respond_to do |format|
         format.xml { render :xml => @demand.errors,
                      :status => :unprocessable_entity }
+        format.html { @places = Place.find :all
+                      render :action => "new" }
       end
     end
   end
 
 
-  # DELETE /demands/id
+  # DELETE /demands/:id
   def destroy
     @demand = Demand.find_by_id(params[:id])
     if @demand
       if @demand.suitor == User.find(params[:uid])
         unless @demand.fulfilled?
-          processor = DemandProcessorFactory.build_processor
-          processor.revoke_demand(@demand)
-          @demand.destroy
-          head :ok
+          if @demand.deletable?
+            processor = DemandProcessorFactory.build_processor
+            processor.revoke_demand(@demand)
+            @demand.destroy
+            respond_to do |format|
+              format.xml { head :ok }
+              format.html { flash[:notice] =
+                            I18n.t 'notices.demand_deleted'
+                          redirect_to demands_url }
+            end
+          else
+            head :method_not_allowed
+          end
         else
           redirect_to(fulfilled_demand_url(@demand.fulfilled_demand),
                       :status => :temporary_redirect)

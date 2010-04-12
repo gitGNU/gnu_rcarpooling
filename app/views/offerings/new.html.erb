@@ -1,0 +1,67 @@
+<%
+# Copyright (C) 2010  Roberto Maestroni
+#
+# This file is part of Rcarpooling.
+#
+# Rcarpooling is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Rcarpooling is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero Public License for more details.
+#
+# You should have received a copy of the GNU Affero Public License
+# along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
+-%>
+<% content_for(:navigation_path) do -%>
+  <%= render :partial => "partials/navigation_path",
+    :object => ['/', offerings_path, new_offering_path ] %>
+<% end -%>
+
+<%= render :partial => "partials/map" %>
+
+<% places_choices = @places.map { |place| [place.name, place.id] } -%>
+<% form_for :offering, :url => offerings_url,
+    :html => { :class => "form"} do |form| -%>
+  <div><%= error_messages_for :offering, :class => "errors" %></div>
+  <div class="form_field">
+    <div class="form_label">
+      <%= I18n.t 'offerings.form.labels.departure_time'%>
+    </div>
+      <%= form.datetime_select(:departure_time,
+          :start_year => Time.now.year, :end_year => Time.now.year + 1) %>
+  </div>
+  <div class="form_field">
+    <div class="form_label">
+      <%= I18n.t 'offerings.form.labels.expiry_time'%>
+    </div>
+      <%= form.datetime_select(:expiry_time,
+          :start_year => Time.now.year, :end_year => Time.now.year + 1) %>
+  </div>
+  <div class="form_field">
+    <div class="form_label">
+      <%= I18n.t 'offerings.form.labels.departure_place'%>
+    </div>
+      <%= form.select(:departure_place_id, places_choices, {},
+        { "id" => "departure_place_select" }) %>
+  </div>
+  <div class="form_field">
+    <div class="form_label">
+      <%= I18n.t 'offerings.form.labels.arrival_place'%>
+    </div>
+      <%= form.select(:arrival_place_id, places_choices, {},
+        { "id" => "arrival_place_select" }) %>
+  </div>
+  <div class="form_field">
+    <div class="form_label">
+      <%= I18n.t 'offerings.form.labels.seating_capacity'%>
+    </div>
+      <%= form.text_field(:seating_capacity, :size => 2, :maxlength => 2) %>
+  </div>
+  <div class="form_field">
+    <%= submit_tag I18n.t('offerings.form.submit') %>
+  </div>
+<% end -%>

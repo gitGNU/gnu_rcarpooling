@@ -15,16 +15,14 @@
 # You should have received a copy of the GNU Affero Public License
 # along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
 
-# this is chilled
-fulfilled_demand_n_1:
-  demand: demand_with_solution_n_1
-
-#this isn't chilled
-fulfilled_demand_n_2:
-  demand: demand_with_solution_n_2
-
-fulfilled_demand_n_3:
-  demand: demand_with_solution_n_2
-
-fulfilled_demand_N:
-  demand: demand_N
+xml.demand(:id => @demand.id, :href => demand_url(@demand)) do
+  xml.suitor(:id => @demand.suitor.id, :href => user_url(@demand.suitor))
+  xml.earliest_departure_time(@demand.earliest_departure_time.xmlschema)
+  xml.latest_arrival_time(@demand.latest_arrival_time.xmlschema)
+  xml.expiry_time(@demand.expiry_time.xmlschema)
+  xml.created_at(@demand.created_at.xmlschema)
+  xml.departure_place(:id => @demand.departure_place.id,
+                      :href => place_url(@demand.departure_place))
+  xml.arrival_place(:id => @demand.arrival_place.id,
+                    :href => place_url(@demand.arrival_place))
+end

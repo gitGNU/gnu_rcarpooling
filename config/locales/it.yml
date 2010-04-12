@@ -17,10 +17,32 @@
 
 it:
 
+  date:
+    formats:
+      default: "%d-%m-%Y"
+      short: "%b %d"
+      long: "%d %B, %Y"
+
+    day_names: [domenica, lunedi, martedi, mercoledi, giovedi, venerdi, sabato]
+    abbr_day_names: [dom, lun, mar, mer, gio, ven, sab]
+    month_names: [~, gennaio, febbraio, marzo, aprile, maggio, giugno, luglio, agosto, settembre, ottobre, novembre, dicembre]
+    abbr_month_names: [~, gen, feb, mar, apr, mag, giu, lug, ago, sett, ott, nov, dic]
+    order: [:day, :month, :year]
+
+  time:
+    formats:
+      default: "%a, %d %b %Y %H:%M:%S %z"
+      short: "%d %b %H:%M"
+      long: "%d %B %Y, %H:%M"
+    am: "am"
+    pm: "pm"
+
   activerecord:
 
     models:
       user: "utente"
+      demand: "richiesta"
+      offering: "offerta"
 
     attributes:
 
@@ -32,6 +54,22 @@ it:
         score: "Punteggio"
         sex: "Sesso"
         max_foot_length: "Massima distanza a piedi"
+
+      demand:
+        earliest_departure_time: "Istante di partenza minimo"
+        latest_arrival_time: "Istante di arrivo massimo"
+        expiry_time: "Scadenza"
+        departure_place: "Luogo di partenza"
+        arrival_place: "Luogo di arrivo"
+
+      offering:
+        departure_place: "Luogo di partenza"
+        arrival_place: "Luogo di arrivo"
+        departure_time: "Istante di partenza"
+        arrival_time: "Istante di arrivo"
+        expiry_time: "Scadenza"
+        seating_capacity: "Posti a sedere"
+        length: "Distanza"
 
 
     errors:
@@ -46,7 +84,7 @@ it:
         blank: "non pu&ograve; essere vuoto"
         taken: "&egrave; gi&agrave; presente"
         not_a_number: "non &egrave; un numero"
-        greater_than: "must be greater than {{count}}"
+        greater_than: "deve essere maggiore di {{count}}"
         greater_than_or_equal_to: "deve essere maggiore o uguale a \
                                   {{count}}"
 
@@ -62,6 +100,7 @@ it:
           earliest_departure_time_must_be_later_than_10_minutes_from_now: "deve essere pi&ugrave; tardi di 10 minuti da ora"
           expiry_time_must_be_earlier_than_or_equal_to_earliest_departure_time: "deve essere precedente o uguale all'istante di partenza pi&ugrave; prossimo"
           expiry_time_must_be_later_than_5_minutes_from_now: "deve essere pi&ugrave; tardi di 5 minuti da ora"
+          arrival_place_must_be_distinct_from_departure_place: "deve essere diverso dal luogo di partenza"
 
         edge:
           arrival_place_must_be_distinct_from_departure_place: "deve essere distinto dal luogo di partenza"
@@ -94,6 +133,12 @@ it:
     users_new: "registrazione"
     unwelcome_passengers_index: "modifica&nbsp;black&nbsp;list"
     unwelcome_drivers_index: "modifica&nbsp;black&nbsp;list"
+    demands_new: "chiedi&nbsp;un&nbsp;passaggio"
+    demands_index: "le&nbsp;tue&nbsp;richieste"
+    demands_show: "dettagli&nbsp;richiesta"
+    offerings_new: "offri&nbsp;un&nbsp;passaggio"
+    offerings_index: "le&nbsp;tue&nbsp;offerte"
+    offerings_show: "dettagli&nbsp;offerta"
 
   sidebar:
     guide: "Istruzioni per l'uso"
@@ -104,10 +149,20 @@ it:
     logged_as: "Sei autenticato come:"
     login_warning: "per uscire chiudi il browser"
     language: "Lingua:"
+    new_demand: "Chiedi un passaggio"
+    your_demands: "Le tue richieste"
+    new_offering: "Offri un passaggio"
+    your_offerings: "Le tue offerte"
 
   notices:
     user_updated: "Le modifiche sono state registrate con successo"
     user_created: "Registrazione effettuata con successo"
+    demand_created: "La tua richiesta &egrave; stata salvata con successo"
+    demand_deleted: "La richiesta &egrave; stata eliminata"
+    fulfilled_demand_deleted: "La richiesta &egrave; stata eliminata"
+    offering_created: "La tua offerta &egrave; stata salvata con successo"
+    offering_deleted: "L'offerta &egrave; stata eliminata"
+    used_offering_deleted: "L'offerta &egrave; stata eliminata"
 
   home:
     index:
@@ -124,6 +179,8 @@ it:
                 Per visualizzare Google Maps, abilita JavaScript \
                 modificando le impostazioni del tuo browser e \
                 riprova."
+      set_as_departure_place: "imposta come partenza"
+      set_as_arrival_place: "imposta come arrivo"
 
   personal:
     user_data:
@@ -169,3 +226,62 @@ it:
             JavaScript sia abilitato."
 
   are_you_sure?: "Sei sicuro?"
+
+  demands:
+    form:
+      labels:
+        earliest_departure_time: "Istante di partenza minimo"
+        latest_arrival_time: "Istante di arrivo massimo"
+        expiry_time: "Scadenza"
+        departure_place: "Luogo di partenza"
+        arrival_place: "Luogo di arrivo"
+      submit: "Invia"
+      delete: "Elimina questa richiesta"
+    from: "Da"
+    to: "A"
+    min_departure_time: "Partenza (min)"
+    max_arrival_time: "Arrivo (max)"
+    created_at: "Creata il"
+    details_link: "dettagli"
+
+
+  fulfilled_demands:
+    intro: "La tua richiesta &egrave; stata soddisfatta"
+    demand_title: "Questa era la tua richiesta originale:"
+    fulfilled_demand_title: "La soluzione &egrave; come segue:"
+    initial_walk_intro: "Primo tratto a piedi:"
+    final_walk_intro: "Ultimo tratto a piedi:"
+    car_intro: "Viaggio in automobile:"
+    from: "Da"
+    to: "A"
+    with: "Con"
+    departure_time: "Ora partenza"
+    arrival_time: "Ora arrivo"
+    guaranteed: "Questa soluzione &egrave; garantita"
+    not_guaranteed: "Questa soluzione non &egrave; garantita fino al:"
+    can_delete_until: "Puoi recedere fino al:"
+
+
+  offerings:
+    form:
+      labels:
+        departure_time: "Istante di partenza"
+        arrival_time: "Istante di arrivo"
+        expiry_time: "Scadenza"
+        departure_place: "Luogo di partenza"
+        arrival_place: "Luogo di arrivo"
+        seating_capacity: "Posti disponibili"
+      submit: "Invia"
+      delete: "Elimina questa offerta"
+    from: "Da"
+    to: "A"
+    departure_time: "Partenza"
+    arrival_time: "Arrivo"
+    created_at: "Creata il"
+    details_link: "dettagli"
+
+
+  used_offerings:
+    passengers_intro: "I tuoi passeggeri sono:"
+    offering_intro: "La tua offerta originaria era:"
+    actual_seating_capacity: "Posti attualmente liberi:"

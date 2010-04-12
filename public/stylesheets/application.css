@@ -138,6 +138,10 @@ body {
   font-weight: bold;
   }
 
+.little {
+  font-size: 0.8em;
+  }
+
 a {
   color: rgb(128, 128, 128);
   }
@@ -197,4 +201,24 @@ a {
 
 .hover {
   background-color: rgb(255, 200, 200);
+  }
+
+
+.form {
+  margin: 1em;
+  padding: 0.5em;
+  }
+
+.form_field {
+  margin-top: 1em;
+  margin-bottom: 1em;
+  }
+
+.form_label {
+  font-weight: bold;
+  }
+
+p {
+  margin-top: 1em;
+  margin-bottom: 1em;
   }

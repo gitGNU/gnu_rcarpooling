@@ -21,12 +21,14 @@ class UsedOfferingsController < ApplicationController
   before_filter :authenticate
 
 
+  # GET /used_offerings/:id
   def show
     @used_offering = UsedOffering.find_by_id(params[:id])
     if @used_offering
       if @used_offering.offerer == User.find(params[:uid])
         respond_to do |format|
-          format.xml { render :xml => @used_offering }
+          format.xml
+          format.html
         end
       else
         head :forbidden
@@ -37,6 +39,7 @@ class UsedOfferingsController < ApplicationController
   end
 
 
+  # DELETE /used_offerings/:id
   def destroy
     @used_offering = UsedOffering.find_by_id(params[:id])
     if @used_offering
@@ -50,7 +53,12 @@ class UsedOfferingsController < ApplicationController
           #
           @used_offering.offering.destroy
           @used_offering.destroy
-          head :ok
+          respond_to do |format|
+            format.xml { head :ok }
+            format.html { flash[:notice] =
+                            I18n.t 'notices.used_offering_deleted'
+                        redirect_to offerings_url }
+          end
         else
           head :method_not_allowed
         end

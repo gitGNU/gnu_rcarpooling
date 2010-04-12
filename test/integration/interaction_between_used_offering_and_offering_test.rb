@@ -52,7 +52,7 @@ class InteractionBetweenUsedOfferingAndOfferingTest <
         used_offering_url(used_offering)
     #
     delete(used_offering_url(used_offering), nil,
-           "HTTP_AUTHORIZATION" => auth_string)
+           "HTTP_AUTHORIZATION" => auth_string, "ACCEPT" => "text/xml")
     assert_response :success
     #
     get url, nil, "HTTP_AUTHORIZATION" => auth_string

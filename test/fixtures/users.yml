@@ -23,7 +23,7 @@ donald_duck:
   nick_name: dd
   email: donald.duck@foo.bar
   password: donald
-  language: en
+  language: it
   sex: M
 
 mickey_mouse:
@@ -50,7 +50,7 @@ useryD:
   nick_name: useryD
   email: user@yD.boh
   password: useryD
-  language: en
+  language: it
   sex: M
 
 user_N:
@@ -68,6 +68,6 @@ user_N_1:
   nick_name: user_N_1
   email: bla
   password: bla
-  language: en
+  language: it
   sex: M
 

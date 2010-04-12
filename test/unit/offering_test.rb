@@ -149,7 +149,7 @@ class OfferingTest < ActiveSupport::TestCase
     offering.expiry_time = offering.departure_time - (2.hours + 1.second)
     assert !offering.valid?
     assert offering.errors.invalid?(:expiry_time)
-    assert_equal I18n.t("activerecord.errors.messages." +
+    assert_equal I18n.t("activerecord.errors.messages.offering." +
                                         "expiry_time_must_be_later_than_" +
                                        "or_equal_to_2_hours_before_departure_time"),
         offering.errors.on(:expiry_time)

@@ -23,6 +23,18 @@ class PlacesControllerTest < ActionController::TestCase
     get :index
     assert_response :success
     assert_not_nil assigns(:places)
+    # testing response content
+    places = assigns(:places)
+    assert_select "places:root" do
+      places.each do |place|
+        assert_select "place[id=#{place.id}]" +
+            "[href=#{place_url(place)}]" do
+          assert_select "name", place.name
+          assert_select "latitude", place.latitude.to_s
+          assert_select "longitude", place.longitude.to_s
+        end
+      end
+    end
   end
 
 
@@ -30,6 +42,17 @@ class PlacesControllerTest < ActionController::TestCase
     get :show, :id => places(:sede_di_via_ravasi).id
     assert_response :success
     assert_not_nil assigns(:place)
+    # testing response content
+    place = assigns(:place)
+    assert_select "place:root[id=#{place.id}][href=#{place_url(place)}]" do
+      assert_select "latitude", place.latitude.to_s
+      assert_select "longitude", place.longitude.to_s
+      assert_select "name", place.name
+      assert_select "city", place.city
+      assert_select "street", place.street
+      assert_select "civic_number", place.civic_number
+      assert_select "description", place.description
+    end
   end
 
 

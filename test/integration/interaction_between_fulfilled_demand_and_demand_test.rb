@@ -48,7 +48,7 @@ class InteractionBetweenFulfilledDemandAndDemandTest < ActionController::Integra
         :location => fulfilled_demand_url(fulfilled_demand)
     #
     delete(fulfilled_demand_url(fulfilled_demand), nil,
-           "HTTP_AUTHORIZATION" => auth_string)
+           "HTTP_AUTHORIZATION" => auth_string, "ACCEPT" => "text/xml")
     assert_response :success
     #
     get(url_of_demand, nil, "HTTP_AUTHORIZATION" => auth_string)

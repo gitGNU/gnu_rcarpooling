@@ -34,7 +34,7 @@ Lei dovrà camminare per <%= @fulfilled_demand.initial_walk_duration %> minuti v
 
 Qui salirà sull'automobile di  <%= driver.qualified_name %>
 che partirà alle <%= hour_minute(car_departure_time) %>
-in direzione di <%= car_arrival_place_name %> all'indirizzo:
+in direzione di <%= car_arrival_place.name %> all'indirizzo:
   <%= car_arrival_place.address("it") %>
 dove arriverà alle <%= hour_minute(car_arrival_time) %>
 <% else -%>

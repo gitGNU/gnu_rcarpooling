@@ -41,7 +41,8 @@ class Demand < ActiveRecord::Base
 
 
   validate :latest_arrival_time_must_be_later_than_earliest_departure_time,
-      :expiry_time_must_be_earlier_than_or_equal_to_earliest_departure_time
+      :expiry_time_must_be_earlier_than_or_equal_to_earliest_departure_time,
+      :arrival_place_must_be_distinct_from_departure_place
 
 
   validate_on_create :expiry_time_must_be_later_than_5_minutes_from_now,
@@ -61,6 +62,15 @@ class Demand < ActiveRecord::Base
 
   def expired?
     Time.now >= expiry_time
+  end
+
+
+  def deletable?
+    if fulfilled?
+      false
+    else
+      !expired?
+    end
   end
 
 
@@ -118,6 +128,14 @@ class Demand < ActiveRecord::Base
       errors.add(:expiry_time, I18n.t("activerecord.errors.messages." +
                                       "demand.expiry_time_must_be_later" +
                                      "_than_5_minutes_from_now"))
+    end
+  end
+
+
+  def arrival_place_must_be_distinct_from_departure_place
+    if arrival_place and departure_place and departure_place == arrival_place
+      errors.add(:arrival_place, I18n.t("activerecord.errors.messages.demand." +
+                        "arrival_place_must_be_distinct_from_departure_place"))
     end
   end
 

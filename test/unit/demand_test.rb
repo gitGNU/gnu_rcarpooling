@@ -109,4 +109,24 @@ class DemandTest < ActiveSupport::TestCase
     assert !old_demand.errors.invalid?(:expiry_time)
   end
 
+
+  test "arrival place must be distinct from departure place" do
+    demand = Demand.new
+    demand.departure_place = places(:sede_di_via_ravasi)
+    demand.arrival_place = demand.departure_place
+    assert !demand.valid?
+    assert demand.errors.invalid?(:arrival_place)
+    assert_equal I18n.t("activerecord.errors.messages.demand." +
+                        "arrival_place_must_be_distinct_from_departure_place"),
+                        demand.errors.on(:arrival_place)
+  end
+
+
+  test "expired demand is not deletable" do
+    demand = demands(:mickey_mouse_demand_n_2_dep_in_past)
+    assert demand.expired?
+    assert ! demand.deletable?
+  end
+
+
 end

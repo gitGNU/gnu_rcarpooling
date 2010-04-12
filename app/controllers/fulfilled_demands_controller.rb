@@ -20,13 +20,14 @@ class FulfilledDemandsController < ApplicationController
   before_filter :authenticate
 
 
-  # GET /fulfilled_demands/id
+  # GET /fulfilled_demands/:id
   def show
     @fulfilled_demand = FulfilledDemand.find_by_id(params[:id])
     if @fulfilled_demand
       if @fulfilled_demand.suitor == User.find(params[:uid])
         respond_to do |format|
-          format.xml { render :xml => @fulfilled_demand }
+          format.xml
+          format.html
         end
       else
         head :forbidden
@@ -37,7 +38,7 @@ class FulfilledDemandsController < ApplicationController
   end
 
 
-  # DELETE /fulfilled_demands/id
+  # DELETE /fulfilled_demands/:id
   def destroy
     @fulfilled_demand = FulfilledDemand.find_by_id(params[:id])
     if @fulfilled_demand
@@ -50,7 +51,12 @@ class FulfilledDemandsController < ApplicationController
           #
           @fulfilled_demand.demand.destroy
           @fulfilled_demand.destroy
-          head :ok
+          respond_to do |format|
+            format.xml { head :ok }
+            format.html { flash[:notice] = I18n.t(
+                          'notices.fulfilled_demand_deleted')
+                        redirect_to demands_url }
+          end
         else
           head :method_not_allowed
         end

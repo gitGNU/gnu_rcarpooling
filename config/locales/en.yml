@@ -33,6 +33,7 @@ en:
           earliest_departure_time_must_be_later_than_10_minutes_from_now: "must be later than 10 minutes from now"
           expiry_time_must_be_earlier_than_or_equal_to_earliest_departure_time: "must be earlier than or equal to earliest departure time"
           expiry_time_must_be_later_than_5_minutes_from_now: "must be later than 5 minutes from now"
+          arrival_place_must_be_distinct_from_departure_place: "must be distinct from departure place"
 
         edge:
           arrival_place_must_be_distinct_from_departure_place: "must be distinct from departure place"
@@ -64,6 +65,12 @@ en:
     users_new: "sign&nbsp;up"
     unwelcome_passengers_index: "edit&nbsp;black&nbsp;list"
     unwelcome_drivers_index: "edit&nbsp;black&nbsp;list"
+    demands_new: "ask&nbsp;for&nbsp;a&nbsp;passage"
+    demands_index: "your&nbsp;demands"
+    demands_show: "request&nbsp;details"
+    offerings_new: "offer&nbsp;a&nbsp;passage"
+    offerings_index: "your&nbsp;offerings"
+    offerings_show: "offering&nbsp;details"
 
   sidebar:
     guide: "User guide"
@@ -74,10 +81,20 @@ en:
     logged_as: "You are logged in as:"
     login_warning: "close your browser to log out"
     language: "Language:"
+    new_demand: "Ask for a passage"
+    your_demands: "Your demands"
+    new_offering: "Offer a passage"
+    your_offerings: "Your offerings"
 
   notices:
     user_updated: "Your data have been successfuly updated"
     user_created: "Registration succeded"
+    demand_created: "Your demand has been successfuly saved"
+    demand_deleted: "Demand successfuly deleted"
+    fulfilled_demand_deleted: "Demand successfuly deleted"
+    offering_created: "Your offering has been successfuly saved"
+    offering_deleted: "Offering successfuly deleted"
+    used_offering_deleted: "Offering successfuly deleted"
 
   home:
     index:
@@ -95,6 +112,8 @@ en:
                 To view Google Maps, enable JavaScript by changing \
                 your browser \
                 options, and then try again."
+      set_as_departure_place: "set as departure place"
+      set_as_arrival_place: "set as arrival place"
 
   personal:
     user_data:
@@ -140,3 +159,62 @@ en:
   noscript: "JavaScript must be enable in order for you to use this application."
 
   are_you_sure?: "Are you sure?"
+
+  demands:
+    form:
+      labels:
+        earliest_departure_time: "Earliest departure time"
+        latest_arrival_time: "Latest arrival time"
+        expiry_time: "Expiry time"
+        departure_place: "Departure place"
+        arrival_place: "Arrival place"
+      submit: "Send"
+      delete: "Delete this demand"
+    from: "From"
+    to: "To"
+    min_departure_time: "Dep. time (min)"
+    max_arrival_time: "Arr. time (max)"
+    created_at: "Created at"
+    details_link: "details"
+
+
+  fulfilled_demands:
+    intro: "Your demand has been fulfilled"
+    demand_title: "This was your original demand:"
+    fulfilled_demand_title: "The solution is as follows:"
+    initial_walk_intro: "Initial walk:"
+    final_walk_intro: "Final walk:"
+    car_intro: "Journey by car:"
+    from: "From"
+    to: "To"
+    with: "With"
+    departure_time: "Dep. time"
+    arrival_time: "Arr. time"
+    guaranteed: "This solution is guaranteed"
+    not_guaranteed: "This solution is not guaranteed until:"
+    can_delete_until: "You can delete this demand until:"
+
+
+  offerings:
+    form:
+      labels:
+        departure_time: "Departure time"
+        arrival_time: "Arrival time"
+        expiry_time: "Expiry time"
+        departure_place: "Departure place"
+        arrival_place: "Arrival place"
+        seating_capacity: "Seatings"
+      submit: "Send"
+      delete: "Delete this offering"
+    from: "From"
+    to: "To"
+    departure_time: "Dep. time"
+    arrival_time: "Arr. time"
+    created_at: "Created at"
+    details_link: "details"
+
+
+  used_offerings:
+    passengers_intro: "Your passengers are:"
+    offering_intro: "Your offering was:"
+    actual_seating_capacity: "Actual free seatings:"

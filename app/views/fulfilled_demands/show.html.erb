@@ -1,0 +1,113 @@
+<%
+# Copyright (C) 2010  Roberto Maestroni
+#
+# This file is part of Rcarpooling.
+#
+# Rcarpooling is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Rcarpooling is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero Public License for more details.
+#
+# You should have received a copy of the GNU Affero Public License
+# along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
+-%>
+<% fd = @fulfilled_demand -%>
+<% content_for(:navigation_path) do -%>
+  <%= render :partial => "partials/navigation_path",
+    :object => ["/", demands_path, demand_path(fd.demand) ] %>
+<% end -%>
+
+<p>
+  <%= I18n.t 'fulfilled_demands.intro' %>
+</p>
+
+<p>
+  <%= I18n.t 'fulfilled_demands.demand_title' %>
+  <%= render :partial => "demands/demand_long", :object => fd.demand %>
+</p>
+
+<p>
+  <%= I18n.t 'fulfilled_demands.fulfilled_demand_title' %>
+</p>
+<% if fd.has_initial_walk? -%>
+  <p>
+    <span class="bold"><%= I18n.t 'fulfilled_demands.initial_walk_intro' %></span>
+    <table>
+      <tr>
+        <td class="bold"><%= I18n.t 'fulfilled_demands.from'%></td>
+        <td><%= fd.departure_place.name %></td>
+        <td class="bold"><%= I18n.t 'fulfilled_demands.departure_time'%></td>
+        <td><%= I18n.l fd.departure_time, :format => :short %></td>
+      </tr>
+      <tr>
+        <td class="bold"><%= I18n.t 'fulfilled_demands.to'%></td>
+        <td><%= fd.car_departure_place.name %></td>
+      </tr>
+    </table>
+  </p>
+<% end -%>
+
+<p>
+  <span class="bold"><%= I18n.t 'fulfilled_demands.car_intro' %></span>
+  <table>
+    <tr>
+      <td class="bold"><%= I18n.t 'fulfilled_demands.from' %></td>
+      <td><%= fd.car_departure_place.name %></td>
+      <td class="bold"><%= I18n.t 'fulfilled_demands.departure_time'%></td>
+      <td><%= I18n.l fd.car_departure_time, :format => :short %></td>
+    </tr>
+    <tr>
+      <td class="bold"><%= I18n.t 'fulfilled_demands.to' %></td>
+      <td><%= fd.car_arrival_place.name %></td>
+      <td class="bold"><%= I18n.t 'fulfilled_demands.arrival_time'%></td>
+      <td><%= I18n.l fd.car_arrival_time, :format => :short %></td>
+    </tr>
+    <tr>
+      <td class="bold"><%= I18n.t 'fulfilled_demands.with' %></td>
+      <td><%= h fd.vehicle_offering.driver.qualified_name %></td>
+    </tr>
+  </table>
+</p>
+
+<% if fd.has_final_walk? -%>
+  <p>
+    <span class="bold"><%= I18n.t 'fulfilled_demands.final_walk_intro' %></span>
+    <table>
+      <tr>
+        <td class="bold"><%= I18n.t 'fulfilled_demands.from'%></td>
+        <td><%= fd.car_arrival_place.name %></td>
+      </tr>
+      <tr>
+        <td class="bold"><%= I18n.t 'fulfilled_demands.to'%></td>
+        <td><%= fd.arrival_place.name %></td>
+        <td class="bold"><%= I18n.t 'fulfilled_demands.arrival_time'%></td>
+        <td><%= I18n.l fd.arrival_time, :format => :short %></td>
+      </tr>
+    </table>
+  </p>
+<% end -%>
+
+<% if fd.guaranteed? -%>
+  <p>
+    <%= I18n.t 'fulfilled_demands.guaranteed' %>
+  </p>
+<% else -%>
+  <p>
+    <%= I18n.t('fulfilled_demands.not_guaranteed') + " " +
+      I18n.l(fd.guaranteed_since, :format => :long) %>
+  </p>
+<% end -%>
+
+<% if !fd.chilled? -%>
+  <p>
+    <%= I18n.t('fulfilled_demands.can_delete_until') + " " +
+      I18n.l(fd.chilled_since, :format => :long) %>
+  </p>
+  <p><%= button_to I18n.t('demands.form.delete'), fulfilled_demand_url(fd),
+    :method => :delete %></p>
+<% end -%>

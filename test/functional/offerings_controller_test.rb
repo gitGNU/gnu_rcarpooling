@@ -35,10 +35,81 @@ class OfferingsControllerTest < ActionController::TestCase
   end
 
 
+  test "get all offerings" do
+    user = users(:donald_duck)
+    set_authorization_header(user.nick_name, user.password)
+    get :index
+    assert_response :success
+    assert_not_nil assigns(:offerings)
+    offerings = assigns(:offerings)
+    assert_equal user.offerings, offerings
+    # testing response content
+    assert_select "offerings:root[offerer_id=#{user.id}]" +
+        "[offerer_href=#{user_url(user)}]" do
+      offerings.each do |o|
+        assert_select "offering[id=#{o.id}][href=#{offering_url(o)}]"
+      end
+    end
+  end
+
+
+  test "get all offerings format html" do
+    user = users(:donald_duck)
+    set_authorization_header(user.nick_name, user.password)
+    get :index, :format => "html"
+    assert_response :success
+    assert_not_nil assigns(:offerings)
+    offerings = assigns(:offerings)
+    assert_equal user.offerings, offerings
+  end
+
+
+  test "cannot get all offerings without credentials" do
+    get :index
+    assert_response :unauthorized
+  end
+
+
+  test "get the form for a new offering" do
+    get :new
+    assert_response :success
+    assert_not_nil assigns(:offering)
+    assert_not_nil assigns(:places)
+  end
+
+
   test "get a specific offering" do
     set_authorization_header(users(:donald_duck).nick_name,
                              users(:donald_duck).password)
     get :show,
+        :id => offerings(:donald_duck_offering_n_2_dep_in_the_past).id
+    assert_response :success
+    assert_not_nil assigns(:offering)
+    # testing response content
+    o = assigns(:offering)
+    assert_select "offering:root[id=#{o.id}][href=#{offering_url(o)}]" do
+      assert_select "departure_place[id=#{o.departure_place.id}]" +
+          "[href=#{place_url(o.departure_place)}]"
+      assert_select "arrival_place[id=#{o.arrival_place.id}]" +
+          "[href=#{place_url(o.arrival_place)}]"
+      assert_select "departure_time", o.departure_time.xmlschema
+      assert_select "arrival_time", o.arrival_time.xmlschema
+      assert_select "expiry_time", o.expiry_time.xmlschema
+      assert_select "chilled_since", o.chilled_since.xmlschema
+      assert_select "created_at", o.created_at.xmlschema
+      assert_select "travel_duration", o.travel_duration.to_s
+      assert_select "length", o.length.to_s
+      assert_select "seating_capacity", o.seating_capacity.to_s
+      assert_select "offerer[id=#{o.offerer.id}]" +
+          "[href=#{user_url(o.offerer)}]"
+    end
+  end
+
+
+  test "get a specific offering, format html" do
+    set_authorization_header(users(:donald_duck).nick_name,
+                             users(:donald_duck).password)
+    get :show, :format => "html",
         :id => offerings(:donald_duck_offering_n_2_dep_in_the_past).id
     assert_response :success
     assert_not_nil assigns(:offering)
@@ -101,6 +172,50 @@ class OfferingsControllerTest < ActionController::TestCase
         offering.arrival_time
     # check the processor
     assert @processor.process_incoming_offering_called?
+    # testing response content
+    o = assigns(:offering)
+    assert_select "offering:root[id=#{o.id}][href=#{offering_url(o)}]" do
+      assert_select "departure_place[id=#{o.departure_place.id}]" +
+          "[href=#{place_url(o.departure_place)}]"
+      assert_select "arrival_place[id=#{o.arrival_place.id}]" +
+          "[href=#{place_url(o.arrival_place)}]"
+      assert_select "departure_time", o.departure_time.xmlschema
+      assert_select "arrival_time", o.arrival_time.xmlschema
+      assert_select "expiry_time", o.expiry_time.xmlschema
+      assert_select "chilled_since", o.chilled_since.xmlschema
+      assert_select "created_at", o.created_at.xmlschema
+      assert_select "travel_duration", o.travel_duration.to_s
+      assert_select "length", o.length.to_s
+      assert_select "seating_capacity", o.seating_capacity.to_s
+      assert_select "offerer[id=#{o.offerer.id}]" +
+          "[href=#{user_url(o.offerer)}]"
+    end
+  end
+
+
+  test "create a new offering format html" do
+    set_authorization_header(users(:donald_duck).nick_name,
+                             users(:donald_duck).password)
+    departure_time = 1.hour.from_now
+    assert_difference('Offering.count', 1) do
+      post :create, :format => "html", :offering => {
+        :departure_place_id => places(:sede_di_via_ravasi).id,
+        :arrival_place_id => places(:sede_di_via_dunant).id,
+        :departure_time => departure_time,
+        :seating_capacity => 1,
+        :expiry_time => 15.minutes.from_now }
+    end
+    assert_not_nil assigns(:offering)
+    offering = assigns(:offering)
+    assert_redirected_to offering_url(offering)
+    assert_equal users(:donald_duck), offering.offerer
+    # check travel duration and length read from edges
+    edge = edges(:sede_via_ravasi_sede_via_dunant)
+    assert_equal edge.length, offering.length
+    assert_equal departure_time + edge.travel_duration.minutes,
+        offering.arrival_time
+    # check the processor
+    assert @processor.process_incoming_offering_called?
   end
 
 
@@ -116,6 +231,23 @@ class OfferingsControllerTest < ActionController::TestCase
         :expiry_time => 15.minutes.from_now }
     end
     assert_response :unprocessable_entity
+    # check the processor
+    assert ! @processor.process_incoming_offering_called?
+  end
+
+
+  test "create a new offering but invalid, format html" do
+    set_authorization_header(users(:donald_duck).nick_name,
+                             users(:donald_duck).password)
+    assert_difference('Offering.count', 0) do
+      post :create, :format => "html", :offering => {
+        :departure_place_id => places(:sede_di_via_ravasi).id,
+        :arrival_place_id => places(:sede_di_via_dunant).id,
+        # departure_time missed
+        :seating_capacity => 1,
+        :expiry_time => 15.minutes.from_now }
+    end
+    assert_template "new"
     # check the processor
     assert ! @processor.process_incoming_offering_called?
   end
@@ -201,6 +333,19 @@ class OfferingsControllerTest < ActionController::TestCase
           :id => offerings(:mickey_mouse_offering_n_1).id
     end
     assert_response :success
+    # check the processor
+    assert @processor.revoke_offering_called?
+  end
+
+
+  test "delete an offering, format html" do
+    set_authorization_header(users(:mickey_mouse).nick_name,
+                             users(:mickey_mouse).password)
+    assert_difference('Offering.count', -1) do
+      delete :destroy, :format => "html",
+          :id => offerings(:mickey_mouse_offering_n_1).id
+    end
+    assert_redirected_to offerings_url
     # check the processor
     assert @processor.revoke_offering_called?
   end

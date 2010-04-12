@@ -37,10 +37,61 @@ class FulfilledDemandsControllerTest < ActionController::TestCase
 
 
   test "get a specific fulfilled demand" do
-    set_authorization_header(users(:mickey_mouse).nick_name,
-                             users(:mickey_mouse).password)
-    get :show, :id => fulfilled_demands(:fulfilled_demand_n_1).id
+    set_authorization_header(users(:donald_duck).nick_name,
+                             users(:donald_duck).password)
+    get :show, :id => fulfilled_demands(:fulfilled_demand_N).id
     assert_response :success
+    assert_not_nil assigns(:fulfilled_demand)
+    # testing response content
+    fd = assigns(:fulfilled_demand)
+    assert_select "fulfilled_demand:root[id=#{fd.id}]" +
+        "[href=#{fulfilled_demand_url(fd)}]" do
+      assert_select "demand[id=#{fd.demand.id}]" +
+          "[href=#{demand_url(fd.demand)}]"
+      assert_select "suitor[id=#{fd.suitor.id}]" +
+          "[href=#{user_url(fd.suitor)}]"
+      assert_select "departure_place[id=#{fd.departure_place.id}]" +
+          "[href=#{place_url(fd.departure_place)}]"
+      assert_select "departure_time", fd.departure_time.xmlschema
+      assert_select "arrival_place[id=#{fd.arrival_place.id}]" +
+          "[href=#{place_url(fd.arrival_place)}]"
+      assert_select "arrival_time", fd.arrival_time.xmlschema
+      assert_select "guaranteed_since", fd.guaranteed_since.xmlschema
+      assert_select "car" do
+        assert_select "offering[id=#{fd.vehicle_offering.id}]" +
+            "[href=#{used_offering_url(fd.vehicle_offering)}]"
+        assert_select "travel_duration", fd.car_travel_duration.to_s
+        assert_select "length", fd.car_length.to_s
+        assert_select "departure_place[id=#{fd.car_departure_place.id}]" +
+          "[href=#{place_url(fd.car_departure_place)}]"
+        assert_select "departure_time", fd.car_departure_time.xmlschema
+        assert_select "arrival_place[id=#{fd.car_arrival_place.id}]" +
+          "[href=#{place_url(fd.car_arrival_place)}]"
+        assert_select "arrival_time", fd.car_arrival_time.xmlschema
+      end
+      if fd.has_initial_walk?
+        assert_select "initial_walk" do
+          assert_select "travel_duration", fd.initial_walk_duration.to_s
+          assert_select "length", fd.initial_walk_length.to_s
+        end
+      end
+      if fd.has_final_walk?
+        assert_select "final_walk" do
+          assert_select "travel_duration", fd.final_walk_duration.to_s
+          assert_select "length", fd.final_walk_length.to_s
+        end
+      end
+    end
+  end
+
+
+  test "get a specific fulfilled demand format html" do
+    set_authorization_header(users(:donald_duck).nick_name,
+                             users(:donald_duck).password)
+    get :show, :id => fulfilled_demands(:fulfilled_demand_N).id,
+        :format => "html"
+    assert_response :success
+    assert_template "show"
     assert_not_nil assigns(:fulfilled_demand)
   end
 
@@ -74,6 +125,20 @@ class FulfilledDemandsControllerTest < ActionController::TestCase
       delete :destroy, :id => fulfilled_demands(:fulfilled_demand_n_2).id
     end
     assert_response :success
+    # check the processor
+    assert @processor.revoke_fulfilled_demand_called?
+    assert @processor.revoke_demand_called?
+  end
+
+
+  test "delete a fulfilled demand format html" do
+    set_authorization_header(users(:mickey_mouse).nick_name,
+                             users(:mickey_mouse).password)
+    assert_difference('FulfilledDemand.count', -1) do
+      delete :destroy, :id => fulfilled_demands(:fulfilled_demand_n_2).id,
+          :format => "html"
+    end
+    assert_redirected_to demands_url
     # check the processor
     assert @processor.revoke_fulfilled_demand_called?
     assert @processor.revoke_demand_called?

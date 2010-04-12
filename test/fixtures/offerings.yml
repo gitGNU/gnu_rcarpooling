@@ -75,3 +75,13 @@ offering_with_used_offering_and_frozen:
   length: 10000
   seating_capacity: 4
   offerer: mickey_mouse
+
+offering_N:
+  departure_place: stazione_fnm
+  arrival_place: sede_di_via_dunant
+  departure_time: <%= 1.hour.from_now.utc.to_s(:db) %>
+  arrival_time: <%= 2.hours.from_now.utc.to_s(:db) %>
+  expiry_time: <%= 40.minutes.from_now.utc.to_s(:db) %>
+  length: 5000
+  seating_capacity: 3
+  offerer: mickey_mouse

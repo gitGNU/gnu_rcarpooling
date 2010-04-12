@@ -1,0 +1,47 @@
+<%
+# Copyright (C) 2010  Roberto Maestroni
+#
+# This file is part of Rcarpooling.
+#
+# Rcarpooling is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Rcarpooling is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero Public License for more details.
+#
+# You should have received a copy of the GNU Affero Public License
+# along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
+-%>
+<% uo = @used_offering -%>
+<% content_for(:navigation_path) do -%>
+  <%= render :partial => "partials/navigation_path",
+    :object => ["/", offerings_path, offering_path(uo.offering)] %>
+<% end -%>
+
+<p>
+  <%= I18n.t 'used_offerings.offering_intro' %>
+  <%= render :partial => "offerings/offering_long", :object => uo.offering %>
+</p>
+
+<p>
+  <%= I18n.t 'used_offerings.actual_seating_capacity' %>
+  <%= uo.seating_capacity %>
+</p>
+
+<p>
+  <%= I18n.t 'used_offerings.passengers_intro' %>
+  <ul>
+    <% uo.passengers.each do |p| -%>
+      <li><%= h p.qualified_name %></li>
+    <% end -%>
+  </ul>
+</p>
+
+<% if !uo.chilled? -%>
+  <%= button_to I18n.t('offerings.form.delete'), used_offering_url(uo),
+    :method => :delete %>
+<% end -%>

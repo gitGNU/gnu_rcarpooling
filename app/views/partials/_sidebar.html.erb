@@ -52,15 +52,21 @@
   <% end -%>
 </div>
 <div class="sidebar-entry">
-  <%= link_to I18n.t('sidebar.guide'), "/guide" %>
-</div>
-<div class="sidebar-entry">
-  <%= link_to I18n.t('sidebar.about_us'), "/authors" %>
-</div>
-<div class="sidebar-entry">
   <%= link_to I18n.t('sidebar.sign_up'),  new_user_url %>
 </div>
 <div class="sidebar-entry">
   <%= link_to I18n.t('sidebar.personal_area'), me_users_url %>
+</div>
+<div class="sidebar-entry">
+  <%= link_to I18n.t('sidebar.your_demands'), demands_url %>
+</div>
+<div class="sidebar-entry">
+  <%= link_to I18n.t('sidebar.your_offerings'), offerings_url %>
+</div>
+<div class="sidebar-entry">
+  <%= link_to I18n.t('sidebar.new_demand'), new_demand_url %>
+</div>
+<div class="sidebar-entry">
+  <%= link_to I18n.t('sidebar.new_offering'), new_offering_url %>
 </div>
 <%= yield :sidebar %>

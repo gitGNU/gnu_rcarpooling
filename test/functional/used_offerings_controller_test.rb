@@ -37,9 +37,41 @@ class UsedOfferingsControllerTest < ActionController::TestCase
 
 
   test "get a specific used offering" do
-    set_authorization_header(users(:donald_duck).nick_name,
-                             users(:donald_duck).password)
-    get :show, :id => used_offerings(:donald_duck_offering_n_1_used).id
+    set_authorization_header(users(:mickey_mouse).nick_name,
+                             users(:mickey_mouse).password)
+    get :show, :id => used_offerings(:used_offering_N).id
+    assert_response :success
+    assert_not_nil assigns(:used_offering)
+    # testing response content
+    uo = assigns(:used_offering)
+    assert_select "used_offering:root[id=#{uo.id}]" +
+        "[href=#{used_offering_url(uo)}]" do
+      assert_select "offerer[id=#{uo.offerer.id}]" +
+          "[href=#{user_url(uo.offerer)}]"
+      assert_select "offering[id=#{uo.offering.id}]" +
+          "[href=#{offering_url(uo.offering)}]"
+      assert_select "departure_place[id=#{uo.departure_place.id}]" +
+          "[href=#{place_url(uo.departure_place)}]"
+      assert_select "arrival_place[id=#{uo.arrival_place.id}]" +
+          "[href=#{place_url(uo.arrival_place)}]"
+      assert_select "departure_time", uo.departure_time.xmlschema
+      assert_select "arrival_time", uo.arrival_time.xmlschema
+      assert_select "expiry_time", uo.expiry_time.xmlschema
+      assert_select "chilled_since", uo.chilled_since.xmlschema
+      assert_select "passengers" do
+        uo.passengers.each do |p|
+          assert_select "passenger[id=#{p.id}][href=#{user_url(p)}]"
+        end
+      end
+    end
+  end
+
+
+  test "get a specific used offering, format html" do
+    set_authorization_header(users(:mickey_mouse).nick_name,
+                             users(:mickey_mouse).password)
+    get :show, :format => "html",
+        :id => used_offerings(:used_offering_N).id
     assert_response :success
     assert_not_nil assigns(:used_offering)
   end
@@ -74,6 +106,20 @@ class UsedOfferingsControllerTest < ActionController::TestCase
       delete :destroy, :id => used_offerings(:used_offering_2).id
     end
     assert_response :success
+    # check the processor
+    assert @processor.revoke_used_offering_called?
+    assert @processor.revoke_offering_called?
+  end
+
+
+  test "delete a used offering, format html" do
+    offering = used_offerings(:used_offering_2)
+    set_authorization_header(offering.offerer.nick_name,
+                             offering.offerer.password)
+    assert_difference('UsedOffering.count', -1) do
+      delete :destroy, :format => "html", :id => offering.id
+    end
+    assert_redirected_to offerings_url
     # check the processor
     assert @processor.revoke_used_offering_called?
     assert @processor.revoke_offering_called?
@@ -134,6 +180,7 @@ class UsedOfferingsControllerTest < ActionController::TestCase
 
 
   private
+
 
   class OfferingProcessorMockFactory
 

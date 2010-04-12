@@ -16,9 +16,11 @@
 # along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
 
 ActionController::Routing::Routes.draw do |map|
-  map.resources :offerings, :only => [:show, :create, :destroy]
+  map.resources :offerings, :only => [:show, :create, :destroy, :new,
+                                      :index]
   map.resources :used_offerings, :only => [:show, :destroy]
-  map.resources :demands, :only => [:show, :create, :destroy]
+  map.resources :demands, :only => [:show, :create, :destroy, :new,
+                                    :index]
   map.resources :fulfilled_demands, :only => [:show, :destroy]
   map.resources :places, :only => [:index, :show]
   map.resources :users, :only => [:show, :update, :create, :edit, :new],

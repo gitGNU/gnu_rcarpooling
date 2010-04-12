@@ -29,3 +29,30 @@ segment_1_of_fulfilled_demand_n_3:
   type: SegmentByCar
   fulfilled_demand: fulfilled_demand_n_3
   vehicle_offering: used_offering_3_to_a_frozen_offering
+
+segment_N_n1:
+  type: SegmentOnFoot
+  fulfilled_demand: fulfilled_demand_N
+  order_number: 1
+  departure_place: sede_di_via_ravasi
+  arrival_place: stazione_fnm
+  departure_time: <%= 50.minutes.from_now.utc.to_s(:db) %>
+  length: 800
+  travel_duration: 8
+
+segment_N_n2:
+  type: SegmentByCar
+  fulfilled_demand: fulfilled_demand_N
+  order_number: 2
+  vehicle_offering: used_offering_N
+
+segment_N_n3:
+  type: SegmentOnFoot
+  fulfilled_demand: fulfilled_demand_N
+  order_number: 3
+  departure_place: sede_di_via_dunant
+  arrival_place: sede_di_via_monte_generoso
+  departure_time: <%= 2.hours.from_now.utc.to_s(:db) %>
+  length: 500
+  travel_duration: 5
+

@@ -115,7 +115,7 @@ class Offering < ActiveRecord::Base
   def expiry_time_must_be_later_than_or_equal_to_2_hours_before_departure_time
     if expiry_time and departure_time
       unless expiry_time >= (departure_time - 2.hours)
-        errors.add(:expiry_time, I18n.t("activerecord.errors.messages." +
+        errors.add(:expiry_time, I18n.t("activerecord.errors.messages.offering." +
                                         "expiry_time_must_be_later_than_" +
                                        "or_equal_to_2_hours_before_departure_time"))
       end

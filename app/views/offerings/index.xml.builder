@@ -15,16 +15,9 @@
 # You should have received a copy of the GNU Affero Public License
 # along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
 
-# this is chilled
-fulfilled_demand_n_1:
-  demand: demand_with_solution_n_1
-
-#this isn't chilled
-fulfilled_demand_n_2:
-  demand: demand_with_solution_n_2
-
-fulfilled_demand_n_3:
-  demand: demand_with_solution_n_2
-
-fulfilled_demand_N:
-  demand: demand_N
+xml.offerings(:offerer_id => @offerer.id,
+              :offerer_href => user_url(@offerer)) do
+  @offerings.each do |o|
+    xml.offering(:id => o.id, :href => offering_url(o))
+  end
+end

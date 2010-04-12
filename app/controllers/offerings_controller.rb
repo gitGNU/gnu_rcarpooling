@@ -17,16 +17,35 @@
 
 class OfferingsController < ApplicationController
 
-  before_filter :authenticate
+  before_filter :authenticate, :except => "new"
 
-  # GET /offerings/id
+  # GET /offerings
+  def index
+    @offerer = User.find(params[:uid])
+    @offerings = @offerer.offerings.find(:all, :order => "created_at DESC")
+    respond_to do |format|
+      format.xml
+      format.html
+    end
+  end
+
+
+  # GET /offerings/new
+  def new
+    @offering = Offering.new
+    @places = Place.find :all
+  end
+
+
+  # GET /offerings/:id
   def show
     @offering = Offering.find_by_id(params[:id])
     if @offering
       if @offering.offerer == User.find(params[:uid])
         unless @offering.in_use?
           respond_to do |format|
-            format.xml { render :xml => @offering }
+            format.xml
+            format.html
           end
         else
           redirect_to( used_offering_url(@offering.used_offering),
@@ -66,19 +85,23 @@ class OfferingsController < ApplicationController
       processor.process_incoming_offering(@offering)
       #
       respond_to do |format|
-        format.xml { render :xml => @offering, :status => :created,
+        format.xml { render :action => "show", :status => :created,
                      :location => @offering }
+        format.html { flash[:notice] = I18n.t('notices.offering_created')
+                      redirect_to offering_url(@offering) }
       end
     else
       respond_to do |format|
         format.xml { render :xml => @offering.errors,
                      :status => :unprocessable_entity }
+        format.html { @places = Place.find :all
+                      render :action => "new" }
       end
     end
   end
 
 
-  # DELETE /offerings/id
+  # DELETE /offerings/:id
   def destroy
     @offering = Offering.find_by_id(params[:id])
     if @offering
@@ -91,7 +114,12 @@ class OfferingsController < ApplicationController
             processor = OfferingProcessorFactory.build_processor
             processor.revoke_offering(@offering)
             @offering.destroy
-            head :ok
+            respond_to do |format|
+              format.xml { head :ok }
+              format.html { flash[:notice] =
+                            I18n.t('notices.offering_deleted')
+                          redirect_to offerings_url }
+            end
           else
             head :method_not_allowed
           end
