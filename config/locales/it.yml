@@ -118,6 +118,7 @@ it:
 
         user:
           sex_inclusion: "deve essere 'M' oppure 'F'"
+          wrong_credential: "credenziale errata"
 
 
   layout:
@@ -139,6 +140,7 @@ it:
     offerings_new: "offri&nbsp;un&nbsp;passaggio"
     offerings_index: "le&nbsp;tue&nbsp;offerte"
     offerings_show: "dettagli&nbsp;offerta"
+    users_login: "login"
 
   sidebar:
     guide: "Istruzioni per l'uso"
@@ -147,7 +149,8 @@ it:
     sign_up: "Registrati"
     not_logged_in: "Non sei autenticato"
     logged_as: "Sei autenticato come:"
-    login_warning: "per uscire chiudi il browser"
+    login_link: "Login"
+    logout_button_label: "Esci"
     language: "Lingua:"
     new_demand: "Chiedi un passaggio"
     your_demands: "Le tue richieste"
@@ -163,6 +166,9 @@ it:
     offering_created: "La tua offerta &egrave; stata salvata con successo"
     offering_deleted: "L'offerta &egrave; stata eliminata"
     used_offering_deleted: "L'offerta &egrave; stata eliminata"
+    logout_succeded: "Disconnessione riuscita"
+    login_failed: "Nome utente o password errati"
+    login_succeded: "Autenticazione riuscita"
 
   home:
     index:
@@ -200,6 +206,7 @@ it:
     first_name: "Nome"
     last_name: "Cognome"
     nick_name: "Nome utente"
+    password: "Password"
     sex: "Sesso"
     email: "Indirizzo e-mail"
     score: "Punteggio"
@@ -207,6 +214,10 @@ it:
     lang: "Lingua per i messaggi di notifica"
     no_drivers_in_black_list: "Nessun autista nella black list"
     no_passengers_in_black_list: "Nessun passeggero nella black list"
+    login_form:
+      nick_name: "Nome utente"
+      password: "Password"
+      submit: "Invia"
 
   unwelcome_passengers:
     index: "Aggiungi un utente alla lista trascinandovi sopra un nome preso tra i \

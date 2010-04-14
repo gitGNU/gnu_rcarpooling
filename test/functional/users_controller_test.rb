@@ -283,7 +283,6 @@ class UsersControllerTest < ActionController::TestCase
 
   test "create a user, format XML" do
     requester = potential_users(:uncle_scrooge)
-    set_authorization_header(requester.account_name, requester.password)
     assert_difference('User.count', 1) do
       post :create, :format => "xml",
                     :user => {:first_name => "Uncle",
@@ -291,14 +290,16 @@ class UsersControllerTest < ActionController::TestCase
                               :email => "uncle@scrooge",
                               :sex => "M",
                               :language_id => languages(:it).id,
-                              :max_foot_length => 1000
+                              :max_foot_length => 1000,
+                              :nick_name => requester.account_name,
+                              :password => requester.password
                             }
     end
     assert_response :created
     assert_not_nil assigns(:user)
     uncle_scrooge = assigns(:user)
     assert_equal user_url(uncle_scrooge), @response.location
-    # nick name and password are the same of auth header
+    # nick name and password are the same of params sent
     assert_equal requester.account_name, uncle_scrooge.nick_name
     assert_equal requester.password, uncle_scrooge.password
   end
@@ -306,7 +307,6 @@ class UsersControllerTest < ActionController::TestCase
 
   test "create a user, format HTML" do
     requester = potential_users(:uncle_scrooge)
-    set_authorization_header(requester.account_name, requester.password)
     assert_difference('User.count', 1) do
       post :create, :format => "html",
                     :user => {:first_name => "Uncle",
@@ -314,13 +314,17 @@ class UsersControllerTest < ActionController::TestCase
                               :email => "uncle@scrooge",
                               :sex => "M",
                               :language_id => languages(:it).id,
-                              :max_foot_length => 1000
+                              :max_foot_length => 1000,
+                              :nick_name => requester.account_name,
+                              :password => requester.password
                             }
     end
     assert_not_nil assigns(:user)
     uncle_scrooge = assigns(:user)
     assert_redirected_to user_url(uncle_scrooge)
-    # nick name and password are the same of auth header
+    # check session
+    assert_equal uncle_scrooge.id, session[:uid]
+    # nick name and password are the same of params sent
     assert_equal requester.account_name, uncle_scrooge.nick_name
     assert_equal requester.password, uncle_scrooge.password
   end
@@ -336,15 +340,14 @@ class UsersControllerTest < ActionController::TestCase
                               :max_foot_length => 1000
                             }
     end
-    assert_response :unauthorized
+    assert_response :unprocessable_entity
   end
 
 
-  test "cannot create a user if my account is already registered" do
-    set_authorization_header(users(:mickey_mouse).nick_name,
-                             users(:mickey_mouse).password)
+  test "cannot create a user without credentials, format html" do
     assert_difference('User.count', 0) do
-      post :create, :user => {:first_name => "Uncle",
+      post :create, :format => "html",
+                              :user => {:first_name => "Uncle",
                               :last_name => "Scrooge",
                               :email => "uncle@scrooge",
                               :sex => "M",
@@ -352,13 +355,51 @@ class UsersControllerTest < ActionController::TestCase
                               :max_foot_length => 1000
                             }
     end
-    assert_response :unauthorized
+    assert_template "new"
+    assert_select ".errors"
+    assert !session[:uid]
+  end
+
+
+  test "cannot create a user if my account is already registered" do
+    user = users(:mickey_mouse) # already registered
+    assert_difference('User.count', 0) do
+      post :create, :user => {:first_name => "Uncle",
+                              :last_name => "Scrooge",
+                              :email => "uncle@scrooge",
+                              :sex => "M",
+                              :language_id => languages(:it).id,
+                              :max_foot_length => 1000,
+                              :nick_name => user.nick_name,
+                              :password => user.password
+                            }
+    end
+    assert_response :unprocessable_entity
+  end
+
+
+  test "cannot create a user if my account is already registered, format html" do
+    user = users(:mickey_mouse) # already registered
+    assert_difference('User.count', 0) do
+      post :create, :format => "html",
+                    :user => {:first_name => "Uncle",
+                              :last_name => "Scrooge",
+                              :email => "uncle@scrooge",
+                              :sex => "M",
+                              :language_id => languages(:it).id,
+                              :max_foot_length => 1000,
+                              :nick_name => user.nick_name,
+                              :password => user.password
+                            }
+    end
+    assert_template "new"
+    assert_select ".errors"
+    assert !session[:uid]
   end
 
 
   test "cannot create a user with wrong params, format XML" do
     requester = potential_users(:uncle_scrooge)
-    set_authorization_header(requester.account_name, requester.password)
     assert_difference('User.count', 0) do
       post :create, :format => "xml",
                   :user => {# first name missed
@@ -366,7 +407,9 @@ class UsersControllerTest < ActionController::TestCase
                               :email => "uncle@scrooge",
                               :sex => "M",
                               :language_id => languages(:it).id,
-                              :max_foot_length => 1000
+                              :max_foot_length => 1000,
+                              :nick_name => requester.account_name,
+                              :password => requester.password
                             }
     end
     assert_response :unprocessable_entity
@@ -375,7 +418,6 @@ class UsersControllerTest < ActionController::TestCase
 
   test "cannot create a user with wrong params, format HTML" do
     requester = potential_users(:uncle_scrooge)
-    set_authorization_header(requester.account_name, requester.password)
     assert_difference('User.count', 0) do
       post :create, :format => "html",
                   :user => {# first name missed
@@ -383,11 +425,50 @@ class UsersControllerTest < ActionController::TestCase
                               :email => "uncle@scrooge",
                               :sex => "M",
                               :language_id => languages(:it).id,
-                              :max_foot_length => 1000
+                              :max_foot_length => 1000,
+                              :nick_name => requester.account_name,
+                              :password => requester.password
                             }
     end
     assert_template "users/new.html.erb"
     assert_select ".errors"
+    assert !session[:uid]
+  end
+
+
+  test "cannot create a user if not a potential user, format XML" do
+    assert_difference('User.count', 0) do
+      post :create, :format => "xml",
+                    :user => {:first_name => "Uncle",
+                              :last_name => "Scrooge",
+                              :email => "uncle@scrooge",
+                              :sex => "M",
+                              :language_id => languages(:it).id,
+                              :max_foot_length => 1000,
+                              :nick_name => "foo",
+                              :password => "bar"
+                            }
+    end
+    assert_response :unprocessable_entity
+  end
+
+
+  test "cannot create a user if not a potential user, format html" do
+    assert_difference('User.count', 0) do
+      post :create, :format => "html",
+                    :user => {:first_name => "Uncle",
+                              :last_name => "Scrooge",
+                              :email => "uncle@scrooge",
+                              :sex => "M",
+                              :language_id => languages(:it).id,
+                              :max_foot_length => 1000,
+                              :nick_name => "foo",
+                              :password => "bar"
+                            }
+    end
+    assert_template "users/new.html.erb"
+    assert_select ".errors"
+    assert !session[:uid]
   end
 
 
@@ -460,5 +541,63 @@ class UsersControllerTest < ActionController::TestCase
     assert_equal u, users[0]
   end
 
+
+  # GET /login
+  test "get login form" do
+    get :login
+    assert_response :success
+    assert_equal "text/html", @response.content_type
+    assert_template "login"
+  end
+
+
+  # POST /login
+
+
+  test "post login" do
+    user = users(:mickey_mouse)
+    post :login, :nick_name => user.nick_name, :password => user.password
+    assert_redirected_to home_url
+    assert_equal user.id, session[:uid]
+    assert_equal I18n.t('notices.login_succeded'), flash[:notice]
+  end
+
+
+  test "post login with invalid credentials" do
+    post :login, :nick_name => "foo", :password => "bar"
+    assert_redirected_to login_get_url
+    assert !session[:uid]
+    assert_equal I18n.t('notices.login_failed'), flash[:notice]
+  end
+
+
+  test "cannot login if not registered" do
+    pu = potential_users(:uncle_scrooge)
+    post :login, :nick_name => pu.account_name, :password => pu.password
+    assert_redirected_to login_get_url
+    assert !session[:uid]
+    assert_equal I18n.t('notices.login_failed'), flash[:notice]
+  end
+
+
+  test "re-login with invalid credentials" do
+    user = users(:donald_duck)
+    post :login, { :nick_name => "foo", :password => "bar"},
+        {:uid => user.id}
+    assert_redirected_to login_get_url
+    assert !session[:uid]
+    assert_equal I18n.t('notices.login_failed'), flash[:notice]
+  end
+
+
+  # POST /logout
+
+  test "logout" do
+    user = users(:donald_duck)
+    post :logout, {}, {:uid => user.id}
+    assert_redirected_to home_url
+    assert !session[:uid]
+    assert_equal I18n.t('notices.logout_succeded'), flash[:notice]
+  end
 
 end

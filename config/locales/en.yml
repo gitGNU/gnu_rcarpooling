@@ -51,6 +51,7 @@ en:
 
         user:
           sex_inclusion: "should be 'M' or 'F'"
+          wrong_credential: "wrong credential"
 
   layout:
     subtitle: "this is Rcarpooling"
@@ -71,6 +72,7 @@ en:
     offerings_new: "offer&nbsp;a&nbsp;passage"
     offerings_index: "your&nbsp;offerings"
     offerings_show: "offering&nbsp;details"
+    users_login: "login"
 
   sidebar:
     guide: "User guide"
@@ -79,7 +81,8 @@ en:
     sign_up: "Sign up"
     not_logged_in: "You are not logged in"
     logged_as: "You are logged in as:"
-    login_warning: "close your browser to log out"
+    logout_button_label: "Logout"
+    login_link: "Login"
     language: "Language:"
     new_demand: "Ask for a passage"
     your_demands: "Your demands"
@@ -95,6 +98,9 @@ en:
     offering_created: "Your offering has been successfuly saved"
     offering_deleted: "Offering successfuly deleted"
     used_offering_deleted: "Offering successfuly deleted"
+    logout_succeded: "Logout succeded"
+    login_failed: "Wrong user name or password"
+    login_succeded: "Login succeded"
 
   home:
     index:
@@ -133,6 +139,7 @@ en:
     first_name: "First name"
     last_name: "Last name"
     nick_name: "Account name"
+    password: "Password"
     sex: "Sex"
     email: "E-mail address"
     score: "Score"
@@ -140,6 +147,10 @@ en:
     lang: "Favourite language for notifications"
     no_drivers_in_black_list: "There are no drivers in your black list"
     no_passengers_in_black_list: "There are no passengers in your black list"
+    login_form:
+      nick_name: "Account name"
+      password: "Password"
+      submit: "Send"
 
   unwelcome_passengers:
     index: "Add a user to your list dragging his/her name from the search results over \

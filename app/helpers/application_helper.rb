@@ -56,4 +56,25 @@ module ApplicationHelper
     ApplicationData.application_name
   end
 
+
+  def user_logged_in?
+    session[:uid] && true
+  end
+
+
+  def user_logged_nick_name(max_length = 0)
+    if session[:uid]
+      nick_name = User.find(session[:uid]).nick_name
+      if max_length == 0
+        nick_name
+      elsif max_length <= 3
+        "..."
+      else
+        nick_name.to(max_length - 4) + "..."
+      end
+    else
+      nil
+    end
+  end
+
 end

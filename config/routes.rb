@@ -31,10 +31,22 @@ ActionController::Routing::Routes.draw do |map|
         :only => [:show, :create, :destroy, :index]
   end
   #
-  map.connect '',
+  map.home '',
       :conditions => { :method => :get },
       :controller => "home",
       :action => "index"
+  map.login_get '/login',
+      :conditions => { :method => :get },
+      :controller => "users",
+      :action => "login"
+  map.login '/login',
+      :conditions => { :method => :post },
+      :controller => "users",
+      :action => "login"
+  map.logout '/logout',
+      :conditions => { :method => :post },
+      :controller => "users",
+      :action => "logout"
   map.connect '/authors',
       :conditions => { :method => :get },
       :controller => "home",

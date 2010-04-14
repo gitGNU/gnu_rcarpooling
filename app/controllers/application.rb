@@ -29,7 +29,7 @@ class ApplicationController < ActionController::Base
   # See ActionController::Base for details
   # Uncomment this to filter the contents of submitted sensitive data parameters
   # from your application log (in this case, all fields with names like "password").
-  # filter_parameter_logging :password
+  filter_parameter_logging :password
 
   before_filter :set_locale
 
@@ -38,39 +38,22 @@ class ApplicationController < ActionController::Base
 
 
   def authenticate
-    authenticate_or_request_with_http_basic do |account_name,
-        password|
-      authenticator = AuthenticatorFactory.build_authenticator(
-        account_name, password)
-      uid = authenticator.authenticate
-      if !uid or -1 == uid
-        # invalid
-        session[:account_name] = nil
-        false
-      else
-        params[:uid] = uid
-        session[:account_name] = account_name
-        true
-      end
-    end
-  end
-
-
-  def authenticate_for_create_a_user
-    authenticate_or_request_with_http_basic do |account_name,
-        password|
-      authenticator = AuthenticatorFactory.build_authenticator(
-        account_name, password)
-      uid = authenticator.authenticate
-      if -1 == uid
-        params[:nick_name] = account_name
-        params[:password] = password
-        session[:account_name] = account_name
-        true
-      else
-        # invalid
-        session[:account_name] = nil
-        false
+    if session[:uid]
+      params[:uid] = session[:uid]
+      true
+    else
+      authenticate_or_request_with_http_basic do |account_name,
+          password|
+        authenticator = AuthenticatorFactory.build_authenticator(
+          account_name, password)
+        uid = authenticator.authenticate
+        if !uid or -1 == uid
+          # invalid
+          false
+        else
+          params[:uid] = uid
+          true
+        end
       end
     end
   end

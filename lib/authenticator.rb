@@ -30,7 +30,18 @@ class Authenticator
 
 
   def authenticate
-    raise Exception.new("not yet implemented nor tested")
+    uid = User.authenticate(@account_name, @password)
+    if uid
+      uid # it is a known user, already signed
+    else
+      pu = PotentialUser.find_by_account_name_and_password(
+        @account_name, @password)
+      if pu
+        -1
+      else
+        false
+      end
+    end
   end
 
 end

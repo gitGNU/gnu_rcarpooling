@@ -17,25 +17,17 @@
 # along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
 -%>
 <!-- account section -->
-<% if session[:account_name] -%>
+<% if user_logged_in? -%>
   <div class="sidebar_entry">
-    <span class="small">
-      <%= I18n.t('sidebar.logged_as')%>
-    </span><br/>
-    <% if session[:account_name].size > 15 -%>
-      <%= session[:account_name].to(14)%>...
-    <% else -%>
-      <%= session[:account_name] %>
-    <% end -%>
-    <span class="sidebar_warning">
-      <%= I18n.t('sidebar.login_warning') %>
-    </span>
+    <span class="almost_normal"><%= I18n.t 'sidebar.logged_as' %></span><br/>
+    <span class="italic"><%= h user_logged_nick_name(15) %></span>
+    <%= button_to I18n.t('sidebar.logout_button_label'), logout_url,
+        :method => :post %>
   </div>
 <% else -%>
   <div class="sidebar_entry">
-    <span class="small">
-      <%= I18n.t('sidebar.not_logged_in') %>
-    </span>
+    <span class="almost_normal"><%= I18n.t 'sidebar.not_logged_in' %></span><br/>
+    <%= link_to I18n.t('sidebar.login_link'), login_url %>
   </div>
 <% end -%>
 <!-- end of account section -->
@@ -51,22 +43,28 @@
     </div>
   <% end -%>
 </div>
-<div class="sidebar_entry">
-  <%= link_to I18n.t('sidebar.sign_up'),  new_user_url %>
-</div>
-<div class="sidebar_entry">
-  <%= link_to I18n.t('sidebar.personal_area'), me_users_url %>
-</div>
-<div class="sidebar_entry">
-  <%= link_to I18n.t('sidebar.your_demands'), demands_url %>
-</div>
-<div class="sidebar_entry">
-  <%= link_to I18n.t('sidebar.your_offerings'), offerings_url %>
-</div>
-<div class="sidebar_entry">
-  <%= link_to I18n.t('sidebar.new_demand'), new_demand_url %>
-</div>
-<div class="sidebar_entry">
-  <%= link_to I18n.t('sidebar.new_offering'), new_offering_url %>
-</div>
+
+<% if !user_logged_in? -%>
+  <div class="sidebar_entry">
+    <%= link_to I18n.t('sidebar.sign_up'),  new_user_url %>
+  </div>
+<% end -%>
+
+<% if user_logged_in? -%>
+  <div class="sidebar_entry">
+    <%= link_to I18n.t('sidebar.personal_area'), me_users_url %>
+  </div>
+  <div class="sidebar_entry">
+    <%= link_to I18n.t('sidebar.your_demands'), demands_url %>
+  </div>
+  <div class="sidebar_entry">
+    <%= link_to I18n.t('sidebar.your_offerings'), offerings_url %>
+  </div>
+  <div class="sidebar_entry">
+    <%= link_to I18n.t('sidebar.new_demand'), new_demand_url %>
+  </div>
+  <div class="sidebar_entry">
+    <%= link_to I18n.t('sidebar.new_offering'), new_offering_url %>
+  </div>
+<% end -%>
 <%= yield :sidebar %>

@@ -15,34 +15,27 @@
 # You should have received a copy of the GNU Affero Public License
 # along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
 
-require 'lib/authenticator'
+require 'test_helper'
 
-class Authenticator # this is a fake only for development
+class AuthenticatorTest < ActiveSupport::TestCase
 
-  # the authenticator.authenticate returns false if the credentials
-  # are invalid, a uid number if the user is valid.
-  # If the user is authenticated but he is not in the DB uid == -1
-
-
-  def initialize(account_name, password)
-    @account_name = account_name
-    @password = password
+  test "valid user" do
+    user = users(:donald_duck)
+    authenticator = Authenticator.new(user.nick_name, user.password)
+    assert_equal user.id, authenticator.authenticate
   end
 
 
-  def authenticate
-    uid = User.authenticate(@account_name, @password)
-    if uid
-      uid # it is a known user, already signed
-    else
-      pu = PotentialUser.find_by_account_name_and_password(
-        @account_name, @password)
-      if pu
-        -1
-      else
-        false
-      end
-    end
+  test "potential user" do
+    pu = potential_users(:uncle_scrooge)
+    authenticator = Authenticator.new(pu.account_name, pu.password)
+    assert_equal -1, authenticator.authenticate
+  end
+
+
+  test "unknown user" do
+    auth = Authenticator.new("foo", "bar")
+    assert !auth.authenticate
   end
 
 end

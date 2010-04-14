@@ -18,9 +18,7 @@
 class UsersController < ApplicationController
 
 
-  before_filter :authenticate, :except => ["new", "create"]
-
-  before_filter :authenticate_for_create_a_user, :only => "create"
+  before_filter :authenticate, :except => ["new", "create", "login"]
 
 
   # GET /users/search
@@ -110,8 +108,7 @@ class UsersController < ApplicationController
 
   # POST /users
   def create
-    @user = User.new(:nick_name => params[:nick_name],
-                     :password => params[:password])
+    @user = User.new
     if params[:user]
       data = params[:user]
       @user.first_name = data[:first_name]
@@ -120,12 +117,23 @@ class UsersController < ApplicationController
       @user.sex = data[:sex]
       @user.language = Language.find_by_id(data[:language_id])
       @user.max_foot_length = data[:max_foot_length]
+      # account credentials
+      @user.nick_name = data[:nick_name]
+      @user.password = data[:password]
+      authenticator = Authenticator.new(data[:nick_name], data[:password])
+      if -1 != authenticator.authenticate
+        @user.errors.add(:nick_name, I18n.t("activerecord.errors.messages." +
+                                            "user.wrong_credential"))
+        @user.errors.add(:password, I18n.t("activerecord.errors.messages." +
+                                           "user.wrong_credential"))
+      end
     end
-    if @user.save
+    if @user.errors.empty? and @user.save
       respond_to do |format|
         format.xml { render :action => :show, :status => :created,
                      :location => @user }
         format.html { flash[:notice] = I18n.t('notices.user_created')
+                      session[:uid] = @user.id
                       redirect_to @user }
       end
     else
@@ -158,10 +166,37 @@ class UsersController < ApplicationController
   # GET /users/new
   def new
     @user = User.new
-    respond_to do |format|
-      format.html
+  end
+
+
+  # GET and POST /login
+  def login
+    if request.get?
+      render
+    elsif request.post?
+      authenticator = Authenticator.new(params[:nick_name],
+                                        params[:password])
+      user_id = authenticator.authenticate
+      if !user_id or -1 == user_id
+        # invalid
+        session[:uid] = nil
+        flash[:notice] = I18n.t 'notices.login_failed'
+        redirect_to login_url
+      else
+        # valid
+        session[:uid] = user_id
+        flash[:notice] = I18n.t 'notices.login_succeded'
+        redirect_to home_url
+      end
     end
   end
 
+
+  # POST /logout
+  def logout
+    session[:uid] = nil
+    flash[:notice] = I18n.t 'notices.logout_succeded'
+    redirect_to home_url
+  end
 
 end
