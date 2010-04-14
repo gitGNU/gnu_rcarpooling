@@ -20,93 +20,80 @@
   <%= render :partial => "partials/navigation_path",
       :object => ["/", user_path(@user)] %>
 <% end -%>
-<div class="user-data-outline">
-  <div class="user-data-heading">
-    <%= I18n.t('personal.user_data.heading_details')%>
-  </div>
-    <%= button_to I18n.t('personal.user_data.actions.edit_button_label'),
-      edit_user_url(@user), :method => :get, :class => "button" %>
-  <div class="user-personal-details">
-    <table>
-    <tr><td class="user-field"><%= I18n.t('personal.user_data.first_name')%>
+
+  <h3>
+    <%= I18n.t('users.heading_details')%>
+  </h3>
+  <table>
+    <tr><td><span class="bold"><%= I18n.t('users.first_name')%></span>
       </td><td><%= h @user.first_name %></td>
     </tr>
-    <tr><td class="user-field"><%= I18n.t('personal.user_data.last_name')%>
+    <tr><td><span class="bold"><%= I18n.t('users.last_name')%></span>
       </td><td><%= h @user.last_name %></td>
     </tr>
-    <tr><td class="user-field"><%= I18n.t('personal.user_data.sex')%>
+    <tr><td><span class="bold"><%= I18n.t('users.sex')%></span>
       </td><td><%= h @user.sex %></td>
     </tr>
-    <tr><td class="user-field"><%= I18n.t('personal.user_data.nick_name')%>
+    <tr><td><span class="bold"><%= I18n.t('users.nick_name')%></span>
       </td><td><%= h @user.nick_name %></td>
     </tr>
-    <tr><td class="user-field"><%= I18n.t('personal.user_data.email')%>
+    <tr><td><span class="bold"><%= I18n.t('users.email')%></span>
       </td><td><%= h @user.email %></td>
     </tr>
-    <tr><td class="user-field"><%= I18n.t('personal.user_data.score')%>
+    <tr><td><span class="bold"><%= I18n.t('users.score')%></span>
       </td><td><%= h @user.score %></td>
     </tr>
-  </table></div>
-  <div class="user-data-heading">
-    <%= I18n.t('personal.user_data.heading_prefs')%>
-  </div>
-  <%= button_to I18n.t('personal.user_data.actions.edit_button_label'),
+  </table>
+  <%= button_to I18n.t('users.actions.edit_button_label'),
       edit_user_url(@user), :method => :get, :class => "button" %>
-  <div class="user-preferences"><table>
-    <tr><td class="user-field"><%= I18n.t('personal.user_data.lang')%>
+
+  <hr/>
+
+  <h3>
+    <%= I18n.t('users.heading_prefs')%>
+  </h3>
+  <table>
+    <tr><td><span class="bold"><%= I18n.t('users.lang')%></span>
       </td><td><%= h @user.lang %></td>
     </tr>
-    <tr><td class="user-field"><%= I18n.t('personal.user_data.max_foot_length')%>
+    <tr><td><span class="bold"><%= I18n.t('users.max_foot_length')%></span>
       </td><td><%= h @user.max_foot_length %></td>
     </tr>
-  </table></div>
+  </table>
+  <%= button_to I18n.t('users.actions.edit_button_label'),
+      edit_user_url(@user), :method => :get, :class => "button" %>
+
+  <hr/>
   <!-- BLACK LISTS -->
   <!-- black list of drivers -->
-  <div class="user-data-heading">
-    <%= I18n.t('personal.user_data.heading_drivers_black_list')%>
-  </div>
-  <%= button_to I18n.t('personal.user_data.actions.edit_button_label'),
-      user_unwelcome_drivers_url(:user_id => @user.id),
-      :method => :get, :class => "button" %>
-  <div class="user-black-list">
-    <% if @user.drivers_in_black_list.empty? -%>
-      <span class="user-black-list-empty">
-        <%= I18n.t('personal.user_data.no_drivers_in_black_list')%>
+  <h3>
+    <%= I18n.t('users.heading_drivers_black_list')%>
+  </h3>
+  <% if @user.drivers_in_black_list.empty? -%>
+    <p>
+      <span class="italic">
+        <%= I18n.t('users.no_drivers_in_black_list')%>
       </span>
-    <% else -%>
-      <table>
-        <tr>
-          <td class="heading"><%= I18n.t('personal.user_data.name')%></td>
-          <td class="heading"><%= I18n.t('personal.user_data.nick_name')%></td>
-        </tr>
-        <% @user.drivers_in_black_list.each do |driver| -%>
-          <tr><td><%= h driver.name%></td><td><%= h driver.nick_name%></td></tr>
-        <% end -%>
-      </table>
-    <% end -%>
-  </div>
+    </p>
+  <% else -%>
+    <%= render :partial => "users_list", :object => @user.drivers_in_black_list %>
+  <% end -%>
+  <%= button_to I18n.t('users.actions.edit_button_label'),
+    user_unwelcome_drivers_url(:user_id => @user.id),
+    :method => :get, :class => "button" %>
+
+  <hr/>
   <!-- black list of passengers -->
-  <div class="user-data-heading">
-    <%= I18n.t('personal.user_data.heading_passengers_black_list')%>
-  </div>
-  <%= button_to I18n.t('personal.user_data.actions.edit_button_label'),
+  <h3>
+    <%= I18n.t('users.heading_passengers_black_list')%>
+  </h3>
+    <% if @user.passengers_in_black_list.empty? -%>
+      <p>
+        <span class="italic"><%= I18n.t('users.no_passengers_in_black_list')%></span>
+      </p>
+    <% else -%>
+      <%= render :partial => "users_list", :object => @user.passengers_in_black_list %>
+    <% end -%>
+    <%= button_to I18n.t('users.actions.edit_button_label'),
       user_unwelcome_passengers_url(:user_id => @user.id),
       :method => :get, :class => "button" %>
-  <div class="user-black-list">
-    <% if @user.passengers_in_black_list.empty? -%>
-      <span class="user-black-list-empty">
-        <%= I18n.t('personal.user_data.no_passengers_in_black_list')%>
-      </span>
-    <% else -%>
-      <table>
-        <tr>
-          <td class="heading"><%= I18n.t('personal.user_data.name')%></td>
-          <td class="heading"><%= I18n.t('personal.user_data.nick_name')%></td>
-        </tr>
-        <% @user.passengers_in_black_list.each do |pass| -%>
-          <tr><td><%= h pass.name%></td><td><%= h pass.nick_name%></td></tr>
-        <% end -%>
-      </table>
-    <% end -%>
-  </div>
-</div> <!-- end div class user-data -->

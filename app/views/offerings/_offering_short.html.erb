@@ -17,21 +17,31 @@
 # along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
 -%>
 <% offering = offering_short -%>
-<table class="offering_short">
+<table class="almost_normal">
   <tr>
-    <td class="bold"><%= I18n.t 'offerings.from' %></td>
-    <td><%= offering.departure_place.name %></td>
-    <td class="bold"><%= I18n.t 'offerings.departure_time'%></td>
+    <td>
+      <span class="bold"><%= I18n.t 'offerings.from' %></span>
+    </td>
+    <td><%= render :partial => "places/place", :object => offering.departure_place %></td>
+    <td>
+      <span class="bold"><%= I18n.t 'offerings.departure_time'%></span>
+    </td>
     <td><%= I18n.l offering.departure_time, :format => :short %></td>
   </tr>
   <tr>
-    <td class="bold"><%= I18n.t 'offerings.to' %></td>
-    <td><%= offering.arrival_place.name %></td>
-    <td class="bold"><%= I18n.t 'offerings.arrival_time'%></td>
+    <td>
+      <span class="bold"><%= I18n.t 'offerings.to' %></span>
+    </td>
+    <td><%= render :partial => "places/place", :object => offering.arrival_place %></td>
+    <td>
+      <span class="bold"><%= I18n.t 'offerings.arrival_time'%></span>
+    </td>
     <td><%= I18n.l offering.arrival_time, :format => :short %></td>
   </tr>
   <tr>
-    <td class="bold"><%= I18n.t 'offerings.created_at'%></td>
+    <td>
+      <span class="bold"><%= I18n.t 'offerings.created_at'%></span>
+    </td>
     <td><%= I18n.l offering.created_at, :format => :short%></td>
   </tr>
   <tr>

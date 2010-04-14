@@ -98,7 +98,7 @@ en:
 
   home:
     index:
-      intro: "Welcome to the new car-pooling system :)"
+      intro: "this is the content of home page"
     authors: "about authors"
     guide: "this is the user guide"
 
@@ -115,34 +115,31 @@ en:
       set_as_departure_place: "set as departure place"
       set_as_arrival_place: "set as arrival place"
 
-  personal:
-    user_data:
-      actions:
-        edit_button_label: "Edit"
-        save_button_label: "Save changes"
-        delete_link_name: "Delete"
-      heading_details: "Personal details"
-      heading_prefs: "Preferences"
-      heading_drivers_black_list: "Unwelcome drivers"
-      heading_passengers_black_list: "Unwelcome passengers"
-      name: "Name"
-      first_name: "First name"
-      last_name: "Last name"
-      nick_name: "Account name"
-      sex: "Sex"
-      email: "E-mail address"
-      score: "Score"
-      max_foot_length: "Max distance acceptable on foot"
-      lang: "Favourite language for notifications"
-      no_drivers_in_black_list: "There are no drivers in your black list"
-      no_passengers_in_black_list: "There are no passengers in your black list"
 
-
-  user:
+  users:
     search:
       search_button_label: "Search"
       empty_results_set: "No person found"
       title: "Search users"
+    actions:
+        edit_button_label: "Edit"
+        save_button_label: "Save changes"
+        delete_link_name: "Delete"
+    heading_details: "Personal details"
+    heading_prefs: "Preferences"
+    heading_drivers_black_list: "Unwelcome drivers"
+    heading_passengers_black_list: "Unwelcome passengers"
+    name: "Name"
+    first_name: "First name"
+    last_name: "Last name"
+    nick_name: "Account name"
+    sex: "Sex"
+    email: "E-mail address"
+    score: "Score"
+    max_foot_length: "Max distance acceptable on foot"
+    lang: "Favourite language for notifications"
+    no_drivers_in_black_list: "There are no drivers in your black list"
+    no_passengers_in_black_list: "There are no passengers in your black list"
 
   unwelcome_passengers:
     index: "Add a user to your list dragging his/her name from the search results over \

@@ -22,13 +22,13 @@
               user_unwelcome_drivers_path(:user_id => @user.id)]
   %>
 <% end -%>
-<div>
-  <%= I18n.t('unwelcome_drivers.index') %>
-</div>
-<div class="user-data-outline">
-  <%= render :partial => "unwelcome_drivers",
-    :object => @unwelcome_drivers,
-    :locals => { :user => @user } %>
-</div>
 
-<%= render :partial => "partials/user_search" %>
+<p>
+  <%= I18n.t('unwelcome_drivers.index') %>
+</p>
+
+<%= render :partial => "unwelcome_drivers",
+  :object => @unwelcome_drivers,
+  :locals => { :user => @user } %>
+
+<%= render :partial => "partials/users_search" %>

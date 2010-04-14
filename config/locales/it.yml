@@ -166,7 +166,7 @@ it:
 
   home:
     index:
-      intro: "Benvenuto nel nuovo sistema per il car-pooling :)"
+      intro: "contenuto della home page"
     authors: "sugli autori"
     guide: "questa &egrave; la guida per gli utenti"
 
@@ -182,33 +182,31 @@ it:
       set_as_departure_place: "imposta come partenza"
       set_as_arrival_place: "imposta come arrivo"
 
-  personal:
-    user_data:
-      actions:
-        edit_button_label: "Modifica"
-        save_button_label: "Salva"
-        delete_link_name: "Elimina"
-      heading_details: "Dati personali"
-      heading_prefs: "Preferenze"
-      heading_drivers_black_list: "Autisti indesiderati"
-      heading_passengers_black_list: "Passeggeri indesiderati"
-      name: "Nome"
-      first_name: "Nome"
-      last_name: "Cognome"
-      nick_name: "Nome utente"
-      sex: "Sesso"
-      email: "Indirizzo e-mail"
-      score: "Punteggio"
-      max_foot_length: "Massima distanza accettabile a piedi"
-      lang: "Lingua per i messaggi di notifica"
-      no_drivers_in_black_list: "Nessun autista nella black list"
-      no_passengers_in_black_list: "Nessun passeggero nella black list"
 
-  user:
+  users:
     search:
       search_button_label: "Cerca"
       empty_results_set: "Nessuna persona trovata"
       title: "Cerca utenti"
+    actions:
+        edit_button_label: "Modifica"
+        save_button_label: "Salva"
+        delete_link_name: "Elimina"
+    heading_details: "Dati personali"
+    heading_prefs: "Preferenze"
+    heading_drivers_black_list: "Autisti indesiderati"
+    heading_passengers_black_list: "Passeggeri indesiderati"
+    name: "Nome"
+    first_name: "Nome"
+    last_name: "Cognome"
+    nick_name: "Nome utente"
+    sex: "Sesso"
+    email: "Indirizzo e-mail"
+    score: "Punteggio"
+    max_foot_length: "Massima distanza accettabile a piedi"
+    lang: "Lingua per i messaggi di notifica"
+    no_drivers_in_black_list: "Nessun autista nella black list"
+    no_passengers_in_black_list: "Nessun passeggero nella black list"
 
   unwelcome_passengers:
     index: "Aggiungi un utente alla lista trascinandovi sopra un nome preso tra i \

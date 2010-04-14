@@ -17,26 +17,35 @@
 # along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
 -%>
 <% demand = demand_long -%>
-<table class="demand_long">
+<table>
   <tr>
-    <td class="bold"><%= I18n.t 'demands.form.labels.departure_place' %></td>
-    <td><%= demand.departure_place.name %></td>
+    <td>
+      <span class="bold"><%= I18n.t 'demands.form.labels.departure_place' %></span>
+    </td>
+    <td><%= render :partial => "places/place", :object => demand.departure_place %></td>
   </tr>
   <tr>
-    <td class="bold"><%= I18n.t 'demands.form.labels.arrival_place' %></td>
-    <td><%= demand.arrival_place.name %></td>
+    <td>
+      <span class="bold"><%= I18n.t 'demands.form.labels.arrival_place' %></span>
+    </td>
+    <td><%= render :partial => "places/place", :object => demand.arrival_place %></td>
   </tr>
   <tr>
-    <td class="bold"><%= I18n.t 'demands.created_at'%></td>
+    <td>
+      <span class="bold"><%= I18n.t 'demands.created_at'%></span>
+    </td>
     <td><%= I18n.l demand.created_at, :format => :long %></td>
   </tr>
   <tr>
-    <td class="bold"><%= I18n.t 'demands.form.labels.earliest_departure_time'%></td>
+    <td>
+      <span class="bold"><%= I18n.t 'demands.form.labels.earliest_departure_time'%></span>
+    </td>
     <td><%= I18n.l demand.earliest_departure_time, :format => :long %></td>
   </tr>
   <tr>
-    <td class="bold"><%= I18n.t 'demands.form.labels.latest_arrival_time'%></td>
+    <td>
+      <span class="bold"><%= I18n.t 'demands.form.labels.latest_arrival_time'%></span>
+    </td>
     <td><%= I18n.l demand.latest_arrival_time, :format => :long %></td>
   </tr>
-
 </table>

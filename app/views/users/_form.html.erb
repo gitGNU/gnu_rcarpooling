@@ -19,45 +19,45 @@
 <% @languages = Language.find(:all).map { |l| [l.name, l.id] } -%>
 
 <%= form.error_messages :class => "errors" %>
-<table class="user-data-outline">
+<table>
   <tr>
-    <td class="user-field">
-      <%= I18n.t('personal.user_data.first_name')%>:
+    <td>
+      <span class="bold"><%= I18n.t('users.first_name')%>:</span>
     </td>
     <td>
       <%= form.text_field :first_name, :size => 30 %>
     </td>
   </tr>
   <tr>
-    <td class="user-field">
-      <%= I18n.t('personal.user_data.last_name')%>:
+    <td>
+      <span class="bold"><%= I18n.t('users.last_name')%>:</span>
     </td>
     <td>
       <%= form.text_field :last_name, :size => 30 %>
     </td>
   </tr>
   <tr>
-    <td class="user-field">
-      <%= I18n.t('personal.user_data.email')%>:
+    <td>
+      <span class="bold"><%= I18n.t('users.email')%>:</span>
     </td>
     <td>
       <%= form.text_field :email, :size => 30 %>
     </td>
   </tr>
   <tr>
-    <td class="user-field">
-      <%= I18n.t('personal.user_data.sex')%>:
+    <td>
+      <span class="bold"><%= I18n.t('users.sex')%>:</span>
     </td>
-    <td class="user-field">
-      <%= I18n.t('gender.male')%>&nbsp;
+    <td>
+      <span class="bold"><%= I18n.t('gender.male')%>&nbsp;</span>
       <%= form.radio_button :sex, "M" %>&nbsp;&nbsp;
-      <%= I18n.t('gender.female')%>&nbsp;
+      <span class="bold"><%= I18n.t('gender.female')%>&nbsp;</span>
       <%= form.radio_button :sex, "F" %>
     </td>
   </tr>
   <tr>
-    <td class="user-field">
-      <%= I18n.t('personal.user_data.max_foot_length')%>:
+    <td>
+      <span class="bold"><%= I18n.t('users.max_foot_length')%>:</span>
     </td>
     <td>
       <%= form.select(:max_foot_length, [['500 m', 500],
@@ -71,8 +71,8 @@
     </td>
   </tr>
   <tr>
-    <td class="user-field">
-      <%= I18n.t('personal.user_data.lang')%>:
+    <td>
+      <span class="bold"><%= I18n.t('users.lang')%>:</span>
     </td>
     <td>
       <%= form.select(:language_id, @languages)%>
@@ -80,7 +80,7 @@
   </tr>
   <tr>
     <td>
-      <%= submit_tag I18n.t('personal.user_data.actions.save_button_label') %>
+      <%= submit_tag I18n.t('users.actions.save_button_label') %>
     </td>
   </tr>
 </table>

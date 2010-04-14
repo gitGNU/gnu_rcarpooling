@@ -16,18 +16,4 @@
 # You should have received a copy of the GNU Affero Public License
 # along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
 -%>
-<% if @users.empty? -%>
-  <p class="italic">
-    <%= I18n.t('users.search.empty_results_set') %>
-  </p>
-<% else -%>
-  <ul>
-    <% @users.each do |user| -%>
-      <% domid = "user_#{user.id}" -%>
-      <li class="user" id='<%= domid %>'>
-        <span><%= h user.name %></span> - <span class="italic"><%= h user.nick_name %></span>
-      </li>
-      <%= draggable_element(domid, :ghosting => true, :revert => true) %>
-    <% end -%>
-  </ul>
-<% end -%>
+<span><%= h user.name %></span> - <span class="italic"><%= h user.nick_name %></span>

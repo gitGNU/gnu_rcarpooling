@@ -17,26 +17,24 @@
 # along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
 -%>
 <% demand = demand_short -%>
-<table class="demand_short">
+<table class="almost_normal">
   <tr>
-    <td class="bold"><%= I18n.t 'demands.from' %></td>
-    <td><%= demand.departure_place.name %></td>
-    <td class="bold"><%= I18n.t 'demands.min_departure_time'%></td>
+    <td><span class="bold"><%= I18n.t 'demands.from' %></span></td>
+    <td><%= render :partial => "places/place", :object => demand.departure_place %></td>
+    <td><span class="bold"><%= I18n.t 'demands.min_departure_time'%></span></td>
     <td><%= I18n.l demand.earliest_departure_time, :format => :short %></td>
   </tr>
   <tr>
-    <td class="bold"><%= I18n.t 'demands.to' %></td>
-    <td><%= demand.arrival_place.name %></td>
-    <td class="bold"><%= I18n.t 'demands.max_arrival_time'%></td>
+    <td><span class="bold"><%= I18n.t 'demands.to' %></span></td>
+    <td><%= render :partial => "places/place", :object => demand.arrival_place %></td>
+    <td><span class="bold"><%= I18n.t 'demands.max_arrival_time'%></span></td>
     <td><%= I18n.l demand.latest_arrival_time, :format => :short %></td>
   </tr>
   <tr>
-    <td class="bold"><%= I18n.t 'demands.created_at'%></td>
+    <td><span class="bold"><%= I18n.t 'demands.created_at'%></span></td>
     <td><%= I18n.l demand.created_at, :format => :short%></td>
   </tr>
   <tr>
-    <td>
-      <%= link_to I18n.t('demands.details_link'), demand_url(demand) %>
-    </td>
+    <td><%= link_to I18n.t('demands.details_link'), demand_url(demand) %></td>
   </tr>
 </table>

@@ -16,19 +16,17 @@
 # You should have received a copy of the GNU Affero Public License
 # along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
 -%>
-<div class="search_block">
-<div class="bold">
-  <%= I18n.t('user.search.title')%>
-</div>
-<div id="user_search_form">
-  <% form_remote_tag :url => search_users_url, :method => :get,
-      :update => "user_search_results" do -%> <div>
-    <%= text_field_tag "name", nil, :size => 30, :maxlength => 40 %>&nbsp;
-    <%= submit_tag I18n.t(
-      'user.search.search_button_label') %></div>
-  <% end -%>
-</div>
 
-<div id="user_search_results">
-</div>
+<h3><%= I18n.t('users.search.title')%></h3>
+
+  <% form_remote_tag :url => search_users_url, :method => :get,
+      :update => "users_search_results" do -%>
+    <div>
+      <%= text_field_tag "name", nil, :size => 30, :maxlength => 40 %>&nbsp;
+      <%= submit_tag I18n.t('users.search.search_button_label') %>
+    </div>
+  <% end -%>
+
+
+<div id="users_search_results">
 </div>

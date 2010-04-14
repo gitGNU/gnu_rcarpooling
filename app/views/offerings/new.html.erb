@@ -21,47 +21,73 @@
     :object => ['/', offerings_path, new_offering_path ] %>
 <% end -%>
 
-<%= render :partial => "partials/map" %>
 
 <% places_choices = @places.map { |place| [place.name, place.id] } -%>
 <% form_for :offering, :url => offerings_url,
     :html => { :class => "form"} do |form| -%>
-  <div><%= error_messages_for :offering, :class => "errors" %></div>
-  <div class="form_field">
-    <div class="form_label">
-      <%= I18n.t 'offerings.form.labels.departure_time'%>
-    </div>
-      <%= form.datetime_select(:departure_time,
+  <%= error_messages_for :offering, :class => "errors" %>
+  <table>
+    <tr>
+      <td>
+        <span class="bold"><%= I18n.t 'offerings.form.labels.departure_time'%></span>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <%= form.datetime_select(:departure_time,
           :start_year => Time.now.year, :end_year => Time.now.year + 1) %>
-  </div>
-  <div class="form_field">
-    <div class="form_label">
-      <%= I18n.t 'offerings.form.labels.expiry_time'%>
-    </div>
-      <%= form.datetime_select(:expiry_time,
-          :start_year => Time.now.year, :end_year => Time.now.year + 1) %>
-  </div>
-  <div class="form_field">
-    <div class="form_label">
-      <%= I18n.t 'offerings.form.labels.departure_place'%>
-    </div>
-      <%= form.select(:departure_place_id, places_choices, {},
-        { "id" => "departure_place_select" }) %>
-  </div>
-  <div class="form_field">
-    <div class="form_label">
-      <%= I18n.t 'offerings.form.labels.arrival_place'%>
-    </div>
-      <%= form.select(:arrival_place_id, places_choices, {},
-        { "id" => "arrival_place_select" }) %>
-  </div>
-  <div class="form_field">
-    <div class="form_label">
-      <%= I18n.t 'offerings.form.labels.seating_capacity'%>
-    </div>
-      <%= form.text_field(:seating_capacity, :size => 2, :maxlength => 2) %>
-  </div>
-  <div class="form_field">
-    <%= submit_tag I18n.t('offerings.form.submit') %>
-  </div>
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <span class="bold"><%= I18n.t 'offerings.form.labels.expiry_time'%></span>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <%= form.datetime_select(:expiry_time,
+            :start_year => Time.now.year, :end_year => Time.now.year + 1) %>
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <span class="bold"><%= I18n.t 'offerings.form.labels.departure_place'%></span>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <%= form.select(:departure_place_id, places_choices, {},
+          { "id" => "departure_place_select" }) %>
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <span class="bold"><%= I18n.t 'offerings.form.labels.arrival_place'%></span>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <%= form.select(:arrival_place_id, places_choices, {},
+          { "id" => "arrival_place_select" }) %>
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <span class="bold"><%= I18n.t 'offerings.form.labels.seating_capacity'%></span>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <%= form.text_field(:seating_capacity, :size => 2, :maxlength => 2) %>
+      </td>
+    </tr>
+
+    <tr>
+      <td><%= submit_tag I18n.t('offerings.form.submit') %></td>
+    </tr>
+  </table>
 <% end -%>

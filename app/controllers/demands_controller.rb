@@ -33,7 +33,9 @@ class DemandsController < ApplicationController
 
   # GET /demands/new
   def new
-    @demand = Demand.new
+    @demand = Demand.new(:expiry_time => 10.minutes.from_now,
+                         :earliest_departure_time => 15.minutes.from_now,
+                         :latest_arrival_time => 1.hour.from_now)
     @places = Place.find :all
   end
 

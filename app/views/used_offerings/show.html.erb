@@ -22,24 +22,20 @@
     :object => ["/", offerings_path, offering_path(uo.offering)] %>
 <% end -%>
 
-<p>
-  <%= I18n.t 'used_offerings.offering_intro' %>
-  <%= render :partial => "offerings/offering_long", :object => uo.offering %>
-</p>
+<p><%= I18n.t 'used_offerings.offering_intro' %></p>
+<%= render :partial => "offerings/offering_long", :object => uo.offering %>
 
 <p>
   <%= I18n.t 'used_offerings.actual_seating_capacity' %>
   <%= uo.seating_capacity %>
 </p>
 
-<p>
-  <%= I18n.t 'used_offerings.passengers_intro' %>
+<p><%= I18n.t 'used_offerings.passengers_intro' %></p>
   <ul>
     <% uo.passengers.each do |p| -%>
-      <li><%= h p.qualified_name %></li>
+      <li><%= render :partial => "users/user", :object => p %></li>
     <% end -%>
   </ul>
-</p>
 
 <% if !uo.chilled? -%>
   <%= button_to I18n.t('offerings.form.delete'), used_offering_url(uo),

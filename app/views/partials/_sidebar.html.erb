@@ -18,8 +18,8 @@
 -%>
 <!-- account section -->
 <% if session[:account_name] -%>
-  <div class="sidebar-entry">
-    <span class="sidebar-little">
+  <div class="sidebar_entry">
+    <span class="small">
       <%= I18n.t('sidebar.logged_as')%>
     </span><br/>
     <% if session[:account_name].size > 15 -%>
@@ -27,46 +27,46 @@
     <% else -%>
       <%= session[:account_name] %>
     <% end -%>
-    <span class="sidebar-little-warning">
+    <span class="sidebar_warning">
       <%= I18n.t('sidebar.login_warning') %>
     </span>
   </div>
 <% else -%>
-  <div class="sidebar-entry">
-    <span class="sidebar-little">
+  <div class="sidebar_entry">
+    <span class="small">
       <%= I18n.t('sidebar.not_logged_in') %>
     </span>
   </div>
 <% end -%>
 <!-- end of account section -->
-<div class="sidebar-entry">
+<div class="sidebar_entry">
   <%= link_to "Home", "/" %>
 </div>
-<div class="sidebar-entry">
+<div class="sidebar_entry">
   <% form_tag '', :method => 'GET', :class => 'locale' do -%>
     <div>
-      <span class="sidebar-little"><%= I18n.t('sidebar.language')%></span>
+      <span class="small"><%= I18n.t('sidebar.language')%></span>
       <%= select_tag 'locale', options_for_select(LANGUAGES,
             I18n.locale), :onchange => 'this.form.submit()' %>
     </div>
   <% end -%>
 </div>
-<div class="sidebar-entry">
+<div class="sidebar_entry">
   <%= link_to I18n.t('sidebar.sign_up'),  new_user_url %>
 </div>
-<div class="sidebar-entry">
+<div class="sidebar_entry">
   <%= link_to I18n.t('sidebar.personal_area'), me_users_url %>
 </div>
-<div class="sidebar-entry">
+<div class="sidebar_entry">
   <%= link_to I18n.t('sidebar.your_demands'), demands_url %>
 </div>
-<div class="sidebar-entry">
+<div class="sidebar_entry">
   <%= link_to I18n.t('sidebar.your_offerings'), offerings_url %>
 </div>
-<div class="sidebar-entry">
+<div class="sidebar_entry">
   <%= link_to I18n.t('sidebar.new_demand'), new_demand_url %>
 </div>
-<div class="sidebar-entry">
+<div class="sidebar_entry">
   <%= link_to I18n.t('sidebar.new_offering'), new_offering_url %>
 </div>
 <%= yield :sidebar %>

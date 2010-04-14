@@ -22,13 +22,13 @@
               user_unwelcome_passengers_path(:user_id => @user.id)]
   %>
 <% end -%>
-<div>
-  <%= I18n.t('unwelcome_passengers.index') %>
-</div>
-<div class="user-data-outline">
-  <%= render :partial => "unwelcome_passengers",
-    :object => @unwelcome_passengers,
-    :locals => { :user => @user } %>
-</div>
 
-<%= render :partial => "partials/user_search" %>
+<p>
+  <%= I18n.t('unwelcome_passengers.index') %>
+</p>
+
+<%= render :partial => "unwelcome_passengers",
+  :object => @unwelcome_passengers,
+  :locals => { :user => @user } %>
+
+<%= render :partial => "partials/users_search" %>

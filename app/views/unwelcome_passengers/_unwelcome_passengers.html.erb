@@ -16,25 +16,18 @@
 # You should have received a copy of the GNU Affero Public License
 # along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
 -%>
-  <div class="user-black-list" id="unwelcome_passengers_set">
+  <div id="unwelcome_passengers_set">
     <% if unwelcome_passengers.empty? -%>
-      <div>
-        <span class="user-black-list-empty">
-          <%= I18n.t('personal.user_data.no_passengers_in_black_list') %>
-        </span>
-      </div>
+      <p>
+        <span class="italic"><%= I18n.t('users.no_passengers_in_black_list') %></span>
+      </p>
     <% else -%>
       <table>
-        <tr>
-          <td class="heading"><%= I18n.t('personal.user_data.name')%></td>
-          <td class="heading"><%= I18n.t('personal.user_data.nick_name')%></td>
-        </tr>
         <% unwelcome_passengers.each do |passenger| -%>
           <tr>
-            <td><%= h passenger.name %></td>
-            <td><%= h passenger.nick_name %></td>
+            <td><%= render :partial => "users/user", :object => passenger %></td>
             <td><%= link_to_remote I18n.t(
-              'personal.user_data.actions.delete_link_name'),
+              'users.actions.delete_link_name'),
               :url => user_unwelcome_passenger_url(
               :user_id => user.id, :id => passenger.id),
               :method => :delete,

@@ -33,18 +33,18 @@
   </head>
   <body>
     <div id="header"> <!-- HEADER -->
-      <span class="h1">rcarpooling</span>
-      <span class="h4"><%= I18n.t('layout.subtitle') %></span>
+      <div id="header_main_title">rcarpooling</div>
+      <div id="header_subtitle"><%= I18n.t('layout.subtitle') %></div>
     </div> <!-- end header -->
     <div id="sidebar"> <!-- SIDEBAR -->
       <%= render :partial => "partials/sidebar" %>
     </div> <!-- end sidebar -->
     <div id="content"> <!-- CONTENT -->
-      <div id="navigation-path">
+      <div id="navigation_path">
         <%= yield :navigation_path %>
       </div>
       <% if flash[:notice] -%>
-        <div id="flash_notice" class="notice">
+        <div id="flash_notice">
           <%= flash[:notice] %>
         </div>
       <% end -%>
