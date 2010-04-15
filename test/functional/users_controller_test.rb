@@ -79,6 +79,8 @@ class UsersControllerTest < ActionController::TestCase
     user = users(:donald_duck)
     user.drivers_in_black_list << users(:mickey_mouse)
     user.passengers_in_black_list << users(:mickey_mouse)
+    user.vehicle_registration_plate = "bla bla bla"
+    user.telephone_number = "123456"
     user.save!
     set_authorization_header(user.nick_name, user.password)
     get :show, :format => "xml", :id => user.id
@@ -92,6 +94,13 @@ class UsersControllerTest < ActionController::TestCase
       assert_select "email", user.email
       assert_select "lang", user.lang
       assert_select "max_foot_length", user.max_foot_length.to_s
+      if user.telephone_number
+        assert_select "telephone_number", user.telephone_number
+      end
+      if user.vehicle_registration_plate
+        assert_select "vehicle_registration_plate",
+            user.vehicle_registration_plate
+      end
       # black list
       assert_select "black_list" do
         user.drivers_in_black_list.each do |driver|
@@ -131,23 +140,40 @@ class UsersControllerTest < ActionController::TestCase
     #
     put :update, :format => "xml",
                  :id => user.id, :user => {:first_name => "Minnie",
-                                           :last_name => "MinnieLast",
+                                           :last_name => "Minnielast",
                                            :email => "new@email",
                                            :sex => "F",
-                                           :max_foot_length => 1000,
-                                           :language_id =>
-                                              languages(:it).id
+                                           :max_foot_length => 1000
                                           }
     assert_response :success
     assert_not_nil assigns(:user)
     # check the entity-body returned
     user_updated = assigns(:user)
-    assert_equal "Minnie", user_updated.first_name
-    assert_equal "MinnieLast", user_updated.last_name
+    assert_equal user.first_name, user_updated.first_name
+    assert_equal user.last_name, user_updated.last_name
     assert_equal "new@email", user_updated.email
     assert_equal "F", user_updated.sex
     assert_equal 1000, user_updated.max_foot_length
-    assert_equal languages(:it), user_updated.language
+    assert_equal user.language, user_updated.language
+    assert_nil user_updated.telephone_number
+    assert_nil user_updated.vehicle_registration_plate
+  end
+
+
+  test "update a user, check default values" do
+    user = users(:mickey_mouse)
+    set_authorization_header(user.nick_name, user.password)
+    #
+    put :update, :format => "xml",
+                 :id => user.id, :user => {:telephone_number => "",
+                                           :vehicle_registration_plate => ""
+                                          }
+    assert_response :success
+    assert_not_nil assigns(:user)
+    # check the entity-body returned
+    user_updated = assigns(:user)
+    assert_nil user_updated.telephone_number
+    assert_nil user_updated.vehicle_registration_plate
   end
 
 
@@ -157,33 +183,33 @@ class UsersControllerTest < ActionController::TestCase
     #
     put :update, :format => "html",
                 :id => user.id, :user => {:first_name => "Minnie",
-                                           :last_name => "MinnieLast",
-                                           :email => "new@email",
+                                           :last_name => "Minnielast",
                                            :sex => "F",
                                            :max_foot_length => 1000,
                                            :language_id =>
-                                              languages(:it).id
+                                              languages(:it).id,
+                                           :telephone_number => "abc",
+                                           :vehicle_registration_plate => "X"
                                           }
     assert_redirected_to user_url(user)
     assert_not_nil assigns(:user)
     # check the entity-body returned
     user_updated = assigns(:user)
-    assert_equal "Minnie", user_updated.first_name
-    assert_equal "MinnieLast", user_updated.last_name
-    assert_equal "new@email", user_updated.email
+    assert_equal user.first_name, user_updated.first_name
+    assert_equal user.last_name, user_updated.last_name
+    assert_equal user.email, user_updated.email
     assert_equal "F", user_updated.sex
     assert_equal 1000, user_updated.max_foot_length
     assert_equal languages(:it), user_updated.language
-
+    assert_equal "abc", user_updated.telephone_number
+    assert_equal "X", user_updated.vehicle_registration_plate
   end
 
 
   test "cannot update a user without credentials" do
     user = users(:mickey_mouse)
     #
-    put :update, :id => user.id, :user => {:first_name => "Minnie",
-                                           :last_name => "MinnieLast",
-                                           :email => "new@email",
+    put :update, :id => user.id, :user => {:email => "new@email",
                                            :sex => "F",
                                            :max_foot_length => 1000,
                                            :language_id =>
@@ -198,9 +224,7 @@ class UsersControllerTest < ActionController::TestCase
     set_authorization_header(users(:donald_duck).nick_name,
                              users(:donald_duck).password)
     #
-    put :update, :id => user.id, :user => {:first_name => "Minnie",
-                                           :last_name => "MinnieLast",
-                                           :email => "new@email",
+    put :update, :id => user.id, :user => {:email => "new@email",
                                            :sex => "F",
                                            :max_foot_length => 1000,
                                            :language_id =>
@@ -214,9 +238,7 @@ class UsersControllerTest < ActionController::TestCase
     user = users(:mickey_mouse)
     set_authorization_header(user.nick_name, user.password)
     #
-    put :update, :id => -1, :user => {:first_name => "Minnie",
-                                      :last_name => "MinnieLast",
-                                      :email => "new@email",
+    put :update, :id => -1, :user => {:email => "new@email",
                                       :sex => "F",
                                       :max_foot_length => 1000,
                                       :language_id =>
@@ -231,9 +253,7 @@ class UsersControllerTest < ActionController::TestCase
     set_authorization_header(user.nick_name, user.password)
     #
     put :update, :format => "xml",
-                 :id => user.id, :user => {:first_name => "",
-                                           :last_name => "MinnieLast",
-                                           :email => "new@email",
+                 :id => user.id, :user => {:email => "",
                                            :sex => "F",
                                            :max_foot_length => 1000,
                                            :language_id =>
@@ -248,15 +268,13 @@ class UsersControllerTest < ActionController::TestCase
     set_authorization_header(user.nick_name, user.password)
     #
     put :update, :format => "html",
-                 :id => user.id, :user => {:first_name => "",
-                                           :last_name => "MinnieLast",
-                                           :email => "new@email",
+                 :id => user.id, :user => {:email => "",
                                            :sex => "F",
                                            :max_foot_length => 1000,
                                            :language_id =>
                                               languages(:it).id
                                           }
-    assert_template "users/edit.html.erb"
+    assert_template "edit"
     assert_select ".errors"
   end
 
@@ -290,9 +308,11 @@ class UsersControllerTest < ActionController::TestCase
                               :email => "uncle@scrooge",
                               :sex => "M",
                               :language_id => languages(:it).id,
-                              :max_foot_length => 1000,
+                              # max_foot_length missed, assuming default value
                               :nick_name => requester.account_name,
-                              :password => requester.password
+                              :password => requester.password,
+                              :telephone_number => "123",
+                              :vehicle_registration_plate => "abc"
                             }
     end
     assert_response :created
@@ -302,6 +322,16 @@ class UsersControllerTest < ActionController::TestCase
     # nick name and password are the same of params sent
     assert_equal requester.account_name, uncle_scrooge.nick_name
     assert_equal requester.password, uncle_scrooge.password
+    # params
+    assert_equal "Uncle", uncle_scrooge.first_name
+    assert_equal "Scrooge", uncle_scrooge.last_name
+    assert_equal "uncle@scrooge", uncle_scrooge.email
+    assert_equal "M", uncle_scrooge.sex
+    assert_equal languages(:it).id, uncle_scrooge.language_id
+    # default value for max_foot_length
+    assert_equal 3000, uncle_scrooge.max_foot_length
+    assert_equal "123", uncle_scrooge.telephone_number
+    assert_equal "abc", uncle_scrooge.vehicle_registration_plate
   end
 
 
@@ -316,7 +346,9 @@ class UsersControllerTest < ActionController::TestCase
                               :language_id => languages(:it).id,
                               :max_foot_length => 1000,
                               :nick_name => requester.account_name,
-                              :password => requester.password
+                              :password => requester.password,
+                              :telephone_number => "",
+                              :vehicle_registration_plate => ""
                             }
     end
     assert_not_nil assigns(:user)
@@ -327,6 +359,15 @@ class UsersControllerTest < ActionController::TestCase
     # nick name and password are the same of params sent
     assert_equal requester.account_name, uncle_scrooge.nick_name
     assert_equal requester.password, uncle_scrooge.password
+    # params
+    assert_equal "Uncle", uncle_scrooge.first_name
+    assert_equal "Scrooge", uncle_scrooge.last_name
+    assert_equal "uncle@scrooge", uncle_scrooge.email
+    assert_equal "M", uncle_scrooge.sex
+    assert_equal languages(:it).id, uncle_scrooge.language_id
+    assert_equal 1000, uncle_scrooge.max_foot_length
+    assert_nil uncle_scrooge.telephone_number
+    assert_nil uncle_scrooge.vehicle_registration_plate
   end
 
 
@@ -599,5 +640,191 @@ class UsersControllerTest < ActionController::TestCase
     assert !session[:uid]
     assert_equal I18n.t('notices.logout_succeded'), flash[:notice]
   end
+
+
+  # GET /users/:id/picture
+
+
+  test "get picture of unexistent user" do
+    set_authorization_header(users(:donald_duck).nick_name,
+                             users(:donald_duck).password)
+    get :picture, :id => -1
+    assert_response :not_found
+  end
+
+
+  test "cannot get picture of someone's other" do
+    set_authorization_header(users(:donald_duck).nick_name,
+                             users(:donald_duck).password)
+    get :picture, :id => users(:mickey_mouse).id
+    assert_response :forbidden
+  end
+
+
+  test "user has no picture" do
+    user = users(:donald_duck)
+    set_authorization_header(user.nick_name, user.password)
+    get :picture, :id => user.id
+    assert_response :not_found
+  end
+
+
+  test "get a picture" do
+    user = users(:donald_duck)
+    set_authorization_header(user.nick_name, user.password)
+    #
+    pict = UserPicture.new
+    pict.user = user
+    pict.uploaded_data = fixture_file_upload("files/image.png", "image/png")
+    pict.save!
+    #
+    get :picture, :id => user.id
+    assert_response :success
+    assert_equal "image/png", @response.content_type
+    #
+    UserPicture.destroy_all
+  end
+
+
+  # PUT /users/:id/picture
+
+
+  test "put picture of unexistent user" do
+    set_authorization_header(users(:donald_duck).nick_name,
+                             users(:donald_duck).password)
+    put :picture, :id => -1
+    assert_response :not_found
+  end
+
+
+  test "cannot put picture of someone's other" do
+    set_authorization_header(users(:donald_duck).nick_name,
+                             users(:donald_duck).password)
+    put :picture, :id => users(:mickey_mouse).id
+    assert_response :forbidden
+  end
+
+
+  test "put a picture" do
+    user = users(:donald_duck)
+    set_authorization_header(user.nick_name, user.password)
+    assert_difference('UserPicture.count', 1) do
+      assert_difference('DbFile.count', 1) do
+        put :picture, :id => user.id,
+            :uploaded_data => fixture_file_upload("files/image.png",
+                                                  "image/png")
+      end
+    end
+    assert_response :no_content
+    #
+    UserPicture.destroy_all
+  end
+
+
+  test "put a picture to a user who already owns one" do
+    user = users(:donald_duck)
+    #
+    pict = UserPicture.new
+    pict.user = user
+    pict.uploaded_data = fixture_file_upload("files/image.png", "image/png")
+    pict.save!
+    #
+    set_authorization_header(user.nick_name, user.password)
+    assert_difference('UserPicture.count', 0) do
+      assert_difference('DbFile.count', 0) do
+        put :picture, :id => user.id,
+            :uploaded_data => fixture_file_upload("files/image.png",
+                                                  "image/png")
+      end
+    end
+    assert_response :no_content
+    #
+    UserPicture.destroy_all
+  end
+
+
+  test "put wrong data for picture" do
+    user = users(:donald_duck)
+    set_authorization_header(user.nick_name, user.password)
+    assert_difference('UserPicture.count', 0) do
+      assert_difference('DbFile.count', 0) do
+        put :picture, :id => user.id,
+            :uploaded_data => fixture_file_upload("files/text_file.txt",
+                                                  "text/plain")
+      end
+    end
+    assert_response :unprocessable_entity
+  end
+
+
+  # DELETE /users/:id/picture
+
+
+  test "delete picture of unexistent user" do
+    set_authorization_header(users(:donald_duck).nick_name,
+                             users(:donald_duck).password)
+    delete :picture, :id => -1
+    assert_response :not_found
+  end
+
+
+  test "cannot delete picture of someone's other" do
+    set_authorization_header(users(:donald_duck).nick_name,
+                             users(:donald_duck).password)
+    delete :picture, :id => users(:mickey_mouse).id
+    assert_response :forbidden
+  end
+
+
+  test "delete picture but user hasn't" do
+    user = users(:donald_duck)
+    set_authorization_header(user.nick_name, user.password)
+    delete :picture, :id => user.id
+    assert_response :not_found
+  end
+
+
+  test "delete a picture" do
+    user = users(:donald_duck)
+    set_authorization_header(user.nick_name, user.password)
+    #
+    pict = UserPicture.new
+    pict.user = user
+    pict.uploaded_data = fixture_file_upload("files/image.png",
+                                             "image/png")
+    pict.save!
+    #
+    assert_difference('UserPicture.count', -1) do
+      assert_difference('DbFile.count', -1) do
+        delete :picture, :id => user.id
+      end
+    end
+    assert_response :ok
+    #
+    UserPicture.destroy_all
+  end
+
+
+  test "delete a picture by xhr" do
+    user = users(:donald_duck)
+    set_authorization_header(user.nick_name, user.password)
+    #
+    pict = UserPicture.new
+    pict.user = user
+    pict.uploaded_data = fixture_file_upload("files/image.png",
+                                             "image/png")
+    pict.save!
+    #
+    assert_difference('UserPicture.count', -1) do
+      assert_difference('DbFile.count', -1) do
+        xhr(:delete, :picture, :id => user.id)
+      end
+    end
+    assert_response :success
+    assert_equal "text/javascript", @response.content_type
+    #
+    UserPicture.destroy_all
+  end
+
 
 end

@@ -40,8 +40,43 @@
     <tr><td><span class="bold"><%= I18n.t('users.email')%></span>
       </td><td><%= h @user.email %></td>
     </tr>
+    <tr><td><span class="bold"><%= I18n.t('users.telephone_number')%></span>
+      </td>
+      <td>
+        <% if @user.telephone_number -%>
+          <%= h @user.telephone_number %>
+        <% else -%>
+          <span class="italic"><%= I18n.t 'users.telephone_number_not_set' %></span>
+        <% end -%>
+      </td>
+    </tr>
+    <tr><td><span class="bold"><%= I18n.t('users.vehicle_registration_plate')%></span>
+      </td>
+      <td>
+        <% if @user.vehicle_registration_plate -%>
+          <%= h @user.vehicle_registration_plate %>
+        <% else -%>
+          <span class="italic"><%= I18n.t 'users.vehicle_registration_plate_not_set' %></span>
+        <% end -%>
+      </td>
+    </tr>
     <tr><td><span class="bold"><%= I18n.t('users.score')%></span>
       </td><td><%= h @user.score %></td>
+    </tr>
+    <tr>
+      <td><span class="bold"><%= I18n.t 'users.picture' %></span></td>
+      <td>
+        <%= render :partial => "picture", :object => @user.picture,
+          :locals => {:user => @user} %>
+      </td>
+      <% if @user.has_picture? -%>
+        <td id='<%= "delete_picture_user_#{@user.id}" %>'>
+          <%= button_to_remote I18n.t('users.actions.delete_picture_button_label'),
+            :url => picture_user_url(@user), :method => :delete,
+            :confirm => I18n.t('are_you_sure?'),
+            :html => { :class => "button" } %>
+        </td>
+      <% end -%>
     </tr>
   </table>
   <%= button_to I18n.t('users.actions.edit_button_label'),
@@ -49,9 +84,7 @@
 
   <hr/>
 
-  <h3>
-    <%= I18n.t('users.heading_prefs')%>
-  </h3>
+  <h3><%= I18n.t('users.heading_prefs')%></h3>
   <table>
     <tr><td><span class="bold"><%= I18n.t('users.lang')%></span>
       </td><td><%= h @user.lang %></td>

@@ -72,8 +72,6 @@ class UsersController < ApplicationController
       if params[:uid] == @user.id
         if params[:user]
           data = params[:user]
-          @user.first_name = data[:first_name] if data[:first_name]
-          @user.last_name = data[:last_name] if data[:last_name]
           @user.email = data[:email] if data[:email]
           @user.sex = data[:sex] if data[:sex]
           if data[:max_foot_length]
@@ -81,6 +79,13 @@ class UsersController < ApplicationController
           end
           if data[:language_id]
             @user.language = Language.find_by_id(data[:language_id])
+          end
+          if data[:telephone_number]
+            @user.telephone_number = data[:telephone_number]
+          end
+          if data[:vehicle_registration_plate]
+            @user.vehicle_registration_plate =
+                data[:vehicle_registration_plate]
           end
         end
         # now save
@@ -116,7 +121,9 @@ class UsersController < ApplicationController
       @user.email = data[:email]
       @user.sex = data[:sex]
       @user.language = Language.find_by_id(data[:language_id])
-      @user.max_foot_length = data[:max_foot_length]
+      @user.max_foot_length = data[:max_foot_length] if data[:max_foot_length]
+      @user.telephone_number = data[:telephone_number]
+      @user.vehicle_registration_plate = data[:vehicle_registration_plate]
       # account credentials
       @user.nick_name = data[:nick_name]
       @user.password = data[:password]
@@ -198,5 +205,55 @@ class UsersController < ApplicationController
     flash[:notice] = I18n.t 'notices.logout_succeded'
     redirect_to home_url
   end
+
+
+  # GET, PUT, DELETE /users/:id/picture
+  def picture
+    @user = User.find_by_id(params[:id])
+    if @user
+      if @user.id != params[:uid]
+        head :forbidden
+      else
+        if request.get?
+          if @user.picture
+            pict = @user.picture
+            send_data pict.current_data, :type => pict.content_type,
+                :disposition => 'inline', :filename => pict.filename
+          else
+            head :not_found
+          end
+        elsif request.put?
+          @user.picture.destroy if @user.picture
+          @user.picture = UserPicture.new(
+            :uploaded_data => params[:uploaded_data])
+          if @user.picture.save
+            head :no_content
+          else
+            render :xml => @user.picture.errors,
+                :status => :unprocessable_entity
+          end
+        elsif request.delete?
+          if @user.picture
+            @user.picture.destroy
+            if request.xhr?
+              render :update do |page|
+                page.replace "picture_user_#{@user.id}",
+                    :partial => "picture", :object => nil,
+                    :locals => {:user => @user}
+                page.remove "delete_picture_user_#{@user.id}"
+              end
+            else
+              head :ok
+            end
+          else
+            head :not_found
+          end
+        end
+      end
+    else
+      head :not_found
+    end
+  end
+
 
 end

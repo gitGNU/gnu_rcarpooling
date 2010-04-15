@@ -16,15 +16,16 @@
 # You should have received a copy of the GNU Affero Public License
 # along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
 -%>
+<% @languages = Language.find(:all).map { |l| [l.name, l.id] } -%>
+
 <% content_for(:navigation_path) do -%>
   <%= render :partial => "partials/navigation_path",
       :object => ["/", new_user_path] %>
 <% end -%>
 
 <% form_for :user, :url => {:action => :create} do |form| %>
-  <% @languages = Language.find(:all).map { |l| [l.name, l.id] } -%>
 
-<%= form.error_messages :class => "errors" %>
+  <%= form.error_messages :class => "errors" %>
   <table>
     <tr>
       <td>
@@ -75,21 +76,6 @@
         <%= form.radio_button :sex, "M" %>&nbsp;&nbsp;
         <span class="bold"><%= I18n.t('gender.female')%>&nbsp;</span>
         <%= form.radio_button :sex, "F" %>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <span class="bold"><%= I18n.t('users.max_foot_length')%>:</span>
-      </td>
-      <td>
-        <%= form.select(:max_foot_length, [['500 m', 500],
-                                          ['1 km', 1000],
-                                          ['1.5 km', 1500],
-                                          ['2 km', 2000],
-                                          ['2.5 km', 2500],
-                                          ['3 km', 3000],
-                                          ['4 km', 4000],
-                                          ['5 km', 5000]])%>
       </td>
     </tr>
     <tr>

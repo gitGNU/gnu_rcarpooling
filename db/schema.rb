@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100326102747) do
+ActiveRecord::Schema.define(:version => 20100415142544) do
 
   create_table "black_list_drivers_entries", :force => true do |t|
     t.integer  "user_id"
@@ -21,6 +21,12 @@ ActiveRecord::Schema.define(:version => 20100326102747) do
   create_table "black_list_passengers_entries", :force => true do |t|
     t.integer  "user_id"
     t.integer  "passenger_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "db_files", :force => true do |t|
+    t.binary   "data"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -113,6 +119,19 @@ ActiveRecord::Schema.define(:version => 20100326102747) do
     t.integer  "seating_capacity"
   end
 
+  create_table "user_pictures", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "content_type"
+    t.string   "filename"
+    t.string   "thumbnail"
+    t.integer  "size"
+    t.integer  "width"
+    t.integer  "height"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "db_file_id"
+  end
+
   create_table "users", :force => true do |t|
     t.string   "first_name"
     t.string   "last_name"
@@ -121,10 +140,12 @@ ActiveRecord::Schema.define(:version => 20100326102747) do
     t.string   "password"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "score",           :default => 0
+    t.integer  "score",                      :default => 0
     t.integer  "language_id"
     t.string   "sex"
-    t.integer  "max_foot_length", :default => 3000
+    t.integer  "max_foot_length",            :default => 3000
+    t.string   "telephone_number"
+    t.string   "vehicle_registration_plate"
   end
 
 end

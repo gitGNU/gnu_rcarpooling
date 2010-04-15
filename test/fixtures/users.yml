@@ -15,8 +15,6 @@
 # You should have received a copy of the GNU Affero Public License
 # along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
 
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-
 donald_duck:
   first_name: Donald
   last_name: Duck
@@ -36,8 +34,8 @@ mickey_mouse:
   sex: M
 
 usery:
-  first_name: user
-  last_name: y
+  first_name: User
+  last_name: Y
   nick_name: usery
   email: user@y.boh
   password: usery
@@ -45,8 +43,8 @@ usery:
   sex: M
 
 useryD:
-  first_name: user
-  last_name: yD
+  first_name: User
+  last_name: Yd
   nick_name: useryD
   email: user@yD.boh
   password: useryD
@@ -54,7 +52,7 @@ useryD:
   sex: M
 
 user_N:
-  first_name: user
+  first_name: User
   last_name: N
   nick_name: user_N
   email: bla
@@ -63,11 +61,10 @@ user_N:
   sex: M
 
 user_N_1:
-  first_name: user
+  first_name: User
   last_name: N_1
   nick_name: user_N_1
   email: bla
   password: bla
   language: it
   sex: M
-

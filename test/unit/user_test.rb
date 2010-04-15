@@ -168,4 +168,36 @@ class UserTest < ActiveSupport::TestCase
   end
 
 
+  test "humanize first and last name" do
+    user = User.new :first_name => "uncle", :last_name => "scRooge",
+        :nick_name => "us", :email => "uncle.scrooge@foo.bar",
+        :password => "uncle", :language => languages(:en), :sex => "M"
+    assert user.save
+    assert_equal "Uncle", user.first_name
+    assert_equal "Scrooge", user.last_name
+  end
+
+
+  test "telephone empty becomes nil before validation" do
+    user = User.new :telephone_number => ""
+    user.valid?
+    assert_nil user.telephone_number
+    # but...
+    user.telephone_number = "123"
+    user.valid?
+    assert_equal "123", user.telephone_number
+  end
+
+
+  test "license plate empty becomes nil before validation" do
+    user = User.new :vehicle_registration_plate => ""
+    user.valid?
+    assert_nil user.vehicle_registration_plate
+    # but...
+    user.vehicle_registration_plate = "abc"
+    user.valid?
+    assert_equal "abc", user.vehicle_registration_plate
+  end
+
+
 end

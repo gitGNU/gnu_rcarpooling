@@ -25,6 +25,8 @@ xml.user(:id => @user.id, :href => user_url(@user)) do
   xml.email(h @user.email)
   xml.score(h @user.score)
   xml.max_foot_length(h @user.max_foot_length)
+  xml.telephone_number(h @user.telephone_number)
+  xml.vehicle_registration_plate(h @user.vehicle_registration_plate)
   xml.created_at(h @user.created_at)
   xml.updated_at(h @user.updated_at)
   xml.black_list do

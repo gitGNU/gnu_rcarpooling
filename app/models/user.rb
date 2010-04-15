@@ -47,6 +47,12 @@ class User < ActiveRecord::Base
 
   # end of black lists handling :P
 
+  # the picture image
+  has_one :picture,
+      :foreign_key => "user_id",
+      :class_name => "UserPicture",
+      :dependent => :destroy
+
 
   belongs_to :language
 
@@ -64,6 +70,23 @@ class User < ActiveRecord::Base
 
   validates_inclusion_of :sex, :in => %w{M F},
       :message => I18n.t('activerecord.errors.messages.user.sex_inclusion')
+
+
+  before_save do |user|
+    user.first_name = user.first_name.humanize
+    user.last_name = user.last_name.humanize
+  end
+
+
+  before_validation do |user|
+    if user.telephone_number and user.telephone_number.empty?
+      user.telephone_number = nil
+    end
+    if user.vehicle_registration_plate and
+        user.vehicle_registration_plate.empty?
+      user.vehicle_registration_plate = nil
+    end
+  end
 
 
   def self.authenticate(nick_name, password)
@@ -124,6 +147,11 @@ class User < ActiveRecord::Base
 
   def female?
     "F" == sex
+  end
+
+
+  def has_picture?
+    picture && true
   end
 
 end
