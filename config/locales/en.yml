@@ -73,6 +73,7 @@ en:
     offerings_index: "your&nbsp;offerings"
     offerings_show: "offering&nbsp;details"
     users_login: "login"
+    pictures_edit: "edit&nbsp;personal&nbsp;picture"
 
   sidebar:
     guide: "User guide"
@@ -101,6 +102,8 @@ en:
     logout_succeded: "Logout succeded"
     login_failed: "Wrong user name or password"
     login_succeded: "Login succeded"
+    picture_uploaded: "Picture successfuly uploaded"
+    picture_deleted: "Picture successfuly deleted"
 
   home:
     index:
@@ -132,6 +135,8 @@ en:
         save_button_label: "Save changes"
         delete_link_name: "Delete"
         delete_picture_button_label: "Delete picture"
+        upload_picture_button_label: "Upload picture"
+        edit_picture_button_label: "Edit picture"
     heading_details: "Personal details"
     heading_prefs: "Preferences"
     heading_drivers_black_list: "Unwelcome drivers"
@@ -154,6 +159,7 @@ en:
     no_drivers_in_black_list: "There are no drivers in your black list"
     no_passengers_in_black_list: "There are no passengers in your black list"
     no_picture: "No picture"
+    upload_picture: "Upload a picture"
     login_form:
       nick_name: "Account name"
       password: "Password"

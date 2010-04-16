@@ -66,17 +66,19 @@
     <tr>
       <td><span class="bold"><%= I18n.t 'users.picture' %></span></td>
       <td>
-        <%= render :partial => "picture", :object => @user.picture,
-          :locals => {:user => @user} %>
+        <%= render :partial => "pictures/picture", :object => @user.picture %>
       </td>
-      <% if @user.has_picture? -%>
-        <td id='<%= "delete_picture_user_#{@user.id}" %>'>
-          <%= button_to_remote I18n.t('users.actions.delete_picture_button_label'),
-            :url => picture_user_url(@user), :method => :delete,
-            :confirm => I18n.t('are_you_sure?'),
-            :html => { :class => "button" } %>
-        </td>
-      <% end -%>
+      <td>
+        <%= button_to I18n.t('users.actions.edit_picture_button_label'),
+          edit_user_picture_url(@user), :method => :get, :class => "button" %>
+        <% if @user.has_picture? -%>
+          <br/>
+          <%= button_to I18n.t('users.actions.delete_picture_button_label'),
+            user_picture_url(:user_id => @user.id), :method => :delete,
+            :class => "button",
+            :confirm => I18n.t('are_you_sure?') %>
+        <% end -%>
+      </td>
     </tr>
   </table>
   <%= button_to I18n.t('users.actions.edit_button_label'),

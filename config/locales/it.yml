@@ -43,6 +43,7 @@ it:
       user: "utente"
       demand: "richiesta"
       offering: "offerta"
+      picture: "immagine"
 
     attributes:
 
@@ -71,6 +72,11 @@ it:
         seating_capacity: "Posti a sedere"
         length: "Distanza"
 
+      user_picture:
+        content_type: "Tipo del contenuto"
+        size: "Dimensione"
+        filename: "Nome file"
+
 
     errors:
       template:
@@ -87,6 +93,7 @@ it:
         greater_than: "deve essere maggiore di {{count}}"
         greater_than_or_equal_to: "deve essere maggiore o uguale a \
                                   {{count}}"
+        inclusion: "non &egrave; incluso nella lista"
 
         # SPECIFIC MESSAGES
         black_list_drivers_entry:
@@ -141,6 +148,7 @@ it:
     offerings_index: "le&nbsp;tue&nbsp;offerte"
     offerings_show: "dettagli&nbsp;offerta"
     users_login: "login"
+    pictures_edit: "modifica&nbsp;foto"
 
   sidebar:
     guide: "Istruzioni per l'uso"
@@ -169,6 +177,8 @@ it:
     logout_succeded: "Disconnessione riuscita"
     login_failed: "Nome utente o password errati"
     login_succeded: "Autenticazione riuscita"
+    picture_uploaded: "Immagine caricata con successo"
+    picture_deleted: "Immagine cancellata"
 
   home:
     index:
@@ -199,6 +209,8 @@ it:
         save_button_label: "Salva"
         delete_link_name: "Elimina"
         delete_picture_button_label: "Elimina foto"
+        upload_picture_button_label: "Carica foto"
+        edit_picture_button_label: "Modifica foto"
     heading_details: "Dati personali"
     heading_prefs: "Preferenze"
     heading_drivers_black_list: "Autisti indesiderati"
@@ -221,6 +233,7 @@ it:
     no_drivers_in_black_list: "Nessun autista nella black list"
     no_passengers_in_black_list: "Nessun passeggero nella black list"
     no_picture: "Nessuna immagine"
+    upload_picture: "Carica una foto"
     login_form:
       nick_name: "Nome utente"
       password: "Password"

@@ -16,22 +16,30 @@
 # You should have received a copy of the GNU Affero Public License
 # along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
 -%>
+
 <% content_for(:navigation_path) do -%>
   <%= render :partial => "partials/navigation_path",
-        :object => ["/", "/personal",
-                    "/personal/edit?user_id=#{@user_id}"] %>
+    :object => [home_path, user_path(@user),
+                edit_user_picture_path(:user_id => @user.id) ] %>
 <% end -%>
-<script type="text/javascript">
-  //<![CDATA[
-  xhr = new XMLHttpRequest();
-  xhr.open("GET", <%= "\"" + "/users/#{@user_id}/edit" + "\""%>, true);
-  xhr.onreadystatechange = function() {
-    if (4 == xhr.readyState)
-    {
-      document.getElementById('form').innerHTML = xhr.responseText;
-    }
-  }
-  xhr.send();
-  //]]>
-</script>
-<div id="form"></div>
+
+
+<% form_for(:picture, :url => user_picture_url(@user),
+    :html => { :method => :put, :multipart => true }) do |form| %>
+  <%= form.error_messages :class => "errors" %>
+  <table>
+    <tr>
+      <td>
+        <span class="bold"><%= I18n.t 'users.upload_picture' %></span>
+      </td>
+      <td>
+        <%= form.file_field(:uploaded_data, :size => 20) %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <%= submit_tag(I18n.t('users.actions.upload_picture_button_label')) %>
+      </td>
+    </tr>
+  </table>
+<% end %>

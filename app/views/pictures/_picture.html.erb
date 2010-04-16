@@ -1,3 +1,4 @@
+<%
 # Copyright (C) 2010  Roberto Maestroni
 #
 # This file is part of Rcarpooling.
@@ -14,20 +15,10 @@
 #
 # You should have received a copy of the GNU Affero Public License
 # along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
-
-require 'test_helper'
-require 'xml'
-
-class PersonalControllerTest < ActionController::TestCase
-
-
-  test "xsl transform user is well formed" do
-    get :user
-    assert_response :success
-    #
-    xsl_doc = XML::Document.string(@response.body)
-    context = XML::Parser::Context.document(xsl_doc)
-    assert context.well_formed?
-  end
-
-end
+-%>
+  <% if picture -%>
+    <%= image_tag user_picture_url(picture.user), :width => picture.width,
+      :height => picture.height %>
+  <% else -%>
+    <span class="almost_normal"><%= I18n.t 'users.no_picture' %></span>
+  <% end -%>
