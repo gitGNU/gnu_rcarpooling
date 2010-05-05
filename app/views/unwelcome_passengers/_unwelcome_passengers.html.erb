@@ -25,7 +25,7 @@
       <table>
         <% unwelcome_passengers.each do |passenger| -%>
           <tr>
-            <td><%= render :partial => "users/user", :object => passenger %></td>
+            <td><%= render :partial => "users/user_name_complete", :object => passenger %></td>
             <td><%= link_to_remote I18n.t(
               'users.actions.delete_link_name'),
               :url => user_unwelcome_passenger_url(

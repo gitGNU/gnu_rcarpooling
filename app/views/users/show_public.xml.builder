@@ -1,4 +1,3 @@
-<%
 # Copyright (C) 2010  Roberto Maestroni
 #
 # This file is part of Rcarpooling.
@@ -15,18 +14,18 @@
 #
 # You should have received a copy of the GNU Affero Public License
 # along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
--%>
 
-<h3><%= I18n.t('users.search.title')%></h3>
-
-  <% form_remote_tag :url => search_users_url, :method => :get,
-      :update => "users_search_results" do -%>
-    <div>
-      <%= text_field_tag "name", nil, :size => 30, :maxlength => 40 %>&nbsp;
-      <%= submit_tag I18n.t('users.search.search_button_label') %>
-    </div>
-  <% end -%>
-
-
-<div id="users_search_results">
-</div>
+xml.user(:id => @user.id, :href => user_url(@user)) do
+  xml.first_name(h @user.first_name)
+  xml.last_name(h @user.last_name)
+  xml.sex(h @user.sex)
+  xml.nick_name(h @user.nick_name)
+  xml.created_at(@user.created_at.xmlschema)
+  xml.email(h @user.email) if @user.shows_email?
+  if @user.shows_telephone_number?
+    xml.telephone_number(h @user.telephone_number)
+  end
+  if @user.shows_vehicle_registration_plate?
+    xml.vehicle_registration_plate(h @user.vehicle_registration_plate)
+  end
+end

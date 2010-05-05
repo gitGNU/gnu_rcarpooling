@@ -154,4 +154,24 @@ class User < ActiveRecord::Base
     picture && true
   end
 
+
+  def shows_telephone_number?
+    telephone_number && true
+  end
+
+
+  def shows_vehicle_registration_plate?
+    vehicle_registration_plate && true
+  end
+
+
+  def shows_email?
+    true
+  end
+
+
+  def shows_picture?
+    has_picture?
+  end
+
 end

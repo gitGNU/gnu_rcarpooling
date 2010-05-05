@@ -55,7 +55,7 @@ user_N:
   first_name: User
   last_name: N
   nick_name: user_N
-  email: bla
+  email: blaa
   password: bla
   language: en
   sex: M
@@ -68,3 +68,15 @@ user_N_1:
   password: bla
   language: it
   sex: M
+
+user_N_2:
+  first_name: Name
+  last_name: Last Name
+  nick_name: user_N_2
+  email: user_N_2@foo.bar
+  password: bla
+  language: en
+  sex: M
+  telephone_number: 123
+  vehicle_registration_plate: abcde
+

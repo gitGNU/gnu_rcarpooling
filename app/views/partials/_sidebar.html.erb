@@ -52,13 +52,10 @@
 
 <% if user_logged_in? -%>
   <div class="sidebar_entry">
+    <%= link_to I18n.t('sidebar.users_search'), users_url %>
+  </div>
+  <div class="sidebar_entry">
     <%= link_to I18n.t('sidebar.personal_area'), me_users_url %>
-  </div>
-  <div class="sidebar_entry">
-    <%= link_to I18n.t('sidebar.your_demands'), demands_url %>
-  </div>
-  <div class="sidebar_entry">
-    <%= link_to I18n.t('sidebar.your_offerings'), offerings_url %>
   </div>
   <div class="sidebar_entry">
     <%= link_to I18n.t('sidebar.new_demand'), new_demand_url %>

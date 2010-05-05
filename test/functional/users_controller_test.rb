@@ -29,6 +29,8 @@ class UsersControllerTest < ActionController::TestCase
   end
 
 
+  # GET /users/:id
+
   test "get a user" do
     user = users(:donald_duck)
     set_authorization_header(user.nick_name, user.password)
@@ -52,26 +54,36 @@ class UsersControllerTest < ActionController::TestCase
   end
 
 
-  test "can get only my data" do
-    user = users(:donald_duck)
-    set_authorization_header(user.nick_name, user.password)
-    get :show, :id => users(:mickey_mouse).id
-    assert_response :forbidden
+  test "get someone other with format xml" do
+    user = users(:user_N_2)
+    set_authorization_header(users(:donald_duck).nick_name,
+                             users(:donald_duck).password)
+    get :show, :id => user.id
+    assert_response :success
+    # testing response contents
+    assert_select "user:root[id=#{user.id}][href=#{user_url(user)}]" do
+      assert_select "first_name", user.first_name
+      assert_select "last_name", user.last_name
+      assert_select "sex", user.sex
+      assert_select "nick_name", user.nick_name
+      assert_select "created_at", user.created_at.xmlschema
+      assert_select("email", user.email) if user.shows_email?
+      assert_select("telephone_number",
+                    user.telephone_number) if user.shows_telephone_number?
+      if user.shows_vehicle_registration_plate?
+        assert_select("vehicle_registration_plate",
+                      user.vehicle_registration_plate)
+      end
+    end
   end
 
 
-  test "get ME" do
-    user = users(:donald_duck)
-    set_authorization_header(user.nick_name, user.password)
-    get :me
-    assert_response :temporary_redirect
-    assert_redirected_to user
-  end
-
-
-  test "cannot get ME without credentials" do
-    get :me
-    assert_response :unauthorized
+  test "get someone other with format html" do
+    user = users(:user_N_2)
+    set_authorization_header(users(:donald_duck).nick_name,
+                             users(:donald_duck).password)
+    get :show, :id => user.id, :format => "html"
+    assert_response :success
   end
 
 
@@ -94,6 +106,8 @@ class UsersControllerTest < ActionController::TestCase
       assert_select "email", user.email
       assert_select "lang", user.lang
       assert_select "max_foot_length", user.max_foot_length.to_s
+      assert_select "created_at", user.created_at.xmlschema
+      assert_select "updated_at", user.updated_at.xmlschema
       if user.telephone_number
         assert_select "telephone_number", user.telephone_number
       end
@@ -124,10 +138,121 @@ class UsersControllerTest < ActionController::TestCase
   end
 
 
+  # GET /users
+
+
+  test "get index" do
+    set_authorization_header(users(:mickey_mouse).nick_name,
+                             users(:mickey_mouse).password)
+    get :index
+    assert_response :success
+  end
+
+
+  test "cannot get index without credentials" do
+    get :index
+    assert_response :unauthorized
+  end
+
+
+  test "get index to search without params" do
+    set_authorization_header(users(:mickey_mouse).nick_name,
+                             users(:mickey_mouse).password)
+    xhr(:get, :index)
+    assert_response :success
+    assert_not_nil assigns(:users)
+    users = assigns(:users)
+    assert users.empty?
+  end
+
+
+  test "get index to search by last name" do
+    set_authorization_header(users(:mickey_mouse).nick_name,
+                             users(:mickey_mouse).password)
+    xhr(:get, :index, :q => users(:mickey_mouse).last_name,
+        :last_name => "1")
+    assert_response :success
+    assert_not_nil assigns(:users)
+    users = assigns(:users)
+    assert !users.empty?
+  end
+
+
+  test "get index to search by nick name" do
+    set_authorization_header(users(:mickey_mouse).nick_name,
+                             users(:mickey_mouse).password)
+    xhr(:get, :index, :q => users(:donald_duck).nick_name,
+        :nick_name => "1")
+    assert_response :success
+    assert_not_nil assigns(:users)
+    users = assigns(:users)
+    assert !users.empty?
+  end
+
+
+  # GET /users/me
+
+
+  test "get ME" do
+    user = users(:donald_duck)
+    set_authorization_header(user.nick_name, user.password)
+    get :me
+    assert_response :temporary_redirect
+    assert_redirected_to user
+  end
+
+
+  test "cannot get ME without credentials" do
+    get :me
+    assert_response :unauthorized
+  end
+
+
+  # GET /users/new
+
+
   test "get a form to create a new user" do
     get :new
     assert_response :success
     assert_equal "text/html", @response.content_type
+  end
+
+
+  # GET /users/:id/edit
+
+
+  test "form for editing user's data" do
+    user = users(:donald_duck)
+    set_authorization_header(user.nick_name, user.password)
+    #
+    get :edit, :id => user.id
+    assert_response :success
+    assert_not_nil assigns(:user)
+    assert_equal "text/html", @response.content_type
+  end
+
+
+  test "cannot get the form for editing without credentials" do
+    get :edit, :id => users(:donald_duck).id
+    assert_response :unauthorized
+  end
+
+
+  test "cannot get someone's other form for editing" do
+    user = users(:donald_duck)
+    set_authorization_header(user.nick_name, user.password)
+    #
+    get :edit, :id => users(:mickey_mouse).id
+    assert_response :forbidden
+  end
+
+
+  test "get a non-existent user's form for editing" do
+    user = users(:donald_duck)
+    set_authorization_header(user.nick_name, user.password)
+    #
+    get :edit, :id => -1
+    assert_response :not_found
   end
 
 
@@ -510,76 +635,6 @@ class UsersControllerTest < ActionController::TestCase
     assert_template "users/new.html.erb"
     assert_select ".errors"
     assert !session[:uid]
-  end
-
-
-  # GET /users/:id/edit
-
-
-  test "form for editing user's data" do
-    user = users(:donald_duck)
-    set_authorization_header(user.nick_name, user.password)
-    #
-    get :edit, :id => user.id
-    assert_response :success
-    assert_not_nil assigns(:user)
-    assert_equal "text/html", @response.content_type
-  end
-
-
-  test "cannot get the form for editing without credentials" do
-    get :edit, :id => users(:donald_duck).id
-    assert_response :unauthorized
-  end
-
-
-  test "cannot get someone's other form for editing" do
-    user = users(:donald_duck)
-    set_authorization_header(user.nick_name, user.password)
-    #
-    get :edit, :id => users(:mickey_mouse).id
-    assert_response :forbidden
-  end
-
-
-  test "get a non-existent user's form for editing" do
-    user = users(:donald_duck)
-    set_authorization_header(user.nick_name, user.password)
-    #
-    get :edit, :id => -1
-    assert_response :not_found
-  end
-
-
-  # GET /users/search
-
-
-  test "search" do
-    set_authorization_header(users(:donald_duck).nick_name,
-                             users(:donald_duck).password)
-    get :search, :name => "#{users(:mickey_mouse).last_name}"
-    assert_response :success
-    assert_not_nil assigns(:users)
-    users = assigns(:users)
-    assert users.size > 0
-  end
-
-
-  test "cannot search without credentials" do
-    get :search, :name => "bla"
-    assert_response :unauthorized
-  end
-
-
-  test "search1" do
-    set_authorization_header(users(:donald_duck).nick_name,
-                             users(:donald_duck).password)
-    u = users(:mickey_mouse)
-    get :search, :name => "#{u.first_name.downcase} #{u.last_name.upcase}"
-    assert_response :success
-    assert_not_nil assigns(:users)
-    users = assigns(:users)
-    assert_equal u, users[0]
   end
 
 

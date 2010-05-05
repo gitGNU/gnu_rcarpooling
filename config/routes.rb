@@ -23,8 +23,9 @@ ActionController::Routing::Routes.draw do |map|
                                     :index]
   map.resources :fulfilled_demands, :only => [:show, :destroy]
   map.resources :places, :only => [:index, :show]
-  map.resources :users, :only => [:show, :update, :create, :edit, :new],
-      :collection => { :me => :get, :search => :get } do |user|
+  map.resources :users, :only => [:show, :update, :create, :edit, :new,
+                                  :index],
+      :collection => { :me => :get } do |user|
     user.resource :picture,
         :only => [:show, :edit, :update, :destroy]
     user.resources :unwelcome_passengers,

@@ -1,0 +1,77 @@
+<%
+# Copyright (C) 2010  Roberto Maestroni
+#
+# This file is part of Rcarpooling.
+#
+# Rcarpooling is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Rcarpooling is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero Public License for more details.
+#
+# You should have received a copy of the GNU Affero Public License
+# along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
+-%>
+<% content_for(:navigation_path) do -%>
+  <%= render :partial => "partials/navigation_path",
+      :object => [home_path, user_path(@user)] %>
+<% end -%>
+
+  <h3>
+    <%= I18n.t('users.public.heading_details') %>
+    <%= render :partial => "user_name", :object => @user %>
+  </h3>
+  <table>
+    <tr><td><span class="bold"><%= I18n.t('users.first_name')%></span>
+      </td><td><%= h @user.first_name %></td>
+    </tr>
+    <tr><td><span class="bold"><%= I18n.t('users.last_name')%></span>
+      </td><td><%= h @user.last_name %></td>
+    </tr>
+    <tr><td><span class="bold"><%= I18n.t('users.sex')%></span>
+      </td><td><%= h @user.sex %></td>
+    </tr>
+    <tr><td><span class="bold"><%= I18n.t('users.nick_name')%></span>
+      </td><td><%= h @user.nick_name %></td>
+    </tr>
+    <% if @user.shows_email? -%>
+      <tr>
+        <td><span class="bold"><%= I18n.t('users.email')%></span></td>
+        <td><%= h @user.email %></td>
+      </tr>
+    <% end -%>
+    <% if @user.shows_telephone_number? -%>
+      <tr>
+        <td><span class="bold"><%= I18n.t('users.telephone_number')%></span></td>
+        <td>
+          <%= h @user.telephone_number %>
+        </td>
+      </tr>
+    <% end -%>
+    <% if @user.shows_vehicle_registration_plate? -%>
+      <tr>
+        <td>
+          <span class="bold"><%= I18n.t('users.public.vehicle_registration_plate')%></span>
+        </td>
+        <td>
+          <%= h @user.vehicle_registration_plate %>
+        </td>
+      </tr>
+    <% end -%>
+    <% if @user.shows_picture? -%>
+      <tr>
+        <td><span class="bold"><%= I18n.t 'users.picture' %></span></td>
+        <td>
+          <%= render :partial => "pictures/picture", :object => @user.picture %>
+        </td>
+      </tr>
+    <% end -%>
+    <tr>
+      <td><span class="bold"><%= I18n.t 'users.member_since' %></span></td>
+      <td><%= I18n.l @user.created_at, :format => :long %></td>
+    </tr>
+  </table>

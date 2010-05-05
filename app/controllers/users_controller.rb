@@ -21,21 +21,27 @@ class UsersController < ApplicationController
   before_filter :authenticate, :except => ["new", "create", "login"]
 
 
-  # GET /users/search
-  def search
-    @users = []
-    name = params[:name]
-    parts = name.split(nil)
-    if parts.size == 1
-      @users.concat(User.find_all_by_last_name(parts[0]))
-      @users.concat(User.find_all_by_first_name(parts[0]))
-    elsif parts.size > 1
-      @users.concat(User.find(:all, :conditions => ["first_name = ? " +
-                                                    "and last_name = ?",
-                                                    parts[0], parts.last]))
-    end
-    respond_to do |format|
-      format.html { render :layout => false }
+  # GET /users
+  def index
+    if request.xhr?
+      query = params[:q]
+      @users = []
+      # performing query
+      if query and query.length > 0
+        if params[:last_name]
+          @users.concat(User.find_all_by_last_name(query))
+        end
+        if params[:nick_name]
+          @users.concat(User.find_all_by_nick_name(query))
+        end
+      end
+      #
+      render :update do |page|
+        page.replace_html 'users_search_results',
+            :partial => "search_results"
+      end
+    else
+      render
     end
   end
 
@@ -50,7 +56,10 @@ class UsersController < ApplicationController
           format.html
         end
       else
-        head :forbidden
+        respond_to do |format|
+          format.xml { render :template => "users/show_public.xml.builder" }
+          format.html { render :template => "users/show_public.html.erb" }
+        end
       end
     else
       head :not_found

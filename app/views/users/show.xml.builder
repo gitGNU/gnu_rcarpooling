@@ -27,8 +27,8 @@ xml.user(:id => @user.id, :href => user_url(@user)) do
   xml.max_foot_length(h @user.max_foot_length)
   xml.telephone_number(h @user.telephone_number)
   xml.vehicle_registration_plate(h @user.vehicle_registration_plate)
-  xml.created_at(h @user.created_at)
-  xml.updated_at(h @user.updated_at)
+  xml.created_at(@user.created_at.xmlschema)
+  xml.updated_at(@user.updated_at.xmlschema)
   xml.black_list do
     @user.drivers_in_black_list.each do |driver|
       xml.user(:id => driver.id, :href => user_url(driver),

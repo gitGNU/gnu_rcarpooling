@@ -200,4 +200,34 @@ class UserTest < ActiveSupport::TestCase
   end
 
 
+  test "shows telephone number" do
+    user = User.new
+    assert ! user.shows_telephone_number?
+    user.telephone_number = "123"
+    assert user.shows_telephone_number?
+  end
+
+
+  test "shows vehicle registration plate" do
+    user = User.new
+    assert ! user.shows_vehicle_registration_plate?
+    user.vehicle_registration_plate = "abc123"
+    assert user.shows_vehicle_registration_plate?
+  end
+
+
+  test "shows email" do
+    user = User.new
+    assert user.shows_email?
+  end
+
+
+  test "shows picture" do
+    user = User.new
+    assert ! user.shows_picture?
+    user.picture = UserPicture.new
+    assert user.shows_picture?
+  end
+
+
 end

@@ -22,37 +22,56 @@ class PicturesController < ApplicationController
 
   # GET /users/:user_id/picture
   def show
-    if @user.picture
-      pict = @user.picture
-      send_data pict.current_data, :type => pict.content_type,
-                :disposition => 'inline', :filename => pict.filename
+    if @user.id != params[:uid]
+      if @user.shows_picture?
+        pict = @user.picture
+        send_data pict.current_data, :type => pict.content_type,
+                  :disposition => 'inline', :filename => pict.filename
+      else
+        head :forbidden
+      end
     else
-      head :not_found
+      if @user.has_picture?
+        pict = @user.picture
+        send_data pict.current_data, :type => pict.content_type,
+                  :disposition => 'inline', :filename => pict.filename
+      else
+        head :not_found
+      end
     end
   end
 
 
   # GET /users/:user_id/edit
   def edit
+    if @user.id != params[:uid]
+      head :forbidden
+    else
+      render
+    end
   end
 
 
   # PUT /users/:user_id/picture
   def update
-    @user.picture.destroy if @user.picture
-    @user.picture = UserPicture.new(params[:picture])
-    @picture = @user.picture
-    if @picture.save
-      respond_to do |format|
-        format.xml { head :no_content }
-        format.html { flash[:notice] = I18n.t 'notices.picture_uploaded'
-                      redirect_to user_url(@user) }
-      end
+    if @user.id != params[:uid]
+      head :forbidden
     else
-      respond_to do |format|
-        format.xml { render :xml => @picture.errors,
-                      :status => :unprocessable_entity }
-        format.html { render :action => "edit" }
+      @user.picture.destroy if @user.has_picture?
+      @user.picture = UserPicture.new(params[:picture])
+      @picture = @user.picture
+      if @picture.save
+        respond_to do |format|
+          format.xml { head :no_content }
+          format.html { flash[:notice] = I18n.t 'notices.picture_uploaded'
+                        redirect_to user_url(@user) }
+        end
+      else
+        respond_to do |format|
+          format.xml { render :xml => @picture.errors,
+                        :status => :unprocessable_entity }
+          format.html { render :action => "edit" }
+        end
       end
     end
   end
@@ -60,15 +79,19 @@ class PicturesController < ApplicationController
 
   # DELETE /users/:user_id/picture
   def destroy
-    if @user.picture
-      @user.picture.destroy
-      respond_to do |format|
-        format.xml { head :ok }
-        format.html { flash[:notice] = I18n.t 'notices.picture_deleted'
-                      redirect_to user_url(@user) }
-      end
+    if @user.id != params[:uid]
+      head :forbidden
     else
-      head :not_found
+      if @user.has_picture?
+        @user.picture.destroy
+        respond_to do |format|
+          format.xml { head :ok }
+          format.html { flash[:notice] = I18n.t 'notices.picture_deleted'
+                        redirect_to user_url(@user) }
+        end
+      else
+        head :not_found
+      end
     end
   end
 
@@ -77,13 +100,8 @@ class PicturesController < ApplicationController
 
 
   def find_user
-    @user = nil
     @user = User.find_by_id(params[:user_id]) if params[:user_id]
-    if @user
-      if @user.id != params[:uid]
-        head :forbidden
-      end
-    else
+    if !@user
       head :not_found
     end
   end

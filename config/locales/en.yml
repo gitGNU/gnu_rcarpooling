@@ -74,6 +74,7 @@ en:
     offerings_show: "offering&nbsp;details"
     users_login: "login"
     pictures_edit: "edit&nbsp;personal&nbsp;picture"
+    users_index: "search&nbsp;people"
 
   sidebar:
     guide: "User guide"
@@ -89,6 +90,7 @@ en:
     your_demands: "Your demands"
     new_offering: "Offer a passage"
     your_offerings: "Your offerings"
+    users_search: Search people
 
   notices:
     user_updated: "Your data have been successfuly updated"
@@ -128,8 +130,11 @@ en:
   users:
     search:
       search_button_label: "Search"
-      empty_results_set: "No person found"
-      title: "Search users"
+      empty_results_set: "No user found"
+      title: "Search among users"
+      options: "Search options:"
+      by_nick_name_label: by account name
+      by_last_name_label: by last name
     actions:
         edit_button_label: "Edit"
         save_button_label: "Save changes"
@@ -137,6 +142,7 @@ en:
         delete_picture_button_label: "Delete picture"
         upload_picture_button_label: "Upload picture"
         edit_picture_button_label: "Edit picture"
+        drag_me: "Drag me"
     heading_details: "Personal details"
     heading_prefs: "Preferences"
     heading_drivers_black_list: "Unwelcome drivers"
@@ -164,6 +170,10 @@ en:
       nick_name: "Account name"
       password: "Password"
       submit: "Send"
+    public:
+      heading_details: Public profile of
+      vehicle_registration_plate: "Vehicle registration plate"
+    member_since: Member since
 
   unwelcome_passengers:
     index: "Add a user to your list dragging his/her name from the search results over \

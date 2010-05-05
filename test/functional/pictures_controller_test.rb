@@ -61,11 +61,30 @@ class PicturesControllerTest < ActionController::TestCase
   end
 
 
-  test "cannot get picture of someone's other" do
+  test "cannot get picture of someone who does not show" do
     set_authorization_header(users(:donald_duck).nick_name,
                              users(:donald_duck).password)
-    get :show, :user_id => users(:mickey_mouse).id
+    user = users(:mickey_mouse)
+    assert ! user.shows_picture?
+    get :show, :user_id => user.id
     assert_response :forbidden
+  end
+
+
+  test "get picture of someone who shows" do
+    set_authorization_header(users(:donald_duck).nick_name,
+                             users(:donald_duck).password)
+    user = users(:mickey_mouse)
+    #
+    pict = UserPicture.new
+    pict.user = user
+    pict.uploaded_data = fixture_file_upload("files/image.png",
+                                             "image/png")
+    pict.save!
+    #
+    assert user.shows_picture?
+    get :show, :user_id => user.id
+    assert_response :success
   end
 
 

@@ -33,7 +33,7 @@
 <p><%= I18n.t 'used_offerings.passengers_intro' %></p>
   <ul>
     <% uo.passengers.each do |p| -%>
-      <li><%= render :partial => "users/user", :object => p %></li>
+      <li><%= render :partial => "users/user_name", :object => p %></li>
     <% end -%>
   </ul>
 

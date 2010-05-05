@@ -1,0 +1,50 @@
+<%
+# Copyright (C) 2010  Roberto Maestroni
+#
+# This file is part of Rcarpooling.
+#
+# Rcarpooling is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Rcarpooling is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero Public License for more details.
+#
+# You should have received a copy of the GNU Affero Public License
+# along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
+-%>
+
+<h3><%= I18n.t('users.search.title')%></h3>
+
+  <% form_remote_tag :url => users_url, :method => :get do -%>
+    <table class='small'>
+      <tr>
+        <td>
+          <span><%= I18n.t 'users.search.options'%></span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <span><%= I18n.t 'users.search.by_nick_name_label'%></span>
+          <%= check_box_tag "nick_name", "1" %>&nbsp;
+          <span><%= I18n.t 'users.search.by_last_name_label'%></span>
+          <%= check_box_tag "last_name", "1" %>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <%= text_field_tag "q", nil, :size => 30, :maxlength => 40 %>
+        </td>
+        <td>
+          <%= submit_tag I18n.t('users.search.search_button_label') %>
+        </td>
+      </tr>
+    </table>
+  <% end -%>
+
+
+<div id="users_search_results">
+</div>

@@ -17,14 +17,8 @@
 # along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
 -%>
 <% users = users_list -%>
-<table>
-  <tr>
-    <th><%= I18n.t('users.name')%></th>
-    <th><%= I18n.t('users.nick_name')%></th>
-  </tr>
-  <% users.each do |u| -%>
-    <tr>
-      <td><%= h u.name%></td><td><%= h u.nick_name%></td>
-    </tr>
-  <% end -%>
-</table>
+<% users.each do |u| -%>
+  <div style='width: 60%; margin: 1em; padding: 0.1em;'>
+    <%= render :partial => "user_name_complete", :object => u %>
+  </div>
+<% end -%>

@@ -20,5 +20,7 @@
     <%= image_tag user_picture_url(picture.user), :width => picture.width,
       :height => picture.height %>
   <% else -%>
-    <span class="almost_normal"><%= I18n.t 'users.no_picture' %></span>
+    <div class="boxed">
+      <span class="almost_normal"><%= I18n.t 'users.no_picture' %></span>
+    </div>
   <% end -%>
