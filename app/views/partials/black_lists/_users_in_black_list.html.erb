@@ -1,0 +1,54 @@
+<%
+# Copyright (C) 2010  Roberto Maestroni
+#
+# This file is part of Rcarpooling.
+#
+# Rcarpooling is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Rcarpooling is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero Public License for more details.
+#
+# You should have received a copy of the GNU Affero Public License
+# along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
+-%>
+<div id='operation_in_progress' style='margin: 2em; display: none;'>
+  <span class='bold'><%= I18n.t 'operation_in_progress'%></span>
+  <%= image_tag "spinner1.gif" %>
+</div>
+  <div id='users_in_black_list_set'
+    style='width: 60%; margin: 1.5em; border: 2px dotted black;'>
+    <% if users_in_black_list.empty? -%>
+      <p style='text-align: center;'>
+        <span class="italic"><%= empty_message %></span>
+      </p>
+    <% else -%>
+      <table>
+        <% users_in_black_list.each do |a| -%>
+          <tr>
+            <td><%= render :partial => "users/user_name_complete", :object => a[0] %></td>
+            <td>
+              <span class="almost_normal">
+                <%= link_to_remote I18n.t('users.actions.delete_link_name'),
+                  :url => a[1],
+                  :method => :delete,
+                  :confirm => I18n.t('are_you_sure?'),
+                  :before => "$('operation_in_progress').show();",
+                  :complete => "$('operation_in_progress').hide();"%>
+              </span>
+            </td>
+          </tr>
+        <% end -%>
+      </table>
+    <% end -%>
+  </div>
+<%= drop_receiving_element('users_in_black_list_set', :accept => "user",
+  :hoverclass => "hover",
+  :with => "'unwelcome_user=' + encodeURIComponent(element.id.split('_').last())",
+  :url => url_post,
+  :before => "$('operation_in_progress').show();",
+  :complete => "$('operation_in_progress').hide();")%>

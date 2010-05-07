@@ -57,6 +57,7 @@ class UsersController < ApplicationController
         end
       else
         respond_to do |format|
+          @requester = User.find(params[:uid])
           format.xml { render :template => "users/show_public.xml.builder" }
           format.html { render :template => "users/show_public.html.erb" }
         end

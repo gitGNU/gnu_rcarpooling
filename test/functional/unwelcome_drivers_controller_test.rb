@@ -134,7 +134,7 @@ test "get index" do
     set_authorization_header(user.nick_name, user.password)
     assert_difference('BlackListDriversEntry.count', 1) do
       post :create, :user_id => user.id,
-          :unwelcome_driver => driver.id
+          :unwelcome_user => driver.id
     end
     assert_response :created
     assert_not_nil assigns(:unwelcome_driver)
@@ -159,7 +159,7 @@ test "get index" do
     set_authorization_header(user.nick_name, user.password)
     assert_difference('BlackListDriversEntry.count', 1) do
       xhr(:post, :create, :user_id => user.id,
-          :unwelcome_driver => driver.id)
+          :unwelcome_user => driver.id)
     end
     assert_response :success
     assert_not_nil assigns(:unwelcome_driver)
@@ -174,7 +174,7 @@ test "get index" do
     driver = users(:mickey_mouse)
     assert_difference('BlackListDriversEntry.count', 0) do
       post :create, :user_id => user.id,
-          :unwelcome_driver =>  driver.id
+          :unwelcome_user =>  driver.id
     end
     assert_response :unauthorized
   end
@@ -187,7 +187,7 @@ test "get index" do
     set_authorization_header(user.nick_name, user.password)
     assert_difference('BlackListDriversEntry.count', 0) do
       post :create, :user_id => other_user.id,
-          :unwelcome_driver => driver.id
+          :unwelcome_user => driver.id
     end
     assert_response :forbidden
   end
@@ -199,7 +199,7 @@ test "get index" do
     set_authorization_header(user.nick_name, user.password)
     assert_difference('BlackListDriversEntry.count', 0) do
       post :create, :user_id => -1,
-          :unwelcome_driver => driver.id
+          :unwelcome_user => driver.id
     end
     assert_response :not_found
   end
@@ -210,7 +210,7 @@ test "get index" do
     set_authorization_header(user.nick_name, user.password)
     assert_difference('BlackListDriversEntry.count', 0) do
       post :create, :user_id => user.id,
-          :unwelcome_driver => -1
+          :unwelcome_user => -1
     end
     assert_response :unprocessable_entity
   end
@@ -221,7 +221,7 @@ test "get index" do
     set_authorization_header(user.nick_name, user.password)
     assert_difference('BlackListDriversEntry.count', 0) do
       post :create, :user_id => user.id,
-          :unwelcome_driver => user.id
+          :unwelcome_user => user.id
     end
     assert_response :unprocessable_entity
   end

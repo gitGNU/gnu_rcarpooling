@@ -134,7 +134,7 @@ class UnwelcomePassengersControllerTest < ActionController::TestCase
     set_authorization_header(user.nick_name, user.password)
     assert_difference('BlackListPassengersEntry.count', 1) do
       post :create, :user_id => user.id,
-          :unwelcome_passenger => passenger.id
+          :unwelcome_user => passenger.id
     end
     assert_response :created
     assert_not_nil assigns(:unwelcome_passenger)
@@ -159,7 +159,7 @@ class UnwelcomePassengersControllerTest < ActionController::TestCase
     set_authorization_header(user.nick_name, user.password)
     assert_difference('BlackListPassengersEntry.count', 1) do
       xhr(:post, :create, :user_id => user.id,
-          :unwelcome_passenger => passenger.id)
+          :unwelcome_user => passenger.id)
     end
     assert_response :success
     assert_not_nil assigns(:unwelcome_passenger)
@@ -174,7 +174,7 @@ class UnwelcomePassengersControllerTest < ActionController::TestCase
     passenger = users(:mickey_mouse)
     assert_difference('BlackListPassengersEntry.count', 0) do
       post :create, :user_id => user.id,
-          :unwelcome_passenger =>  passenger.id
+          :unwelcome_user =>  passenger.id
     end
     assert_response :unauthorized
   end
@@ -187,7 +187,7 @@ class UnwelcomePassengersControllerTest < ActionController::TestCase
     set_authorization_header(user.nick_name, user.password)
     assert_difference('BlackListPassengersEntry.count', 0) do
       post :create, :user_id => other_user.id,
-          :unwelcome_passenger => passenger.id
+          :unwelcome_user => passenger.id
     end
     assert_response :forbidden
   end
@@ -199,7 +199,7 @@ class UnwelcomePassengersControllerTest < ActionController::TestCase
     set_authorization_header(user.nick_name, user.password)
     assert_difference('BlackListPassengersEntry.count', 0) do
       post :create, :user_id => -1,
-          :unwelcome_passenger => passenger.id
+          :unwelcome_user => passenger.id
     end
     assert_response :not_found
   end
@@ -210,7 +210,7 @@ class UnwelcomePassengersControllerTest < ActionController::TestCase
     set_authorization_header(user.nick_name, user.password)
     assert_difference('BlackListPassengersEntry.count', 0) do
       post :create, :user_id => user.id,
-          :unwelcome_passenger => -1
+          :unwelcome_user => -1
     end
     assert_response :unprocessable_entity
   end
@@ -221,7 +221,7 @@ class UnwelcomePassengersControllerTest < ActionController::TestCase
     set_authorization_header(user.nick_name, user.password)
     assert_difference('BlackListPassengersEntry.count', 0) do
       post :create, :user_id => user.id,
-          :unwelcome_passenger => user.id
+          :unwelcome_user => user.id
     end
     assert_response :unprocessable_entity
   end

@@ -84,7 +84,7 @@
   <%= button_to I18n.t('users.actions.edit_button_label'),
       edit_user_url(@user), :method => :get, :class => "button" %>
 
-  <hr/>
+  <br/>
 
   <h3><%= I18n.t('users.heading_prefs')%></h3>
   <table>
@@ -98,7 +98,7 @@
   <%= button_to I18n.t('users.actions.edit_button_label'),
       edit_user_url(@user), :method => :get, :class => "button" %>
 
-  <hr/>
+  <br/>
   <!-- BLACK LISTS -->
   <!-- black list of drivers -->
   <h3>
@@ -117,7 +117,7 @@
     user_unwelcome_drivers_url(:user_id => @user.id),
     :method => :get, :class => "button" %>
 
-  <hr/>
+  <br/>
   <!-- black list of passengers -->
   <h3>
     <%= I18n.t('users.heading_passengers_black_list')%>

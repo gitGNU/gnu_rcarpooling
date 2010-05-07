@@ -30,7 +30,7 @@ body {
   margin-right: auto;
   color: black;
   background-color: white;
-  font-size: 14pt;
+  font-size: 13pt;
   font-family: Helvetica, sans-serif;
   text-align: left;
   }
@@ -233,4 +233,5 @@ hr {
   padding: 0.5em;
   border: 1px solid black;
   }
+
 

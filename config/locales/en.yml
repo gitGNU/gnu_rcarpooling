@@ -173,15 +173,18 @@ en:
     public:
       heading_details: Public profile of
       vehicle_registration_plate: "Vehicle registration plate"
+      this_user_is: This user is
+      in_drivers_bl: in your drivers' black list
+      in_passengers_bl: in your passengers' black list
     member_since: Member since
 
   unwelcome_passengers:
-    index: "Add a user to your list dragging his/her name from the search results over \
-            the list."
+    index: You can put a person in your passengers' black list dragging his or her
+           name from the search results over the box.
 
   unwelcome_drivers:
-    index: "Add a user to your list dragging his/her name from the search results over \
-            the list."
+    index: You can put a person in your drivers' black list dragging his or her
+           name from the search results over the box.
 
   gender:
     male: "Male"
@@ -189,7 +192,11 @@ en:
 
   noscript: "JavaScript must be enable in order for you to use this application."
 
-  are_you_sure?: "Are you sure?"
+  are_you_sure?: Are you sure?
+  operation_in_progress: Operation in progress
+  done: Done
+  yes_w: "Yes"
+  no_w: "No"
 
   demands:
     form:

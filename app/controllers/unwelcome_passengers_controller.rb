@@ -43,16 +43,20 @@ class UnwelcomePassengersController < ApplicationController
 
   # POST /users/:user_id/unwelcome_passengers
   def create
-    @unwelcome_passenger = User.find_by_id(params[:unwelcome_passenger])
+    @unwelcome_passenger = User.find_by_id(params[:unwelcome_user])
     entry = BlackListPassengersEntry.new(:user => @user,
                                          :passenger => @unwelcome_passenger)
     if entry.save
       if request.xhr?
         render :update do |page|
-          page.replace 'unwelcome_passengers_set',
-              :partial => "unwelcome_passengers",
-              :object => @user.passengers_in_black_list,
-              :locals => { :user => @user }
+          page.replace 'users_in_black_list_set',
+              :partial => "partials/black_lists/users_in_black_list",
+              :object => @user.passengers_in_black_list.map { |d| [d,
+                            user_unwelcome_passenger_url(:user_id => @user.id,
+                                                      :id => d.id)]},
+              :locals => { :url_post => user_unwelcome_passengers_url(
+                                              :user_id => @user.id),
+                :empty_message => I18n.t('users.no_passengers_in_black_list')}
         end
       else
         respond_to do |format|
@@ -82,10 +86,14 @@ class UnwelcomePassengersController < ApplicationController
       entry.destroy
       if request.xhr?
         render :update do |page|
-          page.replace 'unwelcome_passengers_set',
-              :partial => "unwelcome_passengers",
-              :object => @user.passengers_in_black_list,
-              :locals => { :user => @user }
+          page.replace 'users_in_black_list_set',
+              :partial => "partials/black_lists/users_in_black_list",
+              :object => @user.passengers_in_black_list.map { |d| [d,
+                            user_unwelcome_passenger_url(:user_id => @user.id,
+                                                      :id => d.id)]},
+              :locals => { :url_post => user_unwelcome_passengers_url(
+                                              :user_id => @user.id),
+                :empty_message => I18n.t('users.no_passengers_in_black_list')}
         end
       else
         head :ok

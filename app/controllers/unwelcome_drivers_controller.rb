@@ -43,16 +43,20 @@ class UnwelcomeDriversController < ApplicationController
 
   # POST /users/:user_id/unwelcome_drivers
   def create
-    @unwelcome_driver = User.find_by_id(params[:unwelcome_driver])
+    @unwelcome_driver = User.find_by_id(params[:unwelcome_user])
     entry = BlackListDriversEntry.new(:user => @user,
-                                         :driver => @unwelcome_driver)
+                                      :driver => @unwelcome_driver)
     if entry.save
       if request.xhr?
         render :update do |page|
-          page.replace 'unwelcome_drivers_set',
-              :partial => "unwelcome_drivers",
-              :object => @user.drivers_in_black_list,
-              :locals => { :user => @user }
+          page.replace 'users_in_black_list_set',
+              :partial => "partials/black_lists/users_in_black_list",
+              :object => @user.drivers_in_black_list.map { |d| [d,
+                            user_unwelcome_driver_url(:user_id => @user.id,
+                                                      :id => d.id)]},
+              :locals => { :url_post => user_unwelcome_drivers_url(
+                                              :user_id => @user.id),
+                :empty_message => I18n.t('users.no_drivers_in_black_list')}
         end
       else
         respond_to do |format|
@@ -82,10 +86,14 @@ class UnwelcomeDriversController < ApplicationController
       entry.destroy
       if request.xhr?
         render :update do |page|
-          page.replace 'unwelcome_drivers_set',
-              :partial => "unwelcome_drivers",
-              :object => @user.drivers_in_black_list,
-              :locals => { :user => @user }
+          page.replace 'users_in_black_list_set',
+              :partial => "partials/black_lists/users_in_black_list",
+              :object => @user.drivers_in_black_list.map { |d| [d,
+                            user_unwelcome_driver_url(:user_id => @user.id,
+                                                      :id => d.id)]},
+              :locals => { :url_post => user_unwelcome_drivers_url(
+                                              :user_id => @user.id),
+                :empty_message => I18n.t('users.no_drivers_in_black_list')}
         end
       else
         head :ok

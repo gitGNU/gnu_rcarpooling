@@ -247,15 +247,20 @@ it:
     public:
       heading_details: Profilo pubblico di
       vehicle_registration_plate: Targa del veicolo
+      this_user_is: Questo utente &egrave;
+      in_drivers_bl: tra i tuoi autisti indesiderati
+      in_passengers_bl: tra i tuoi passeggeri indesiderati
     member_since: Membro a partire dal
 
   unwelcome_passengers:
-    index: "Aggiungi un utente alla lista trascinandovi sopra un nome preso tra i \
-            risultati della ricerca."
+    index: Puoi aggiungere una persona alla lista dei passeggeri indesiderati
+           trascinandone il nome dai risultati della ricerca sopra al rettangolo
+           sottostante.
 
   unwelcome_drivers:
-    index: "Aggiungi un utente alla lista trascinandovi sopra un nome preso tra i \
-            risultati della ricerca."
+    index: Puoi aggiungere una persona alla lista degli autisti indesiderati
+           trascinandone il nome dai risultati della ricerca sopra al rettangolo
+           sottostante.
 
   gender:
     male: "Maschio"
@@ -264,7 +269,11 @@ it:
   noscript: "Per utilizzare questa applicazione &egrave; indispensabile che \
             JavaScript sia abilitato."
 
-  are_you_sure?: "Sei sicuro?"
+  are_you_sure?: Sei sicuro?
+  operation_in_progress: Operazione in corso
+  done: Fatto
+  yes_w: "S&igrave;"
+  no_w: "No"
 
   demands:
     form:

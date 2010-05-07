@@ -200,6 +200,15 @@ class UserTest < ActiveSupport::TestCase
   end
 
 
+  test "telephone and vehicle plate full of spaces" do
+    user = User.new :vehicle_registration_plate => "   ",
+        :telephone_number => "  "
+    user.valid?
+    assert_nil user.vehicle_registration_plate
+    assert_nil user.telephone_number
+  end
+
+
   test "shows telephone number" do
     user = User.new
     assert ! user.shows_telephone_number?

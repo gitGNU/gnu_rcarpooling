@@ -75,3 +75,28 @@
       <td><%= I18n.l @user.created_at, :format => :long %></td>
     </tr>
   </table>
+
+    <span><%= I18n.t 'users.public.this_user_is' %></span>
+    <ul>
+      <li>
+        <span><%= I18n.t 'users.public.in_drivers_bl' %></span>:
+        <span class='bold'>
+          <% if @requester.drivers_in_black_list.include?(@user) -%>
+            <%= I18n.t 'yes_w' %>
+          <% else -%>
+            <%= I18n.t 'no_w' %>
+          <% end -%>
+        </span>
+      </li>
+      <li>
+        <span><%= I18n.t 'users.public.in_passengers_bl' %></span>:
+        <span class='bold'>
+          <% if @requester.passengers_in_black_list.include?(@user) -%>
+            <%= I18n.t 'yes_w' %>
+          <% else -%>
+            <%= I18n.t 'no_w' %>
+          <% end -%>
+        </span>
+      </li>
+    </ul>
+

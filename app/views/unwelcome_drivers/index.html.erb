@@ -27,8 +27,12 @@
   <%= I18n.t('unwelcome_drivers.index') %>
 </p>
 
-<%= render :partial => "unwelcome_drivers",
-  :object => @unwelcome_drivers,
-  :locals => { :user => @user } %>
+<%= render :partial => "partials/black_lists/users_in_black_list",
+  :object => @unwelcome_drivers.map { |d| [d, user_unwelcome_driver_url(
+        :user_id => @user.id, :id => d.id)]},
+  :locals => { :url_post => user_unwelcome_drivers_url(:user_id => @user.id),
+               :empty_message => I18n.t('users.no_drivers_in_black_list')} %>
+
+<%= button_to I18n.t('done'), user_url(@user), :method => :get %>
 
 <%= render :partial => "users/search" %>

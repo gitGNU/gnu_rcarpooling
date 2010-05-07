@@ -20,17 +20,20 @@ class User < ActiveRecord::Base
 
   has_many :demands,
       :foreign_key => "suitor_id",
-      :class_name => "Demand"
+      :class_name => "Demand",
+      :dependent => :nullify
 
 
   has_many :offerings,
       :foreign_key => "offerer_id",
-      :class_name => "Offering"
+      :class_name => "Offering",
+      :dependent => :nullify
 
 
   # black lists handling :)
 
-  has_many :black_list_drivers_entries
+  has_many :black_list_drivers_entries,
+      :dependent => :destroy
 
 
   has_many :drivers_in_black_list,
@@ -38,7 +41,8 @@ class User < ActiveRecord::Base
       :source => :driver
 
 
-  has_many :black_list_passengers_entries
+  has_many :black_list_passengers_entries,
+      :dependent => :destroy
 
 
   has_many :passengers_in_black_list,
@@ -79,12 +83,15 @@ class User < ActiveRecord::Base
 
 
   before_validation do |user|
-    if user.telephone_number and user.telephone_number.empty?
-      user.telephone_number = nil
+    if user.telephone_number
+      user.telephone_number.strip!
+      user.telephone_number = nil if user.telephone_number.empty?
     end
-    if user.vehicle_registration_plate and
-        user.vehicle_registration_plate.empty?
-      user.vehicle_registration_plate = nil
+    if user.vehicle_registration_plate
+      user.vehicle_registration_plate.strip!
+      if user.vehicle_registration_plate.empty?
+        user.vehicle_registration_plate = nil
+      end
     end
   end
 

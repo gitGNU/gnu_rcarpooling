@@ -56,10 +56,13 @@ class UsersControllerTest < ActionController::TestCase
 
   test "get someone other with format xml" do
     user = users(:user_N_2)
-    set_authorization_header(users(:donald_duck).nick_name,
-                             users(:donald_duck).password)
+    requester = users(:donald_duck)
+    set_authorization_header(requester.nick_name,
+                             requester.password)
     get :show, :id => user.id
     assert_response :success
+    assert_not_nil assigns(:requester)
+    assert_equal requester, assigns(:requester)
     # testing response contents
     assert_select "user:root[id=#{user.id}][href=#{user_url(user)}]" do
       assert_select "first_name", user.first_name
@@ -80,10 +83,13 @@ class UsersControllerTest < ActionController::TestCase
 
   test "get someone other with format html" do
     user = users(:user_N_2)
-    set_authorization_header(users(:donald_duck).nick_name,
-                             users(:donald_duck).password)
+    requester = users(:donald_duck)
+    set_authorization_header(requester.nick_name,
+                             requester.password)
     get :show, :id => user.id, :format => "html"
     assert_response :success
+    assert_not_nil assigns(:requester)
+    assert_equal requester, assigns(:requester)
   end
 
 
