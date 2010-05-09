@@ -1,3 +1,4 @@
+<%
 # Copyright (C) 2010  Roberto Maestroni
 #
 # This file is part of Rcarpooling.
@@ -14,15 +15,7 @@
 #
 # You should have received a copy of the GNU Affero Public License
 # along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
-
-xml.places do
-  xml.average_latitude(Place.average_latitude)
-  xml.average_longitude(Place.average_longitude)
-  @places.each do |place|
-    xml.place(:id => place.id, :href => place_url(place)) do
-      xml.name(place.name)
-      xml.latitude(place.latitude)
-      xml.longitude(place.longitude)
-    end
-  end
-end
+-%>
+<div class="form_note">
+  <%= I18n.t 'form_required_field_note', :symbol => required_field %>
+</div>

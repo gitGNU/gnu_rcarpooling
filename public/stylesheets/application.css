@@ -118,6 +118,37 @@ body {
   font-style: italic;
   }
 
+#map {
+  margin: 1em auto 1em auto;
+  padding: 1em;
+  }
+
+.form_guide {
+  margin: 0.5em 1.5em 0.5em 1.5em;
+  font-size: 0.8em;
+  }
+
+.form_div {
+  margin: 2em 1em 2em 1em;
+  }
+
+.form_label {
+  margin: 0.5em;
+  font-weight: bold;
+  }
+
+.form_input {
+  margin: 0.5em 1em 0.5em 1em;
+  }
+
+.form_submit {
+  margin: 0.5em 1em 0.5em 1em;
+  }
+
+.form_note {
+  margin: 0.5em 2em 0.5em 2em;
+  font-size: 0.8em;
+  }
 
 a:link {
   color: rgb(128, 128, 128);
@@ -205,7 +236,6 @@ hr {
 
 .button {
   margin: 0;
-  font-weight: bold;
   }
 
 
@@ -234,4 +264,11 @@ hr {
   border: 1px solid black;
   }
 
+.public_bold {
+    border-bottom: 2px solid pink;
+    font-weight: bold;
+  }
 
+.public {
+  border-bottom: 2px solid pink;
+  }

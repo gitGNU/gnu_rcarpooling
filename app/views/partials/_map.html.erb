@@ -16,8 +16,7 @@
 # You should have received a copy of the GNU Affero Public License
 # along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
 -%>
-<div id="map" style="width: 550px; height: 450px" onunload="GUnload()"></div>
-<noscript><%= I18n.translate('partials.map.noscript') %></noscript>
+<div id="map" style="width: 550px; height: 450px"></div>
 <script type="text/javascript">
   //<![CDATA[
   if (GBrowserIsCompatible())
@@ -39,7 +38,7 @@
     var map = new GMap2(document.getElementById("map"));
     map.addControl(new GLargeMapControl());
     map.addControl(new GMapTypeControl());
-    map.setCenter(new GLatLng(45.7130433,8.9513295),10);
+    map.setCenter(new GLatLng(<%= Place.average_latitude %>,<%= Place.average_longitude %>),10);
 
 
     function showMarkers(xmlDoc)

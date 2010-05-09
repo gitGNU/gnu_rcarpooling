@@ -21,50 +21,55 @@
       :object => ["/", user_path(@user)] %>
 <% end -%>
 
-  <h3>
-    <%= I18n.t('users.heading_details')%>
-  </h3>
+  <p><%= I18n.t 'users.show.intro' %></p>
+
+  <h3><%= I18n.t('users.heading_details')%></h3>
+
   <table>
-    <tr><td><span class="bold"><%= I18n.t('users.first_name')%></span>
-      </td><td><%= h @user.first_name %></td>
+    <tr>
+      <td><span class="public_bold"><%= I18n.t('users.first_name')%></span></td>
+      <td><span class="public"><%= h @user.first_name %></span></td>
     </tr>
-    <tr><td><span class="bold"><%= I18n.t('users.last_name')%></span>
-      </td><td><%= h @user.last_name %></td>
+    <tr>
+      <td><span class="public_bold"><%= I18n.t('users.last_name')%></span></td>
+      <td><span class="public"><%= h @user.last_name %></span></td>
     </tr>
-    <tr><td><span class="bold"><%= I18n.t('users.sex')%></span>
-      </td><td><%= h @user.sex %></td>
+    <tr>
+      <td><span class="public_bold"><%= I18n.t('users.sex')%></span></td>
+      <td><span class="public"><%= h @user.sex %></span></td>
     </tr>
-    <tr><td><span class="bold"><%= I18n.t('users.nick_name')%></span>
-      </td><td><%= h @user.nick_name %></td>
+    <tr>
+      <td><span class="public_bold"><%= I18n.t('users.nick_name')%></span></td>
+      <td><span class="public"><%= h @user.nick_name %></span></td>
     </tr>
-    <tr><td><span class="bold"><%= I18n.t('users.email')%></span>
-      </td><td><%= h @user.email %></td>
+    <tr>
+      <td><span class="public_bold"><%= I18n.t('users.email')%></span></td>
+      <td><span class="public"><%= h @user.email %></span></td>
     </tr>
-    <tr><td><span class="bold"><%= I18n.t('users.telephone_number')%></span>
-      </td>
+    <tr>
+      <td><span class="public_bold"><%= I18n.t('users.telephone_number')%></span></td>
       <td>
         <% if @user.telephone_number -%>
-          <%= h @user.telephone_number %>
+          <span class="public"><%= h @user.telephone_number %></span>
         <% else -%>
           <span class="italic"><%= I18n.t 'users.telephone_number_not_set' %></span>
         <% end -%>
       </td>
     </tr>
-    <tr><td><span class="bold"><%= I18n.t('users.vehicle_registration_plate')%></span>
+    <tr>
+      <td>
+        <span class="public_bold"><%= I18n.t('users.vehicle_registration_plate')%></span>
       </td>
       <td>
         <% if @user.vehicle_registration_plate -%>
-          <%= h @user.vehicle_registration_plate %>
+          <span class="public"><%= h @user.vehicle_registration_plate %></span>
         <% else -%>
           <span class="italic"><%= I18n.t 'users.vehicle_registration_plate_not_set' %></span>
         <% end -%>
       </td>
     </tr>
-    <tr><td><span class="bold"><%= I18n.t('users.score')%></span>
-      </td><td><%= h @user.score %></td>
-    </tr>
     <tr>
-      <td><span class="bold"><%= I18n.t 'users.picture' %></span></td>
+      <td><span class="public_bold"><%= I18n.t 'users.picture' %></span></td>
       <td>
         <%= render :partial => "pictures/picture", :object => @user.picture %>
       </td>
@@ -80,23 +85,34 @@
         <% end -%>
       </td>
     </tr>
+    <!-- score -->
+    <tr>
+      <td><span class="bold"><%= I18n.t('users.score')%></span></td>
+      <td><%= h @user.score %></td>
+    </tr>
   </table>
   <%= button_to I18n.t('users.actions.edit_button_label'),
       edit_user_url(@user), :method => :get, :class => "button" %>
+
+  <p class="almost_normal"><%= I18n.t 'users.show.guide.score' %></p>
 
   <br/>
 
   <h3><%= I18n.t('users.heading_prefs')%></h3>
   <table>
-    <tr><td><span class="bold"><%= I18n.t('users.lang')%></span>
-      </td><td><%= h @user.lang %></td>
+    <tr>
+      <td><span class="bold"><%= I18n.t('users.lang')%></span></td>
+      <td><%= h @user.lang %></td>
     </tr>
-    <tr><td><span class="bold"><%= I18n.t('users.max_foot_length')%></span>
-      </td><td><%= h @user.max_foot_length %></td>
+    <tr>
+      <td><span class="bold"><%= I18n.t('users.max_foot_length')%></span></td>
+      <td><%= h @user.max_foot_length %></td>
     </tr>
   </table>
   <%= button_to I18n.t('users.actions.edit_button_label'),
       edit_user_url(@user), :method => :get, :class => "button" %>
+
+  <p class="almost_normal"><%= I18n.t 'users.show.guide.max_foot_length' %></p>
 
   <br/>
   <!-- BLACK LISTS -->
@@ -106,9 +122,7 @@
   </h3>
   <% if @user.drivers_in_black_list.empty? -%>
     <p>
-      <span class="italic">
-        <%= I18n.t('users.no_drivers_in_black_list')%>
-      </span>
+      <span class="italic"><%= I18n.t('users.no_drivers_in_black_list')%></span>
     </p>
   <% else -%>
     <%= render :partial => "users_list", :object => @user.drivers_in_black_list %>
@@ -117,18 +131,22 @@
     user_unwelcome_drivers_url(:user_id => @user.id),
     :method => :get, :class => "button" %>
 
+  <p class="almost_normal"><%= I18n.t 'users.show.guide.drivers_in_black_list' %></p>
+
   <br/>
   <!-- black list of passengers -->
   <h3>
     <%= I18n.t('users.heading_passengers_black_list')%>
   </h3>
-    <% if @user.passengers_in_black_list.empty? -%>
-      <p>
-        <span class="italic"><%= I18n.t('users.no_passengers_in_black_list')%></span>
-      </p>
-    <% else -%>
-      <%= render :partial => "users_list", :object => @user.passengers_in_black_list %>
-    <% end -%>
-    <%= button_to I18n.t('users.actions.edit_button_label'),
-      user_unwelcome_passengers_url(:user_id => @user.id),
-      :method => :get, :class => "button" %>
+  <% if @user.passengers_in_black_list.empty? -%>
+    <p>
+      <span class="italic"><%= I18n.t('users.no_passengers_in_black_list')%></span>
+    </p>
+  <% else -%>
+    <%= render :partial => "users_list", :object => @user.passengers_in_black_list %>
+  <% end -%>
+  <%= button_to I18n.t('users.actions.edit_button_label'),
+    user_unwelcome_passengers_url(:user_id => @user.id),
+    :method => :get, :class => "button" %>
+
+  <p class="almost_normal"><%= I18n.t 'users.show.guide.passengers_in_black_list' %></p>

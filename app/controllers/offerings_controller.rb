@@ -32,7 +32,9 @@ class OfferingsController < ApplicationController
 
   # GET /offerings/new
   def new
-    @offering = Offering.new
+    @offering = Offering.new(:departure_time => 12.minutes.from_now,
+                             :expiry_time => 7.minutes.from_now,
+                             :seating_capacity => 4)
     @places = Place.find :all
   end
 

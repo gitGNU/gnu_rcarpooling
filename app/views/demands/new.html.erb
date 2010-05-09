@@ -18,75 +18,80 @@
 -%>
 <% content_for(:navigation_path) do -%>
   <%= render :partial => "partials/navigation_path",
-    :object => ['/', demands_path, new_demand_path ] %>
+    :object => [home_path, demands_path, new_demand_path ] %>
 <% end -%>
 
+<h3><%= I18n.t 'demands.new.title' %></h3>
+
+<p><%= I18n.t 'demands.new.intro' %></p>
+
+<%= render :partial => "partials/map" %>
 
 <% places_choices = @places.map { |place| [place.name, place.id] } -%>
 <% form_for :demand, :url => demands_url,
     :html => { :class => "form"} do |form| -%>
   <%= error_messages_for :demand, :class => "errors" %>
 
-  <table>
-    <tr>
-      <td>
-        <span class="bold"><%= I18n.t 'demands.form.labels.earliest_departure_time'%></span>
-      </td>
-    </tr>
-    <tr>
-      <td>
+    <%= render :partial => "partials/form_required_field_note" %>
+
+    <!-- earliest departure time -->
+    <div class="form_div">
+      <div class="form_label">
+        <%= I18n.t('demands.form.labels.earliest_departure_time') + required_field %>
+      </div>
+      <div class="form_guide">
+        <%= I18n.t 'demands.guide.earliest_departure_time' %>
+      </div>
+      <div class="form_input">
         <%= form.datetime_select(:earliest_departure_time,
           :start_year => Time.now.year, :end_year => Time.now.year + 1) %>
-        </td>
-    </tr>
-    <tr>
-      <td>
-        <span class="bold"><%= I18n.t 'demands.form.labels.latest_arrival_time'%></span>
-      </td>
-    </tr>
-    <tr>
-      <td>
+      </div>
+    </div>
+
+    <!-- latest arrival time -->
+    <div class="form_div">
+      <div class="form_label">
+        <%= I18n.t('demands.form.labels.latest_arrival_time') + required_field %>
+      </div>
+      <div class="form_guide">
+        <%= I18n.t 'demands.guide.latest_arrival_time' %>
+      </div>
+      <div class="form_input">
         <%= form.datetime_select(:latest_arrival_time,
             :start_year => Time.now.year, :end_year => Time.now.year + 1) %>
-      </td>
-    </tr>
+      </div>
+    </div>
 
-    <tr>
-      <td>
-        <span class="bold"><%= I18n.t 'demands.form.labels.expiry_time'%></span>
-      </td>
-    </tr>
-    <tr>
-      <td>
+    <!-- expiry time -->
+    <div class="form_div">
+      <div class="form_label"><%= I18n.t('demands.form.labels.expiry_time') + required_field %></div>
+      <div class="form_guide"><%= I18n.t 'demands.guide.expiry_time' %></div>
+      <div class="form_input">
         <%= form.datetime_select(:expiry_time,
             :start_year => Time.now.year, :end_year => Time.now.year + 1) %>
-      </td>
-    </tr>
+      </div>
+    </div>
 
-    <tr>
-      <td>
-        <span class="bold"><%= I18n.t 'demands.form.labels.departure_place'%></span>
-      </td>
-    </tr>
-    <tr>
-      <td>
+    <!-- departure place -->
+    <div class="form_div">
+      <div class="form_label"><%= I18n.t('demands.form.labels.departure_place') + required_field %></div>
+      <div class="form_input">
         <%= form.select(:departure_place_id, places_choices, {},
           { "id" => "departure_place_select"}) %>
-      </td>
-    </tr>
+      </div>
+    </div>
 
-    <tr>
-      <td>
-        <span class="bold"><%= I18n.t 'demands.form.labels.arrival_place'%></span>
-      </td>
-    </tr>
-    <tr>
-      <td>
+    <!-- arrival place -->
+    <div class="form_div">
+      <div class="form_label"><%= I18n.t('demands.form.labels.arrival_place') + required_field %></div>
+      <div class="form_input">
         <%= form.select(:arrival_place_id, places_choices, {},
           { "id" => "arrival_place_select"}) %>
-      </td>
-    </tr>
+      </div>
+    </div>
 
-    <tr><td><%= submit_tag I18n.t('demands.form.submit') %></td></tr>
-  </table>
+    <!-- send -->
+    <div class="form_submit">
+      <%= submit_tag I18n.t('demands.form.submit') %>
+    </div>
 <% end -%>

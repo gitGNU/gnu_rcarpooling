@@ -26,6 +26,8 @@ class PlacesControllerTest < ActionController::TestCase
     # testing response content
     places = assigns(:places)
     assert_select "places:root" do
+      assert_select "average_latitude", Place.average_latitude.to_s
+      assert_select "average_longitude", Place.average_longitude.to_s
       places.each do |place|
         assert_select "place[id=#{place.id}]" +
             "[href=#{place_url(place)}]" do

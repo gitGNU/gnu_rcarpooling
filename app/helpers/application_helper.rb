@@ -77,4 +77,9 @@ module ApplicationHelper
     end
   end
 
+
+  def required_field
+    "<span style='color: red; font-weight: bold;'>*</span>"
+  end
+
 end

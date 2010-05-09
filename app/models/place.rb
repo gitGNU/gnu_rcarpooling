@@ -50,4 +50,21 @@ class Place < ActiveRecord::Base
     end # languages
   end # method address
 
+
+  def self.average_latitude
+    average_latitude = 0.0
+    places = self.find :all
+    places.each { |p| average_latitude += p.latitude }
+    average_latitude /= places.size
+  end
+
+
+  def self.average_longitude
+    average_longitude = 0.0
+    places = self.find :all
+    places.each { |p| average_longitude += p.longitude }
+    average_longitude /= places.size
+  end
+
+
 end

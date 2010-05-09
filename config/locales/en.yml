@@ -66,10 +66,10 @@ en:
     users_new: "sign&nbsp;up"
     unwelcome_passengers_index: "edit&nbsp;black&nbsp;list"
     unwelcome_drivers_index: "edit&nbsp;black&nbsp;list"
-    demands_new: "ask&nbsp;for&nbsp;a&nbsp;passage"
+    demands_new: "hitch&nbsp;a&nbsp;ride"
     demands_index: "your&nbsp;demands"
     demands_show: "request&nbsp;details"
-    offerings_new: "offer&nbsp;a&nbsp;passage"
+    offerings_new: "offer&nbsp;a&nbsp;ride"
     offerings_index: "your&nbsp;offerings"
     offerings_show: "offering&nbsp;details"
     users_login: "login"
@@ -86,9 +86,9 @@ en:
     logout_button_label: "Logout"
     login_link: "Login"
     language: "Language:"
-    new_demand: "Ask for a passage"
+    new_demand: "Hitch a ride"
     your_demands: "Your demands"
-    new_offering: "Offer a passage"
+    new_offering: "Offer a ride"
     your_offerings: "Your offerings"
     users_search: Search people
 
@@ -138,6 +138,7 @@ en:
     actions:
         edit_button_label: "Edit"
         save_button_label: "Save changes"
+        send_button_label: "Send"
         delete_link_name: "Delete"
         delete_picture_button_label: "Delete picture"
         upload_picture_button_label: "Upload picture"
@@ -177,6 +178,34 @@ en:
       in_drivers_bl: in your drivers' black list
       in_passengers_bl: in your passengers' black list
     member_since: Member since
+    guide:
+      telephone_number: If set, it will be part of your public profile. Other
+                        users will be able to see it.
+      vehicle_registration_plate: If set, it will be part of your public profile.
+                                  Other users will be able to see it.
+      max_foot_length: Transport solutions computed by the system can
+                       provide walking. Select how much you
+                       willing to walk.
+      lang: It is relative to the messages from the system only.
+    show:
+      intro: "<span class='public'>Underlined</span> fields belong to your public
+             profile. Other users can see them."
+      guide:
+        score: Score is a rough total of passages offered and received.
+               The system adds one point for every kilometer for each person carried.
+               Instead, it pulls one point for every kilometer in which you are
+               transported.
+        max_foot_length: Transport solutions computed by the system can
+                         provide walking. &quot;Max acceptable distance on foot&quot;
+                         is the length in meters that almost you will walk.
+        drivers_in_black_list: You will never travel with any of the cars of the
+                               users in the list.
+        passengers_in_black_list: Users listed will never travel with your car, in
+                                  any of your offers.
+    new:
+      guide:
+        lang: The system will send you e-mail in the selected language.
+        email: You can change your address later.
 
   unwelcome_passengers:
     index: You can put a person in your passengers' black list dragging his or her
@@ -197,6 +226,7 @@ en:
   done: Done
   yes_w: "Yes"
   no_w: "No"
+  form_required_field_note: Fields marked with {{symbol}} are mandatory.
 
   demands:
     form:
@@ -214,6 +244,17 @@ en:
     max_arrival_time: "Arr. time (max)"
     created_at: "Created at"
     details_link: "details"
+    new:
+      title: Hitch a ride
+      intro: Here you can &quot;hitch a ride&quot;. Just fill the fields, help
+             yourself with the map to pick departure and arrival places.
+    guide:
+      expiry_time: The system will reply you until this time. It must precede
+                   the earliest departure time and must be later than 5 minutes from
+                   now.
+      earliest_departure_time: It means &quot;I can depart not before...&quot; and
+                               must be later than 10 minutes from now.
+      latest_arrival_time: It means &quot;I will arrive not later than...&quot;
 
 
   fulfilled_demands:
@@ -250,6 +291,20 @@ en:
     arrival_time: "Arr. time"
     created_at: "Created at"
     details_link: "details"
+    guide:
+      departure_time: Select when you will depart. It must be later than 10
+                      minutes from now.
+      expiry_time: Select the time within you will have the passengers' list.
+                   It must precede departure time but must be later than 5
+                   minutes from now.
+      seating_capacity: How many passengers (at most) do you want?
+      send: To process your offering we'll use some data from your personal
+            profile as your license plate. Please keep your preferences and your
+            profile up-to-date.
+    new:
+      title: Offer a ride
+      intro: Offer the free seats in your car, just fill the following fields.
+             Help yourself with the map to pick your departure and arrival places.
 
 
   used_offerings:

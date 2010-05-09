@@ -41,4 +41,27 @@ class PlaceTest < ActiveSupport::TestCase
     assert place.valid?
     assert place.save
   end
+
+
+  test "average latitude" do
+    average_latitude = 0.0
+    places = Place.find :all
+    places.each do |place|
+      average_latitude += place.latitude
+    end
+    average_latitude /= places.size
+    assert_equal average_latitude, Place.average_latitude
+  end
+
+
+  test "average longitude" do
+    average_longitude = 0.0
+    places = Place.find :all
+    places.each do |place|
+      average_longitude += place.longitude
+    end
+    average_longitude /= places.size
+    assert_equal average_longitude, Place.average_longitude
+  end
+
 end

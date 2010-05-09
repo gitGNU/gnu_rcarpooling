@@ -26,70 +26,71 @@
 <% form_for :user, :url => {:action => :create} do |form| %>
 
   <%= form.error_messages :class => "errors" %>
-  <table>
-    <tr>
-      <td>
-        <span class="bold"><%= I18n.t 'users.nick_name' %>:</span>
-      </td>
-      <td>
-        <%= form.text_field :nick_name, :size => 30 %>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <span class="bold"><%= I18n.t 'users.password' %>:</span>
-      </td>
-      <td>
-        <%= form.password_field :password, :size => 30 %>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <span class="bold"><%= I18n.t('users.first_name')%>:</span>
-      </td>
-      <td>
-        <%= form.text_field :first_name, :size => 30 %>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <span class="bold"><%= I18n.t('users.last_name')%>:</span>
-      </td>
-      <td>
-        <%= form.text_field :last_name, :size => 30 %>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <span class="bold"><%= I18n.t('users.email')%>:</span>
-      </td>
-      <td>
-        <%= form.text_field :email, :size => 30 %>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <span class="bold"><%= I18n.t('users.sex')%>:</span>
-      </td>
-      <td>
-        <span class="bold"><%= I18n.t('gender.male')%>&nbsp;</span>
-        <%= form.radio_button :sex, "M" %>&nbsp;&nbsp;
-        <span class="bold"><%= I18n.t('gender.female')%>&nbsp;</span>
-        <%= form.radio_button :sex, "F" %>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <span class="bold"><%= I18n.t('users.lang')%>:</span>
-      </td>
-      <td>
-        <%= form.select(:language_id, @languages)%>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <%= submit_tag I18n.t('users.actions.save_button_label') %>
-      </td>
-    </tr>
-  </table>
+
+  <%= render :partial => "partials/form_required_field_note" %>
+
+  <div class="form_div">
+    <div class="form_label">
+      <span class="bold"><%= I18n.t('users.nick_name') + required_field %></span>
+    </div>
+    <div class="form_input">
+      <%= form.text_field :nick_name, :size => 30 %>
+    </div>
+  </div>
+  <div class="form_div">
+    <div class="form_label">
+      <span class="bold"><%= I18n.t('users.password') + required_field %></span>
+    </div>
+    <div class="form_input">
+      <%= form.password_field :password, :size => 20 %>
+    </div>
+  </div>
+  <div class="form_div">
+    <div class="form_label">
+      <span class="bold"><%= I18n.t('users.first_name') + required_field %></span>
+    </div>
+    <div class="form_input">
+      <%= form.text_field :first_name, :size => 20 %>
+    </div>
+  </div>
+  <div class="form_div">
+    <div class="form_label">
+      <span class="bold"><%= I18n.t('users.last_name') + required_field %></span>
+    </div>
+    <div class="form_input">
+      <%= form.text_field :last_name, :size => 20 %>
+    </div>
+  </div>
+  <div class="form_div">
+    <div class="form_label">
+      <span class="bold"><%= I18n.t('users.email') + required_field %></span>
+    </div>
+    <div class="form_guide"><%= I18n.t 'users.new.guide.email' %></div>
+    <div class="form_input">
+      <%= form.text_field :email, :size => 30 %>
+    </div>
+  </div>
+  <div class="form_div">
+    <div class="form_label">
+      <span class="bold"><%= I18n.t('users.sex') + required_field %></span>
+    </div>
+    <div class="form_input">
+      <span><%= I18n.t('gender.male')%>&nbsp;</span>
+      <%= form.radio_button :sex, "M" %>&nbsp;&nbsp;
+      <span><%= I18n.t('gender.female')%>&nbsp;</span>
+      <%= form.radio_button :sex, "F" %>
+    </div>
+  </div>
+  <div class="form_div">
+    <div class="form_label">
+      <span class="bold"><%= I18n.t('users.lang') + required_field %></span>
+    </div>
+    <div class="form_guide"><%= I18n.t 'users.new.guide.lang' %></div>
+    <div class="form_input">
+      <%= form.select(:language_id, @languages)%>
+    </div>
+  </div>
+  <div class="form_submit">
+    <%= submit_tag I18n.t('users.actions.send_button_label') %>
+  </div>
 <% end %>
