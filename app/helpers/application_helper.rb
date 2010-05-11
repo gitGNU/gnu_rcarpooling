@@ -82,4 +82,16 @@ module ApplicationHelper
     "<span style='color: red; font-weight: bold;'>*</span>"
   end
 
+
+  include WillPaginate::ViewHelpers
+
+  def will_paginate_with_i18n(collection, options = {})
+    will_paginate_without_i18n(collection,
+                                options.merge(
+                                    :previous_label => I18n.t(:previous),
+                                    :next_label => I18n.t(:next)))
+  end
+
+  alias_method_chain :will_paginate, :i18n
+
 end

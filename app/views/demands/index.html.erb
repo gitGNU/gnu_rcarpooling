@@ -19,7 +19,16 @@
 
 <% content_for(:navigation_path) do -%>
   <%= render :partial => "partials/navigation_path",
-      :object => ["/", demands_path] %>
+      :object => [home_path, me_users_path, demands_path] %>
 <% end -%>
-<%= render :partial => "demand_short", :collection => @demands,
-    :spacer_template => "partials/spacer" %>
+
+<h3><%= I18n.t 'demands.index.title' %></h3>
+
+<% if @demands.empty? -%>
+  <p class="italic"><%= I18n.t 'demands.index.empty' %></p>
+<% else -%>
+  <%= render :partial => "demand", :collection => @demands,
+      :spacer_template => "partials/spacer" %>
+
+  <%= will_paginate @demands %>
+<% end -%>

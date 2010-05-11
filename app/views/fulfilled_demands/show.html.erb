@@ -19,85 +19,151 @@
 <% fd = @fulfilled_demand -%>
 <% content_for(:navigation_path) do -%>
   <%= render :partial => "partials/navigation_path",
-    :object => ["/", demands_path, demand_path(fd.demand) ] %>
+    :object => [home_path, me_users_path, demands_path,
+                demand_path(fd.demand) ] %>
 <% end -%>
 
-<p>
-  <%= I18n.t 'fulfilled_demands.intro' %>
-</p>
+<div class="float_right">
+  <%= link_to I18n.t('fulfilled_demands.show.all_demands_link'),
+      demands_url %>
+</div>
 
-<h4><%= I18n.t 'fulfilled_demands.demand_title' %></h4>
-<%= render :partial => "demands/demand_long", :object => fd.demand %>
+<h3><%= I18n.t 'fulfilled_demands.show.title', :id => fd.id %></h3>
 
-<h4><%= I18n.t 'fulfilled_demands.fulfilled_demand_title' %></h4>
+<p><%= I18n.t 'fulfilled_demands.show.intro' %></p>
+<p><%= I18n.t 'fulfilled_demands.show.demand_intro' %></p>
+
+<%= render :partial => "demands/demand_detailed", :object => fd.demand %>
+
+<p><%= I18n.t 'fulfilled_demands.show.solution_intro' %></p>
+
 <% if fd.has_initial_walk? -%>
-    <h4><%= I18n.t 'fulfilled_demands.initial_walk_intro' %></h4>
-    <table>
-      <tr>
-        <td class="bold"><%= I18n.t 'fulfilled_demands.from'%></td>
-        <td><%= render :partial => "places/place", :object => fd.departure_place %></td>
-        <td class="bold"><%= I18n.t 'fulfilled_demands.departure_time'%></td>
-        <td><%= I18n.l fd.departure_time, :format => :short %></td>
-      </tr>
-      <tr>
-        <td class="bold"><%= I18n.t 'fulfilled_demands.to'%></td>
-        <td><%= render :partial => "places/place", :object => fd.car_departure_place %></td>
-      </tr>
-    </table>
-<% end -%>
-
-  <h4><%= I18n.t 'fulfilled_demands.car_intro' %></h4>
+  <h4><%= I18n.t 'fulfilled_demands.show.initial_walk_title' %></h4>
   <table>
     <tr>
-      <td class="bold"><%= I18n.t 'fulfilled_demands.from' %></td>
-      <td><%= render :partial => "places/place", :object => fd.car_departure_place %></td>
-      <td class="bold"><%= I18n.t 'fulfilled_demands.departure_time'%></td>
-      <td><%= I18n.l fd.car_departure_time, :format => :short %></td>
+      <td class="bold"><%= I18n.t 'fulfilled_demands.show.from'%></td>
+      <td>
+        <%= render :partial => "places/place",
+              :object => fd.departure_place %>
+      </td>
+      <td class="bold">
+        <%= I18n.t 'fulfilled_demands.show.departure_time'%>
+      </td>
+      <td><%= I18n.l fd.departure_time, :format => :long %></td>
     </tr>
     <tr>
-      <td class="bold"><%= I18n.t 'fulfilled_demands.to' %></td>
-      <td><%= render :partial => "places/place", :object => fd.car_arrival_place %></td>
-      <td class="bold"><%= I18n.t 'fulfilled_demands.arrival_time'%></td>
-      <td><%= I18n.l fd.car_arrival_time, :format => :short %></td>
+      <td class="bold"><%= I18n.t 'fulfilled_demands.show.to'%></td>
+      <td>
+        <%= render :partial => "places/place",
+              :object => fd.car_departure_place %>
+      </td>
     </tr>
     <tr>
-      <td class="bold"><%= I18n.t 'fulfilled_demands.with' %></td>
-      <td><%= render :partial => "users/user_name", :object => fd.vehicle_offering.driver %></td>
+      <td class="bold"><%= I18n.t 'fulfilled_demands.show.length' %></td>
+      <td><%= I18n.t 'meters', :length => fd.initial_walk_length %></td>
+      <td class="bold"><%= I18n.t 'fulfilled_demands.show.duration' %></td>
+      <td><%= I18n.t 'minutes', :duration => fd.initial_walk_duration %></td>
     </tr>
   </table>
+<% end -%>
+
+<h4><%= I18n.t 'fulfilled_demands.show.car_title' %></h4>
+<table>
+  <tr>
+    <td class="bold"><%= I18n.t 'fulfilled_demands.show.from' %></td>
+    <td>
+      <%= render :partial => "places/place",
+            :object => fd.car_departure_place %>
+    </td>
+    <td class="bold">
+      <%= I18n.t 'fulfilled_demands.show.departure_time'%>
+    </td>
+    <td><%= I18n.l fd.car_departure_time, :format => :long %></td>
+  </tr>
+  <tr>
+    <td class="bold"><%= I18n.t 'fulfilled_demands.show.to' %></td>
+    <td>
+      <%= render :partial => "places/place",
+            :object => fd.car_arrival_place %>
+    </td>
+    <td class="bold">
+      <%= I18n.t 'fulfilled_demands.show.arrival_time'%>
+    </td>
+    <td><%= I18n.l fd.car_arrival_time, :format => :long %></td>
+  </tr>
+  <tr>
+    <td class="bold"><%= I18n.t 'fulfilled_demands.show.with' %></td>
+    <td>
+      <%= render :partial => "users/user_name",
+            :object => fd.vehicle_offering.driver %>
+    </td>
+  </tr>
+  <% if fd.vehicle_registration_plate -%>
+    <tr>
+      <td class="bold">
+        <%= I18n.t 'fulfilled_demands.show.vehicle_registration_plate' %>
+      </td>
+      <td>
+        <%= render :partial => "users/user_vehicle_registration_plate",
+                   :object => fd.driver %>
+      </td>
+    </tr>
+  <% end -%>
+</table>
 
 <% if fd.has_final_walk? -%>
-    <h4><%= I18n.t 'fulfilled_demands.final_walk_intro' %></h4>
-    <table>
-      <tr>
-        <td class="bold"><%= I18n.t 'fulfilled_demands.from'%></td>
-        <td><%= render :partial => "places/place", :object => fd.car_arrival_place %></td>
-      </tr>
-      <tr>
-        <td class="bold"><%= I18n.t 'fulfilled_demands.to'%></td>
-        <td><%= render :partial => "places/place", :object => fd.arrival_place %></td>
-        <td class="bold"><%= I18n.t 'fulfilled_demands.arrival_time'%></td>
-        <td><%= I18n.l fd.arrival_time, :format => :short %></td>
-      </tr>
-    </table>
+  <h4><%= I18n.t 'fulfilled_demands.show.final_walk_title' %></h4>
+  <table>
+    <tr>
+      <td class="bold"><%= I18n.t 'fulfilled_demands.show.from'%></td>
+      <td>
+        <%= render :partial => "places/place",
+            :object => fd.car_arrival_place %>
+      </td>
+    </tr>
+    <tr>
+      <td class="bold"><%= I18n.t 'fulfilled_demands.show.to'%></td>
+      <td>
+        <%= render :partial => "places/place",
+            :object => fd.arrival_place %>
+      </td>
+      <td class="bold">
+        <%= I18n.t 'fulfilled_demands.show.arrival_time'%>
+      </td>
+      <td><%= I18n.l fd.arrival_time, :format => :short %></td>
+    </tr>
+    <tr>
+      <td class="bold"><%= I18n.t 'fulfilled_demands.show.length' %></td>
+      <td><%= I18n.t 'meters', :length => fd.final_walk_length %></td>
+      <td class="bold"><%= I18n.t 'fulfilled_demands.show.duration' %></td>
+      <td><%= I18n.t 'minutes', :duration => fd.final_walk_duration %></td>
+    </tr>
+  </table>
 <% end -%>
 
 <% if fd.guaranteed? -%>
-  <p>
-    <%= I18n.t 'fulfilled_demands.guaranteed' %>
-  </p>
+  <p><%= I18n.t 'fulfilled_demands.show.guaranteed' %></p>
 <% else -%>
   <p>
-    <%= I18n.t('fulfilled_demands.not_guaranteed') + " " +
-      I18n.l(fd.guaranteed_since, :format => :long) %>
+    <%= I18n.t('fulfilled_demands.show.not_guaranteed',
+          :time => I18n.l(fd.guaranteed_since, :format => :long)) %>
   </p>
 <% end -%>
 
 <% if !fd.chilled? -%>
   <p>
-    <%= I18n.t('fulfilled_demands.can_delete_until') + " " +
-      I18n.l(fd.chilled_since, :format => :long) %>
+    <%= I18n.t('fulfilled_demands.show.can_delete_until',
+          :time => I18n.l(fd.chilled_since, :format => :long)) %>
   </p>
-  <%= button_to I18n.t('demands.form.delete'), fulfilled_demand_url(fd),
-    :method => :delete %>
+  <p class="almost_normal">
+    <%= I18n.t 'fulfilled_demands.show.guide.delete' %>
+  </p>
+  <%= button_to I18n.t('fulfilled_demands.show.delete_label'),
+        fulfilled_demand_url(fd), :method => :delete,
+        :confirm => I18n.t('are_you_sure?') %>
 <% end -%>
+
+<div class="float_right">
+  <%= link_to I18n.t('fulfilled_demands.show.all_demands_link'),
+      demands_url %>
+</div>

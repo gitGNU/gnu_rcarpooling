@@ -150,6 +150,30 @@ body {
   font-size: 0.8em;
   }
 
+
+.div_t {
+  margin: 1em;
+  }
+
+.div_t .div_t_l {
+  width: 35%;
+  float: left;
+  margin: 0.5em 1em 0.5em 1em;
+  }
+
+.div_t .div_t_r {
+  width: 45%;
+  float: left;
+  margin: 0.5em 1em 0.5em 1em;
+  }
+
+.div_t .div_t_u {
+  clear: both;
+  width: 75%;
+  margin: 0.5em 1.5em 0.5em 1.5em;
+  }
+
+
 a:link {
   color: rgb(128, 128, 128);
   text-decoration: none;
@@ -190,6 +214,11 @@ a:hover, a:active {
 
 .italic {
   font-style: italic;
+  }
+
+.float_right {
+  float: right;
+  margin: 0.5em;
   }
 
 form {
@@ -264,11 +293,15 @@ hr {
   border: 1px solid black;
   }
 
+.pagination {
+  font-size: 0.75em;
+  }
+
 .public_bold {
-    border-bottom: 2px solid pink;
+    border-bottom: 2px solid rgb(255, 200, 200);
     font-weight: bold;
   }
 
 .public {
-  border-bottom: 2px solid pink;
+  border-bottom: 2px solid rgb(255, 200, 200);
   }

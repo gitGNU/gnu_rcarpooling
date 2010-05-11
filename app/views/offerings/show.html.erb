@@ -19,10 +19,38 @@
 
 <% content_for(:navigation_path) do -%>
   <%= render :partial => "partials/navigation_path",
-      :object => ["/", offerings_path, offering_path(@offering)] %>
+      :object => [home_path, me_users_path, offerings_path,
+                  offering_path(@offering)] %>
 <% end -%>
-<%= render :partial => "offering_long", :object => @offering %>
+
+<div class="float_right">
+  <%= link_to I18n.t('offerings.show.all_offerings_link'),
+      offerings_url %>
+</div>
+
+<h3>
+  <%= I18n.t 'offerings.show.title', :id => @offering.id %>
+  <span class="almost_normal">
+    <% if @offering.in_use? -%>
+      <%= I18n.t 'offerings.show.in_use' %>
+    <% else -%>
+      <%= I18n.t 'offerings.show.not_in_use' %>
+    <% end -%>
+  </span>
+</h3>
+
+<p class="almost_normal"><%= I18n.t 'offerings.show.guide.intro' %></p>
+
+<%= render :partial => "offering_detailed", :object => @offering %>
+
 <% if !@offering.chilled? -%>
-  <%= button_to I18n.t('offerings.form.delete'), offering_url(@offering),
-    :method => :delete %>
+  <p class="almost_normal"><%= I18n.t 'offerings.show.guide.delete' %></p>
+  <%= button_to I18n.t('offerings.show.delete_label'),
+        offering_url(@offering), :method => :delete,
+        :confirm => I18n.t('are_you_sure?')%>
 <% end -%>
+
+<div class="float_right">
+  <%= link_to I18n.t('offerings.show.all_offerings_link'),
+      offerings_url %>
+</div>

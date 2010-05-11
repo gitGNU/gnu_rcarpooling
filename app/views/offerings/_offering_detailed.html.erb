@@ -1,0 +1,72 @@
+<%
+# Copyright (C) 2010  Roberto Maestroni
+#
+# This file is part of Rcarpooling.
+#
+# Rcarpooling is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Rcarpooling is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero Public License for more details.
+#
+# You should have received a copy of the GNU Affero Public License
+# along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
+-%>
+<% offering = offering_detailed -%>
+<table>
+  <tr>
+    <td class="bold"><%= I18n.t 'offerings.show.departure_place' %></td>
+    <td><%= render :partial => "places/place",
+            :object => offering.departure_place %></td>
+  </tr>
+  <tr>
+    <td class="bold"><%= I18n.t 'offerings.show.arrival_place' %></td>
+    <td><%= render :partial => "places/place",
+            :object => offering.arrival_place %></td>
+  </tr>
+  <tr>
+    <td class="bold"><%= I18n.t 'offerings.show.departure_time' %></td>
+    <td><%= I18n.l offering.departure_time, :format => :long %></td>
+  </tr>
+  <tr>
+    <td class="bold"><%= I18n.t 'offerings.show.arrival_time' %></td>
+    <td><%= I18n.l offering.arrival_time, :format => :long %></td>
+  </tr>
+  <tr>
+    <td class="bold"><%= I18n.t 'offerings.show.seating_capacity' %></td>
+    <td><%= offering.seating_capacity %></td>
+  </tr>
+  <tr>
+    <td class="bold"><%= I18n.t 'offerings.show.created_at' %></td>
+    <td><%= I18n.l offering.created_at, :format => :long %></td>
+  </tr>
+  <tr>
+    <td class="bold"><%= I18n.t 'offerings.show.expiry_time' %></td>
+    <td><%= I18n.l offering.expiry_time, :format => :long %></td>
+  </tr>
+  <tr>
+    <td class="bold"><%= I18n.t 'offerings.show.chilled_since' %></td>
+    <td><%= I18n.l offering.chilled_since, :format => :long %></td>
+  </tr>
+  <tr>
+    <td class="bold">
+      <% if offering.chilled? -%>
+        <%= I18n.t 'offerings.show.chilled_from' %>
+      <% else -%>
+        <%= I18n.t 'offerings.show.chilled_in' %>
+      <% end -%>
+    </td>
+    <td>
+      <%= distance_of_time_in_words Time.now, offering.chilled_since %>
+    </td>
+  </tr>
+</table>
+<p class="almost_normal">
+  <%= I18n.t 'offerings.show.guide.expiry_time' %>
+  <br/>
+  <%= I18n.t 'offerings.show.guide.chilled_since' %>
+</p>

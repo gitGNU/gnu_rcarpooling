@@ -18,7 +18,7 @@
 -%>
 <% content_for(:navigation_path) do -%>
   <%= render :partial => "partials/navigation_path",
-    :object => [home_path, offerings_path, new_offering_path ] %>
+    :object => [home_path, new_offering_path ] %>
 <% end -%>
 
 <h3><%= I18n.t 'offerings.new.title' %></h3>
@@ -35,7 +35,7 @@
     <!-- departure time -->
     <div class="form_div">
       <div class="form_label">
-        <%= I18n.t('offerings.form.labels.departure_time') + required_field %>
+        <%= I18n.t('offerings.new.departure_time') + required_field %>
       </div>
       <div class="form_guide"><%= I18n.t 'offerings.guide.departure_time' %></div>
       <div class="form_input">
@@ -46,7 +46,7 @@
 
     <!-- expiry time -->
     <div class="form_div">
-      <div class="form_label"><%= I18n.t('offerings.form.labels.expiry_time') + required_field %></div>
+      <div class="form_label"><%= I18n.t('offerings.new.expiry_time') + required_field %></div>
       <div class="form_guide"><%= I18n.t 'offerings.guide.expiry_time'%></div>
       <div class="form_input">
         <%= form.datetime_select(:expiry_time,
@@ -57,7 +57,7 @@
     <!-- departure place -->
     <div class="form_div">
       <div class="form_label">
-        <%= I18n.t('offerings.form.labels.departure_place') + required_field %>
+        <%= I18n.t('offerings.new.departure_place') + required_field %>
       </div>
       <div class="form_input">
         <%= form.select(:departure_place_id, places_choices, {},
@@ -68,7 +68,7 @@
     <!-- arrival place -->
     <div class="form_div">
       <div class="form_label">
-        <%= I18n.t('offerings.form.labels.arrival_place') + required_field %>
+        <%= I18n.t('offerings.new.arrival_place') + required_field %>
       </div>
       <div class="form_input">
         <%= form.select(:arrival_place_id, places_choices, {},
@@ -79,7 +79,7 @@
     <!-- seating capacity -->
     <div class="form_div">
       <div class="form_label">
-        <%= I18n.t('offerings.form.labels.seating_capacity') + required_field %>
+        <%= I18n.t('offerings.new.seating_capacity') + required_field %>
       </div>
       <div class="form_guide">
         <%= I18n.t 'offerings.guide.seating_capacity'%>
@@ -92,6 +92,6 @@
     <div class="form_note"><%= I18n.t 'offerings.guide.send' %></div>
 
     <div class="form_submit">
-      <%= submit_tag I18n.t('offerings.form.submit') %>
+      <%= submit_tag I18n.t('offerings.new.submit_label') %>
     </div>
 <% end -%>

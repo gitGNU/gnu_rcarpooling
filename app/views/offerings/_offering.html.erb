@@ -1,0 +1,64 @@
+<%
+# Copyright (C) 2010  Roberto Maestroni
+#
+# This file is part of Rcarpooling.
+#
+# Rcarpooling is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Rcarpooling is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero Public License for more details.
+#
+# You should have received a copy of the GNU Affero Public License
+# along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
+-%>
+<table class="almost_normal">
+  <tr>
+    <td class="bold"><%= I18n.t 'offerings.index.from' %></td>
+    <td><%= render :partial => "places/place",
+            :object => offering.departure_place %></td>
+    <td class="bold"><%= I18n.t 'offerings.index.departure_time'%></td>
+    <td><%= I18n.l offering.departure_time, :format => :short %></td>
+  </tr>
+  <tr>
+    <td class="bold"><%= I18n.t 'offerings.index.to' %></td>
+    <td><%= render :partial => "places/place",
+            :object => offering.arrival_place %></td>
+    <td class="bold"><%= I18n.t 'offerings.index.arrival_time'%></td>
+    <td><%= I18n.l offering.arrival_time, :format => :short %></td>
+  </tr>
+  <tr>
+    <td class="bold"><%= I18n.t 'offerings.index.created_at'%></td>
+    <td><%= I18n.l offering.created_at, :format => :short%></td>
+    <td class="bold"><%= I18n.t 'offerings.index.chilled_since'%></td>
+    <td><%= I18n.l offering.chilled_since, :format => :short %></td>
+  </tr>
+  <tr>
+    <td class="bold"><%= I18n.t 'offerings.index.in_use'%></td>
+    <td>
+      <% if offering.in_use? -%>
+        <%= I18n.t 'yes_w' %>
+      <% else -%>
+        <%= I18n.t 'no_w' %>
+      <% end -%>
+    </td>
+    <td class="bold"><%= I18n.t 'offerings.index.chilled'%></td>
+    <td>
+      <% if offering.chilled? -%>
+        <%= I18n.t 'yes_w' %>
+      <% else -%>
+        <%= I18n.t 'no_w' %>
+      <% end -%>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <%= link_to I18n.t('offerings.index.details_link'),
+          offering_url(offering) %>
+    </td>
+  </tr>
+</table>

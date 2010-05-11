@@ -18,7 +18,7 @@
 -%>
 <% content_for(:navigation_path) do -%>
   <%= render :partial => "partials/navigation_path",
-    :object => [home_path, demands_path, new_demand_path ] %>
+    :object => [home_path, new_demand_path ] %>
 <% end -%>
 
 <h3><%= I18n.t 'demands.new.title' %></h3>
@@ -37,10 +37,10 @@
     <!-- earliest departure time -->
     <div class="form_div">
       <div class="form_label">
-        <%= I18n.t('demands.form.labels.earliest_departure_time') + required_field %>
+        <%= I18n.t('demands.new.earliest_departure_time') + required_field %>
       </div>
       <div class="form_guide">
-        <%= I18n.t 'demands.guide.earliest_departure_time' %>
+        <%= I18n.t 'demands.new.guide.earliest_departure_time' %>
       </div>
       <div class="form_input">
         <%= form.datetime_select(:earliest_departure_time,
@@ -51,10 +51,10 @@
     <!-- latest arrival time -->
     <div class="form_div">
       <div class="form_label">
-        <%= I18n.t('demands.form.labels.latest_arrival_time') + required_field %>
+        <%= I18n.t('demands.new.latest_arrival_time') + required_field %>
       </div>
       <div class="form_guide">
-        <%= I18n.t 'demands.guide.latest_arrival_time' %>
+        <%= I18n.t 'demands.new.guide.latest_arrival_time' %>
       </div>
       <div class="form_input">
         <%= form.datetime_select(:latest_arrival_time,
@@ -64,8 +64,8 @@
 
     <!-- expiry time -->
     <div class="form_div">
-      <div class="form_label"><%= I18n.t('demands.form.labels.expiry_time') + required_field %></div>
-      <div class="form_guide"><%= I18n.t 'demands.guide.expiry_time' %></div>
+      <div class="form_label"><%= I18n.t('demands.new.expiry_time') + required_field %></div>
+      <div class="form_guide"><%= I18n.t 'demands.new.guide.expiry_time' %></div>
       <div class="form_input">
         <%= form.datetime_select(:expiry_time,
             :start_year => Time.now.year, :end_year => Time.now.year + 1) %>
@@ -74,7 +74,7 @@
 
     <!-- departure place -->
     <div class="form_div">
-      <div class="form_label"><%= I18n.t('demands.form.labels.departure_place') + required_field %></div>
+      <div class="form_label"><%= I18n.t('demands.new.departure_place') + required_field %></div>
       <div class="form_input">
         <%= form.select(:departure_place_id, places_choices, {},
           { "id" => "departure_place_select"}) %>
@@ -83,7 +83,7 @@
 
     <!-- arrival place -->
     <div class="form_div">
-      <div class="form_label"><%= I18n.t('demands.form.labels.arrival_place') + required_field %></div>
+      <div class="form_label"><%= I18n.t('demands.new.arrival_place') + required_field %></div>
       <div class="form_input">
         <%= form.select(:arrival_place_id, places_choices, {},
           { "id" => "arrival_place_select"}) %>
@@ -92,6 +92,6 @@
 
     <!-- send -->
     <div class="form_submit">
-      <%= submit_tag I18n.t('demands.form.submit') %>
+      <%= submit_tag I18n.t('demands.new.send_label') %>
     </div>
 <% end -%>

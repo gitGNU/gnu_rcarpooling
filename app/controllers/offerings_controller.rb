@@ -22,10 +22,15 @@ class OfferingsController < ApplicationController
   # GET /offerings
   def index
     @offerer = User.find(params[:uid])
-    @offerings = @offerer.offerings.find(:all, :order => "created_at DESC")
     respond_to do |format|
-      format.xml
-      format.html
+      format.xml {
+        @offerings = @offerer.offerings.find(:all,
+                                             :order => "created_at DESC")
+      }
+      format.html {
+        @offerings = @offerer.offerings.paginate :page => params[:page],
+          :order => 'created_at DESC', :per_page => 4
+      }
     end
   end
 

@@ -23,10 +23,14 @@ class DemandsController < ApplicationController
   # GET /demands
   def index
     @user = User.find(params[:uid])
-    @demands = @user.demands.find(:all, :order => "created_at DESC")
     respond_to do |format|
-      format.xml
-      format.html
+      format.xml {
+        @demands = @user.demands.find :all, :order => 'created_at DESC'
+      }
+      format.html {
+        @demands = @user.demands.paginate :page => params[:page],
+          :order => 'created_at DESC', :per_page => 4
+      }
     end
   end
 

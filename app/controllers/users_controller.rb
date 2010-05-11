@@ -71,7 +71,8 @@ class UsersController < ApplicationController
   # GET /users/me
   def me
     @user = User.find(params[:uid])
-    redirect_to @user, :status => :temporary_redirect
+    @last_demand = @user.demands.find(:last)
+    @last_offering = @user.offerings.find(:last)
   end
 
 

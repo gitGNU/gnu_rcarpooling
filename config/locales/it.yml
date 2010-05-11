@@ -37,6 +37,43 @@ it:
     am: "am"
     pm: "pm"
 
+  datetime:
+    distance_in_words:
+      half_a_minute: "mezzo minuto"
+      less_than_x_seconds:
+        one: "meno di 1 secondo"
+        other: "meno di {{count}} secondi"
+      x_seconds:
+        one: "1 secondo"
+        other: "{{count}} secondi"
+      less_than_x_minutes:
+        one: "meno di 1 minuto"
+        other: "meno di {{count}} minuti"
+      x_minutes:
+        one: "1 minuto"
+        other: "{{count}} minuti"
+      about_x_hours:
+        one: "circa 1 ora"
+        other: "circa {{count}} ore"
+      x_days:
+        one: "1 giorno"
+        other: "{{count}} giorni"
+      about_x_months:
+        one: "circa 1 mese"
+        other: "circa {{count}} mesi"
+      x_months:
+        one: "1 mese"
+        other: "{{count}} mesi"
+      about_x_years:
+        one: "circa 1 anno"
+        other: "circa {{count}} anni"
+      over_x_years:
+        one: "pi&ugrave; di 1 anno"
+        other: "pi&ugrave; di {{count}} anni"
+      almost_x_years:
+        one: "quasi 1 anno"
+        other: "quasi {{count}} anni"
+
   activerecord:
 
     models:
@@ -133,12 +170,11 @@ it:
 
   navigation_path:
     title: "Sei in:&nbsp;"
-    home_index: "Home"
-    home_guide: "guida&nbsp;utente"
-    home_authors: "chi&nbsp;siamo"
-    users_show: "dati&nbsp;personali"
-    users_edit: "modifica"
-    users_new: "registrazione"
+    home_index: Home
+    users_me: area&nbsp;personale
+    users_show: dati&nbsp;personali
+    users_edit: modifica
+    users_new: registrazione
     unwelcome_passengers_index: "modifica&nbsp;black&nbsp;list"
     unwelcome_drivers_index: "modifica&nbsp;black&nbsp;list"
     demands_new: "chiedi&nbsp;un&nbsp;passaggio"
@@ -185,8 +221,6 @@ it:
   home:
     index:
       intro: "contenuto della home page"
-    authors: "sugli autori"
-    guide: "questa &egrave; la guida per gli utenti"
 
   partials:
     map:
@@ -291,6 +325,23 @@ it:
         lang: "Il sistema ti invier&agrave; le e-mail nella lingua scelta. Potrai
               modificare questo parametro pi&ugrave; tardi."
         email: "Potrai modificare l'indirizzo successivamente."
+    me:
+      title: Pagina personale di {{user_name}}
+      intro: "Benvenuto nella tua pagina personale, da qui puoi accedere ai tuoi
+             dati personali, modificare il tuo profilo pubblico, nonch&egrave;
+             visualizzare tutti i passaggi che hai richiesto od offerto."
+      your_last_demand: La tua ultima richiesta
+      your_last_offering: La tua ultima offerta
+      all_demands_link: Tutte le richieste
+      new_demand_link: Nuova richiesta
+      all_offerings_link: Tutte le offerte
+      new_offering_link: Nuova offerta
+      no_demand: Nessuna richiesta
+      no_offering: Nessuna offerta
+      your_profile: Il tuo profilo
+      profile_link_name: collegamento
+      profile_intro: "Per visualizzare i tuoi dettagli personali e modificare il
+                     tuo profilo pubblico segui questo {{link}}."
 
   unwelcome_passengers:
     index: Puoi aggiungere una persona alla lista dei passeggeri indesiderati
@@ -303,8 +354,8 @@ it:
            sottostante.
 
   gender:
-    male: "Maschio"
-    female: "Femmina"
+    male: Maschio
+    female: Femmina
 
   noscript: "Per utilizzare questa applicazione &egrave; indispensabile che \
             JavaScript sia abilitato."
@@ -312,76 +363,113 @@ it:
   are_you_sure?: Sei sicuro?
   operation_in_progress: Operazione in corso
   done: Fatto
-  yes_w: "S&igrave;"
+  yes_w: "Si"
   no_w: "No"
   form_required_field_note: I campi marcati con {{symbol}} sono obbligatori.
+  next: Succ.
+  previous: Prec.
+  meters: "{{length}} metri"
+  minutes: "{{duration}} minuti"
 
   demands:
-    form:
-      labels:
-        earliest_departure_time: "Istante di partenza minimo"
-        latest_arrival_time: "Istante di arrivo massimo"
-        expiry_time: "Scadenza"
-        departure_place: "Luogo di partenza"
-        arrival_place: "Luogo di arrivo"
-      submit: "Invia"
-      delete: "Elimina questa richiesta"
-    from: "Da"
-    to: "A"
-    min_departure_time: "Partenza (min)"
-    max_arrival_time: "Arrivo (max)"
-    created_at: "Creata il"
-    details_link: "dettagli"
+    index:
+      from: Da
+      to: A
+      min_departure_time: Partenza (min)
+      max_arrival_time: Arrivo (max)
+      created_at: Creata il
+      details_link: dettagli
+      in_process: In processo
+      title: Tutte le tue richieste
+      deletable: Cancellabile
+      fulfilled: Soddisfatta
+      empty: Nessuna richiesta
     new:
       title: Chiedi un passaggio
       intro: Qui puoi &quot;chiedere un passaggio&quot;. Devi solo inserire
              i pochi dati richiesti di seguito. Puoi aiutarti con la mappa per
              selezionare i luoghi di partenza ed arrivo.
-    guide:
-      expiry_time: "Il sistema ti risponder&agrave; entro il momento specificato.
-                   Deve essere precedente all'istante di partenza minimo, ma
-                   pi&ugrave; tardi di 5 minuti da ora."
-      earliest_departure_time: "Significa &quot;sono disposto a partire
-                               non prima del...&quot; e deve essere maggiore di 10
-                               minuti da ora."
-      latest_arrival_time: "Significa &quot;voglio arrivare entro e non oltre
-                           il...&quot;"
+      earliest_departure_time: Istante di partenza minimo
+      latest_arrival_time: Istante di arrivo massimo
+      expiry_time: Scadenza
+      departure_place: Luogo di partenza
+      arrival_place: Luogo di arrivo
+      send_label: Invia
+      guide:
+        expiry_time: "Il sistema ti risponder&agrave; entro il momento specificato.
+                    Deve essere precedente all'istante di partenza minimo, ma
+                    pi&ugrave; tardi di 5 minuti da ora."
+        earliest_departure_time: "Significa &quot;sono disposto a partire
+                                non prima del...&quot; e deve essere maggiore di 10
+                                minuti da ora."
+        latest_arrival_time: "Significa &quot;voglio arrivare entro e non oltre
+                            il...&quot;"
+    show:
+      departure_place: Partenza
+      arrival_place: Arrivo
+      created_at: Creata il
+      earliest_departure_time: Istante di partenza minimo
+      latest_arrival_time: Istante di arrivo massimo
+      expiry_time: Risposta entro
+      delete_label: Cancella
+      title: "Dettagli richiesta #{{id}}"
+      all_demands_link: Tutte le tue richieste
+      guide:
+        expiry_time: "Il sistema ti notificher&agrave; la soluzione di
+                     trasporto (se sar&agrave; possibile individuarne una) entro la
+                     scadenza &quot;risposta entro&quot;."
+        delete: "Se vuoi puoi cancellare la richiesta premendo il tasto
+                sottostante. Ti verr&agrave; richiesta conferma."
+      still_processing: In processo ancora per
+      processing_over: Processo finito da
+      fulfilled: (soddisfatta)
+      not_fulfilled: (non soddisfatta)
 
 
   fulfilled_demands:
-    intro: "La tua richiesta &egrave; stata soddisfatta"
-    demand_title: "Questa era la tua richiesta originale:"
-    fulfilled_demand_title: "La soluzione &egrave; come segue:"
-    initial_walk_intro: "Primo tratto a piedi:"
-    final_walk_intro: "Ultimo tratto a piedi:"
-    car_intro: "Viaggio in automobile:"
-    from: "Da"
-    to: "A"
-    with: "Con"
-    departure_time: "Ora partenza"
-    arrival_time: "Ora arrivo"
-    guaranteed: "Questa soluzione &egrave; garantita"
-    not_guaranteed: "Questa soluzione non &egrave; garantita fino al:"
-    can_delete_until: "Puoi recedere fino al:"
+    show:
+      title: "Dettagli della richiesta (soddisfatta) #{{id}}"
+      intro: La tua richiesta &egrave; stata soddisfatta.
+      all_demands_link: Tutte le tue richieste
+      demand_intro: Di seguito i dettagli della tua richiesta.
+      solution_intro: Di seguito i dettagli della soluzione di
+                      trasporto computata.
+      initial_walk_title: Primo tratto a piedi
+      from: Da
+      to: A
+      departure_time: Ora partenza
+      arrival_time: Ora arrivo
+      car_title: Tratto in automobile
+      with: Con
+      final_walk_title: Ultimo tratto a piedi
+      guaranteed: Questa soluzione &egrave; garantita.
+      not_guaranteed: "Questa soluzione non &egrave; garantita
+                      fino al {{time}}"
+      can_delete_until: Puoi recedere fino al {{time}}
+      delete_label: Elimina
+      length: Distanza
+      duration: Durata
+      vehicle_registration_plate: Targa
+      guide:
+        delete: "Puoi cancellare la richiesta premendo il tasto sottostante.
+                Ti verr&agrave; richiesta conferma."
 
 
   offerings:
-    form:
-      labels:
-        departure_time: "Istante di partenza"
-        arrival_time: "Istante di arrivo"
-        expiry_time: "Scadenza"
-        departure_place: "Luogo di partenza"
-        arrival_place: "Luogo di arrivo"
-        seating_capacity: "Posti disponibili"
-      submit: "Invia"
-      delete: "Elimina questa offerta"
-    from: "Da"
-    to: "A"
-    departure_time: "Partenza"
-    arrival_time: "Arrivo"
-    created_at: "Creata il"
-    details_link: "dettagli"
+    index:
+      from: Da
+      to: A
+      departure_time: Partenza
+      arrival_time: Arrivo
+      created_at: Creata il
+      details_link: dettagli
+      title: Tutte le tue offerte
+      chilled_since: Congelata dal
+      in_use: Passeggeri
+      chilled: Congelata
+      empty: Nessuna offerta
+      guide:
+        intro: "Le offerte congelate non possono essere revocate."
     guide:
       departure_time: Scegli quando partirai. Deve essere maggiore di 10 minuti da
                       ora.
@@ -397,8 +485,53 @@ it:
       intro: Metti a disposizione i posti liberi nella tua automobile, devi solo
              inserire i dati richiesti di seguito. Puoi aiutarti con la mappa
              nella scelta dei luoghi di partenza ed arrivo.
+      departure_time: Istante di partenza
+      arrival_time: Istante di arrivo
+      expiry_time: Scadenza
+      departure_place: Luogo di partenza
+      arrival_place: Luogo di arrivo
+      seating_capacity: Posti disponibili
+      submit_label: Invia
+    show:
+      departure_time: Istante di partenza
+      arrival_time: Istante di arrivo
+      expiry_time: Notifica passeggeri entro
+      created_at: Creata il
+      departure_place: Partenza
+      arrival_place: Arrivo
+      seating_capacity: Posti disponibili
+      delete_label: Elimina
+      title: "Dettagli dell'offerta #{{id}}"
+      in_use: (in uso)
+      not_in_use: (non in uso)
+      chilled_from: Congelata da
+      chilled_in: "Sar&agrave; congelata tra"
+      chilled_since: Congelata a partire dal
+      all_offerings_link: Tutte le tue offerte
+      guide:
+        expiry_time: "Il sistema ti invier&agrave; la lista degli eventuali
+                     passeggeri entro l'istante &quot;notifica
+                     passeggeri&quot;."
+        chilled_since: "Puoi revocare l'offerta solo se essa non
+                       &egrave; congelata."
+        delete: "Per cancellare quest'offerta premi il bottone sottostante.
+                Ti verr&agrave; richesta conferma."
+        intro: "Se l'offerta &egrave; classificata come &quot;non in
+                uso&quot; significa che non vi &egrave; ancora nessun
+                passeggero."
+
 
   used_offerings:
-    passengers_intro: "I tuoi passeggeri sono:"
-    offering_intro: "La tua offerta originaria era:"
-    actual_seating_capacity: "Posti attualmente liberi:"
+    show:
+      title: "Dettagli dell'offerta (in uso) #{{id}}"
+      intro: Alcune persone viaggiano con te.
+      offering_intro: Di seguito i dettagli relativi alla tua offerta.
+      delete_label: Elimina
+      passengers_intro: "Viaggeranno con te:"
+      actual_seating_capacity: Posti attualmente liberi
+      passengers_note: "Ti ricordiamo che la lista dei passeggeri pu&ograve;
+                       variare fino al momento della notifica."
+      all_offerings_link: Tutte le tue offerte
+      guide:
+        delete: "Puoi revocare la tua offerta premendo il bottone
+                sottostante. Ti verr&agrave; richiesta conferma."

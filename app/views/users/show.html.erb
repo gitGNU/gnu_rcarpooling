@@ -18,7 +18,7 @@
 -%>
 <% content_for(:navigation_path) do -%>
   <%= render :partial => "partials/navigation_path",
-      :object => ["/", user_path(@user)] %>
+      :object => [home_path, me_users_path, user_path(@user)] %>
 <% end -%>
 
   <p><%= I18n.t 'users.show.intro' %></p>
@@ -68,6 +68,7 @@
         <% end -%>
       </td>
     </tr>
+    <!-- picture -->
     <tr>
       <td><span class="public_bold"><%= I18n.t 'users.picture' %></span></td>
       <td>
@@ -83,6 +84,13 @@
             :class => "button",
             :confirm => I18n.t('are_you_sure?') %>
         <% end -%>
+      </td>
+    </tr>
+    <!-- member since -->
+    <tr>
+      <td><span class="public_bold"><%= I18n.t 'users.member_since' %></span></td>
+      <td>
+        <span class="public"><%= I18n.l @user.created_at, :format => :long %></span>
       </td>
     </tr>
     <!-- score -->

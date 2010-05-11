@@ -1,0 +1,58 @@
+<%
+# Copyright (C) 2010  Roberto Maestroni
+#
+# This file is part of Rcarpooling.
+#
+# Rcarpooling is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Rcarpooling is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero Public License for more details.
+#
+# You should have received a copy of the GNU Affero Public License
+# along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
+-%>
+
+<% content_for :navigation_path do -%>
+  <%= render :partial => "partials/navigation_path",
+        :object => [home_path, me_users_path] %>
+<% end -%>
+
+<h3>
+  <%= I18n.t 'users.me.title', :user_name => h(@user.name) %>
+  <% if @user.has_picture? -%>
+    <%= image_tag user_picture_url(:user_id => @user.id),
+          :style => 'margin-left: 0.5em; position: relative; top: 0.5em;'%>
+  <% end -%>
+</h3>
+<p><%= I18n.t 'users.me.intro' %></p>
+
+<h4><%= I18n.t 'users.me.your_last_demand' %></h4>
+<% if @last_demand -%>
+  <%= render :partial => "demands/demand", :object => @last_demand %>
+  <p><%= link_to I18n.t('users.me.all_demands_link'), demands_url %></p>
+<% else -%>
+  <p class="italic"><%= I18n.t 'users.me.no_demand' %></p>
+<% end -%>
+<p><%= link_to I18n.t('users.me.new_demand_link'), new_demand_url %></p>
+
+<br/>
+<h4><%= I18n.t 'users.me.your_last_offering' %></h4>
+<% if @last_offering -%>
+  <%= render :partial => "offerings/offering", :object => @last_offering %>
+  <p><%= link_to I18n.t('users.me.all_offerings_link'), offerings_url %></p>
+<% else -%>
+  <p class="italic"><%= I18n.t 'users.me.no_offering' %></p>
+<% end -%>
+<p><%= link_to I18n.t('users.me.new_offering_link'), new_offering_url %></p>
+
+<br/>
+<h4><%= I18n.t 'users.me.your_profile' %></h4>
+<p>
+  <%= I18n.t 'users.me.profile_intro',
+    :link => link_to(I18n.t('users.me.profile_link_name'), user_url(@user)) %>
+</p>

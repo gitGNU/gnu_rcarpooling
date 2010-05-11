@@ -19,25 +19,48 @@
 <% uo = @used_offering -%>
 <% content_for(:navigation_path) do -%>
   <%= render :partial => "partials/navigation_path",
-    :object => ["/", offerings_path, offering_path(uo.offering)] %>
+    :object => [home_path, me_users_path, offerings_path,
+                offering_path(uo.offering)] %>
 <% end -%>
 
-<p><%= I18n.t 'used_offerings.offering_intro' %></p>
-<%= render :partial => "offerings/offering_long", :object => uo.offering %>
+<div class="float_right">
+  <%= link_to I18n.t('used_offerings.show.all_offerings_link'),
+      offerings_url %>
+</div>
 
+<h3><%= I18n.t 'used_offerings.show.title', :id => uo.id %></h3>
+
+<p><%= I18n.t 'used_offerings.show.intro' %></p>
+
+<p><%= I18n.t 'used_offerings.show.offering_intro' %></p>
+
+<%= render :partial => "offerings/offering_detailed",
+    :object => uo.offering %>
 <p>
-  <%= I18n.t 'used_offerings.actual_seating_capacity' %>
+  <span class="bold">
+    <%= I18n.t 'used_offerings.show.actual_seating_capacity' %>:
+  </span>
   <%= uo.seating_capacity %>
 </p>
 
-<p><%= I18n.t 'used_offerings.passengers_intro' %></p>
-  <ul>
-    <% uo.passengers.each do |p| -%>
-      <li><%= render :partial => "users/user_name", :object => p %></li>
-    <% end -%>
-  </ul>
+<p><%= I18n.t 'used_offerings.show.passengers_intro' %></p>
+<ul>
+  <% uo.passengers.each do |p| -%>
+    <li><%= render :partial => "users/user_name", :object => p %></li>
+  <% end -%>
+</ul>
+<p><%= I18n.t 'used_offerings.show.passengers_note' %></p>
 
 <% if !uo.chilled? -%>
-  <%= button_to I18n.t('offerings.form.delete'), used_offering_url(uo),
-    :method => :delete %>
+  <p class="almost_normal">
+    <%= I18n.t 'used_offerings.show.guide.delete' %>
+  </p>
+  <%= button_to I18n.t('used_offerings.show.delete_label'),
+    used_offering_url(uo),
+    :method => :delete, :confirm => I18n.t('are_you_sure?') %>
 <% end -%>
+
+<div class="float_right">
+  <%= link_to I18n.t('used_offerings.show.all_offerings_link'),
+      offerings_url %>
+</div>

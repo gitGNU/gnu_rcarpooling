@@ -203,8 +203,17 @@ class UsersControllerTest < ActionController::TestCase
     user = users(:donald_duck)
     set_authorization_header(user.nick_name, user.password)
     get :me
-    assert_response :temporary_redirect
-    assert_redirected_to user
+    assert_response :success
+    assert_equal "text/html", @response.content_type
+    # @user
+    assert_not_nil assigns(:user)
+    assert_equal user, assigns(:user)
+    # @last_demand
+    assert_not_nil assigns(:last_demand)
+    assert_equal user.demands.find(:last), assigns(:last_demand)
+    # @last_offering
+    assert_not_nil assigns(:last_offering)
+    assert_equal user.offerings.find(:last), assigns(:last_offering)
   end
 
 

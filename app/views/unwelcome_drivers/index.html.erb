@@ -18,7 +18,7 @@
 -%>
 <% content_for(:navigation_path) do -%>
   <%= render :partial => "partials/navigation_path",
-             :object => [home_path, user_path(@user),
+             :object => [home_path, me_users_path, user_path(@user),
               user_unwelcome_drivers_path(:user_id => @user.id)]
   %>
 <% end -%>

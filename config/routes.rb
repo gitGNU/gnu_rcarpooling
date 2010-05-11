@@ -50,12 +50,4 @@ ActionController::Routing::Routes.draw do |map|
       :conditions => { :method => :post },
       :controller => "users",
       :action => "logout"
-  map.connect '/authors',
-      :conditions => { :method => :get },
-      :controller => "home",
-      :action => "authors"
-  map.connect '/guide',
-      :conditions => { :method => :get },
-      :controller => "home",
-      :action => "guide"
 end

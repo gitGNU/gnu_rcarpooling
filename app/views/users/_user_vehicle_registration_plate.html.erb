@@ -16,9 +16,7 @@
 # You should have received a copy of the GNU Affero Public License
 # along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
 -%>
-<% content_for(:navigation_path) do -%>
-  <% path_array = ["/", "/guide"] -%>
-  <%= render :partial => "partials/navigation_path",
-      :object => path_array %>
+<% user = user_vehicle_registration_plate -%>
+<% if user.shows_vehicle_registration_plate? -%>
+  <%= h user.vehicle_registration_plate %>
 <% end -%>
-<%= I18n.t('home.guide') %>

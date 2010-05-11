@@ -58,9 +58,8 @@ en:
 
   navigation_path:
     title: "You are in:&nbsp;"
-    home_index: "Home"
-    home_guide: "user&nbsp;guide"
-    home_authors: "about&nbsp;us"
+    home_index: Home
+    users_me: personal&nbsp;area
     users_show: "personal&nbsp;details"
     users_edit: "edit"
     users_new: "sign&nbsp;up"
@@ -110,8 +109,6 @@ en:
   home:
     index:
       intro: "this is the content of home page"
-    authors: "about authors"
-    guide: "this is the user guide"
 
   partials:
     map:
@@ -206,6 +203,23 @@ en:
       guide:
         lang: The system will send you e-mail in the selected language.
         email: You can change your address later.
+    me:
+      title: "{{user_name}}'s personal page"
+      intro: "Welcome to your personal page. From here you can see your personal
+             details, edit your public profile, as well see all your rides, offered
+             and received."
+      your_last_demand: Your last demand
+      your_last_offering: Your last offer
+      all_demands_link: All demands
+      new_demand_link: New demand
+      all_offerings_link: All offerings
+      new_offering_link: New offering
+      no_demand: No demand
+      no_offering: No offering
+      your_profile: Your profile
+      profile_link_name: link
+      profile_intro: "To see your personal details and edit your public profile
+                     follow this {{link}}."
 
   unwelcome_passengers:
     index: You can put a person in your passengers' black list dragging his or her
@@ -227,70 +241,102 @@ en:
   yes_w: "Yes"
   no_w: "No"
   form_required_field_note: Fields marked with {{symbol}} are mandatory.
+  next: Next
+  previous: Prev.
+  meters: "{{length}} meters"
+  minutes: "{{duration}} minutes"
 
   demands:
-    form:
-      labels:
-        earliest_departure_time: "Earliest departure time"
-        latest_arrival_time: "Latest arrival time"
-        expiry_time: "Expiry time"
-        departure_place: "Departure place"
-        arrival_place: "Arrival place"
-      submit: "Send"
-      delete: "Delete this demand"
-    from: "From"
-    to: "To"
-    min_departure_time: "Dep. time (min)"
-    max_arrival_time: "Arr. time (max)"
-    created_at: "Created at"
-    details_link: "details"
+    index:
+      from: From
+      to: To
+      min_departure_time: Dep. time (min)
+      max_arrival_time: Arr. time (max)
+      created_at: Created at
+      details_link: details
+      in_process: In process
+      title: All your demands
+      deletable: Deletable
+      fulfilled: Fulfilled
+      empty: No demand
     new:
       title: Hitch a ride
       intro: Here you can &quot;hitch a ride&quot;. Just fill the fields, help
              yourself with the map to pick departure and arrival places.
-    guide:
-      expiry_time: The system will reply you until this time. It must precede
-                   the earliest departure time and must be later than 5 minutes from
-                   now.
-      earliest_departure_time: It means &quot;I can depart not before...&quot; and
-                               must be later than 10 minutes from now.
-      latest_arrival_time: It means &quot;I will arrive not later than...&quot;
+      earliest_departure_time: Earliest departure time
+      latest_arrival_time: Latest arrival time
+      expiry_time: Expiry time
+      departure_place: Departure place
+      arrival_place: Arrival place
+      send_label: Send
+      guide:
+        expiry_time: The system will reply you until this time. It must precede
+                    the earliest departure time and must be later than 5 minutes from
+                    now.
+        earliest_departure_time: It means &quot;I can depart not before...&quot; and
+                                must be later than 10 minutes from now.
+        latest_arrival_time: It means &quot;I will arrive not later than...&quot;
+    show:
+      departure_place: Departure
+      arrival_place: Arrival
+      created_at: Created at
+      earliest_departure_time: Earliest departure time
+      latest_arrival_time: Latest arrival time
+      expiry_time: Reply until
+      delete_label: Delete
+      title: "Details of demand #{{id}}"
+      all_demands_link: All your demands
+      guide:
+        expiry_time: "The system will send you a notification until the time
+                     &quot;reply until&quot;."
+        delete: You can delete the request by pressing the button below.
+      still_processing: Still in process for
+      processing_over: Processing over since
+      fulfilled: (fulfilled)
+      not_fulfilled: (not fulfilled)
 
 
   fulfilled_demands:
-    intro: "Your demand has been fulfilled"
-    demand_title: "This was your original demand:"
-    fulfilled_demand_title: "The solution is as follows:"
-    initial_walk_intro: "Initial walk:"
-    final_walk_intro: "Final walk:"
-    car_intro: "Journey by car:"
-    from: "From"
-    to: "To"
-    with: "With"
-    departure_time: "Dep. time"
-    arrival_time: "Arr. time"
-    guaranteed: "This solution is guaranteed"
-    not_guaranteed: "This solution is not guaranteed until:"
-    can_delete_until: "You can delete this demand until:"
+    show:
+      title: "Details of demand (fulfilled) #{{id}}"
+      intro: Your demand is fulfilled.
+      all_demands_link: All your demands
+      demand_intro: Demand details are as follows.
+      solution_intro: Solution is as follows.
+      initial_walk_title: Initial walk
+      from: From
+      to: To
+      departure_time: Dep. time
+      arrival_time: Arr. time
+      car_title: Journey by car
+      with: With
+      final_walk_title: Final walk
+      guaranteed: This solution is guaranteed.
+      not_guaranteed: This solution is not guaranteed until {{time}}
+      can_delete_until: You can delete this demand until {{time}}
+      delete_label: Delete
+      length: Length
+      duration: Duration
+      vehicle_registration_plate: Vehicle registration plate
+      guide:
+        delete: You can delete the request by pressing the button below.
 
 
   offerings:
-    form:
-      labels:
-        departure_time: "Departure time"
-        arrival_time: "Arrival time"
-        expiry_time: "Expiry time"
-        departure_place: "Departure place"
-        arrival_place: "Arrival place"
-        seating_capacity: "Seatings"
-      submit: "Send"
-      delete: "Delete this offering"
-    from: "From"
-    to: "To"
-    departure_time: "Dep. time"
-    arrival_time: "Arr. time"
-    created_at: "Created at"
-    details_link: "details"
+    index:
+      from: From
+      to: To
+      departure_time: Dep. time
+      arrival_time: Arr. time
+      created_at: Created at
+      details_link: details
+      title: All your offerings
+      chilled_since: Frozen since
+      in_use: Passengers
+      chilled: Frozen
+      empty: No offering
+      guide:
+        intro: "Frozen offerings can't be deleted."
     guide:
       departure_time: Select when you will depart. It must be later than 10
                       minutes from now.
@@ -305,9 +351,49 @@ en:
       title: Offer a ride
       intro: Offer the free seats in your car, just fill the following fields.
              Help yourself with the map to pick your departure and arrival places.
+      departure_time: Departure time
+      arrival_time: Arrival time
+      expiry_time: Expiry time
+      departure_place: Departure place
+      arrival_place: Arrival place
+      seating_capacity: Seatings
+      submit_label: Send
+    show:
+      departure_time: Departure time
+      arrival_time: Arrival time
+      expiry_time: Passengers notification until
+      created_at: Created at
+      departure_place: Departure
+      arrival_place: Arrival
+      seating_capacity: Seatings
+      delete_label: Delete
+      title: "Details of offering #{{id}}"
+      in_use: (in use)
+      not_in_use: (not used)
+      chilled_from: Frozen from
+      chilled_in: Will be frozen in
+      chilled_since: Frozen since
+      all_offerings_link: All your offerings
+      guide:
+        expiry_time: "The system will notify you the list of the passengers
+                     until &quot;passengers notification&quot;."
+        chilled_since: "You can delete your offering only if it isn't
+                       frozen."
+        delete: Press the button below to delete this offering.
+        intro: "If the offering is marked as &quot;not used&quot; there
+                aren't any passengers yet."
 
 
   used_offerings:
-    passengers_intro: "Your passengers are:"
-    offering_intro: "Your offering was:"
-    actual_seating_capacity: "Actual free seatings:"
+    show:
+      title: "Details of offering (in use) #{{id}}"
+      intro: Some people travel with you.
+      offering_intro: Your offering is as follows.
+      delete_label: Delete
+      passengers_intro: "Your passengers are:"
+      actual_seating_capacity: "Actual free seatings"
+      passengers_note: Please note that the passengers list can vary
+                       until the notification time.
+      all_offerings_link: All your offerings
+      guide:
+        delete: Press the button below to delete this offering.

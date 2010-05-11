@@ -67,7 +67,7 @@ class Demand < ActiveRecord::Base
 
   def deletable?
     if fulfilled?
-      false
+      fulfilled_demand.deletable?
     else
       !expired?
     end

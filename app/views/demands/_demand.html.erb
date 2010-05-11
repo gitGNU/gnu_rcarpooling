@@ -16,25 +16,50 @@
 # You should have received a copy of the GNU Affero Public License
 # along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
 -%>
-<% demand = demand_short -%>
 <table class="almost_normal">
   <tr>
-    <td><span class="bold"><%= I18n.t 'demands.from' %></span></td>
+    <td class="bold"><%= I18n.t 'demands.index.from' %></td>
     <td><%= render :partial => "places/place", :object => demand.departure_place %></td>
-    <td><span class="bold"><%= I18n.t 'demands.min_departure_time'%></span></td>
+    <td class="bold"><%= I18n.t 'demands.index.min_departure_time'%></td>
     <td><%= I18n.l demand.earliest_departure_time, :format => :short %></td>
   </tr>
   <tr>
-    <td><span class="bold"><%= I18n.t 'demands.to' %></span></td>
+    <td class="bold"><%= I18n.t 'demands.index.to' %></td>
     <td><%= render :partial => "places/place", :object => demand.arrival_place %></td>
-    <td><span class="bold"><%= I18n.t 'demands.max_arrival_time'%></span></td>
+    <td class="bold"><%= I18n.t 'demands.index.max_arrival_time'%></td>
     <td><%= I18n.l demand.latest_arrival_time, :format => :short %></td>
   </tr>
   <tr>
-    <td><span class="bold"><%= I18n.t 'demands.created_at'%></span></td>
+    <td class="bold"><%= I18n.t 'demands.index.created_at'%></td>
     <td><%= I18n.l demand.created_at, :format => :short%></td>
+    <td class="bold"><%= I18n.t 'demands.index.in_process' %></td>
+    <td>
+      <% if !demand.expired? -%>
+        <%= I18n.t 'yes_w' %>
+      <% else -%>
+        <%= I18n.t 'no_w' %>
+      <% end -%>
+    </td>
   </tr>
   <tr>
-    <td><%= link_to I18n.t('demands.details_link'), demand_url(demand) %></td>
+    <td class="bold"><%= I18n.t 'demands.index.deletable' %></td>
+    <td>
+      <% if demand.deletable? -%>
+        <%= I18n.t 'yes_w' %>
+      <% else -%>
+        <%= I18n.t 'no_w' %>
+      <% end -%>
+    </td>
+    <td class="bold"><%= I18n.t 'demands.index.fulfilled' %></td>
+    <td>
+      <% if demand.fulfilled? -%>
+        <%= I18n.t 'yes_w' %>
+      <% else -%>
+        <%= I18n.t 'no_w' %>
+      <% end -%>
+    </td>
+  </tr>
+  <tr>
+    <td><%= link_to I18n.t('demands.index.details_link'), demand_url(demand) %></td>
   </tr>
 </table>

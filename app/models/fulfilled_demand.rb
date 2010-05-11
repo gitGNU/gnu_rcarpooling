@@ -72,6 +72,11 @@ class FulfilledDemand < ActiveRecord::Base
   end
 
 
+  def deletable?
+    !chilled?
+  end
+
+
   def chilled_since
     used_offering.expiry_time - 1.minute
   end
@@ -180,6 +185,17 @@ class FulfilledDemand < ActiveRecord::Base
 
   def final_walk_length
     (has_final_walk? && second_segment_on_foot.length) || 0
+  end
+
+
+  def driver
+    vehicle_offering.driver
+  end
+
+
+  def vehicle_registration_plate
+    driver.shows_vehicle_registration_plate? &&
+        driver.vehicle_registration_plate
   end
 
 end

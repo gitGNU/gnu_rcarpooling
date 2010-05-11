@@ -1,0 +1,80 @@
+<%
+# Copyright (C) 2010  Roberto Maestroni
+#
+# This file is part of Rcarpooling.
+#
+# Rcarpooling is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Rcarpooling is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero Public License for more details.
+#
+# You should have received a copy of the GNU Affero Public License
+# along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
+-%>
+<% demand = demand_detailed -%>
+<table>
+  <tr>
+    <td>
+      <span class="bold"><%= I18n.t 'demands.show.departure_place' %></span>
+    </td>
+    <td>
+      <%= render :partial => "places/place",
+          :object => demand.departure_place %>
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <span class="bold"><%= I18n.t 'demands.show.arrival_place' %></span>
+    </td>
+    <td>
+      <%= render :partial => "places/place",
+          :object => demand.arrival_place %>
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <span class="bold"><%= I18n.t 'demands.show.earliest_departure_time'%></span>
+    </td>
+    <td><%= I18n.l demand.earliest_departure_time, :format => :long %></td>
+  </tr>
+
+  <tr>
+    <td>
+      <span class="bold"><%= I18n.t 'demands.show.latest_arrival_time'%></span>
+    </td>
+    <td><%= I18n.l demand.latest_arrival_time, :format => :long %></td>
+  </tr>
+
+  <tr>
+    <td>
+      <span class="bold"><%= I18n.t 'demands.show.created_at'%></span>
+    </td>
+    <td><%= I18n.l demand.created_at, :format => :long %></td>
+  </tr>
+
+  <tr>
+    <td>
+      <span class="bold"><%= I18n.t 'demands.show.expiry_time' %></span>
+    </td>
+    <td><%= I18n.l demand.expiry_time, :format => :long %></td>
+  </tr>
+
+  <tr>
+    <td>
+      <% if demand.expired? -%>
+        <span class="bold"><%= I18n.t 'demands.show.processing_over' %></span>
+      <% else -%>
+        <span class="bold"><%= I18n.t 'demands.show.still_processing' %></span>
+      <% end -%>
+    </td>
+    <td><%= distance_of_time_in_words(Time.now, demand.expiry_time) %></td>
+  </tr>
+</table>
+<p class="almost_normal"><%= I18n.t 'demands.show.guide.expiry_time' %></p>

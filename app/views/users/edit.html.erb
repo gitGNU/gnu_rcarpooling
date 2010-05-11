@@ -20,7 +20,8 @@
 
 <% content_for(:navigation_path) do -%>
   <%= render :partial => "partials/navigation_path",
-      :object => ["/", user_path(@user), edit_user_path(@user)] %>
+      :object => [home_path, me_users_path, user_path(@user),
+                  edit_user_path(@user)] %>
 <% end -%>
 
 <% form_for :user, :url => {:action => :update, :id => @user },
