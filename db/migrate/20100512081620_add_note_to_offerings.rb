@@ -1,4 +1,3 @@
-<%
 # Copyright (C) 2010  Roberto Maestroni
 #
 # This file is part of Rcarpooling.
@@ -15,25 +14,13 @@
 #
 # You should have received a copy of the GNU Affero Public License
 # along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
--%>
-<% content_for(:navigation_path) do -%>
-  <%= render :partial => "partials/navigation_path",
-    :object => [home_path, me_users_path, offerings_path] %>
-<% end -%>
 
-<h3><%= I18n.t 'offerings.index.title' %></h3>
+class AddNoteToOfferings < ActiveRecord::Migration
+  def self.up
+    add_column :offerings, :note, :text
+  end
 
-<% if @offerings.empty? -%>
-  <p class="italic"><%= I18n.t 'offerings.index.empty' %></p>
-<% else -%>
-  <p class="almost_normal">
-    <%= I18n.t 'offerings.index.guide.intro' %>
-  </p>
-
-  <%= will_paginate @offerings %>
-
-  <%= render :partial => "offering", :collection => @offerings,
-    :spacer_template => "partials/spacer" %>
-
-  <%= will_paginate @offerings %>
-<% end -%>
+  def self.down
+    remove_column :offerings, :note
+  end
+end

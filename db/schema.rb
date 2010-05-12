@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100415142544) do
+ActiveRecord::Schema.define(:version => 20100512081620) do
 
   create_table "black_list_drivers_entries", :force => true do |t|
     t.integer  "user_id"
@@ -77,6 +77,7 @@ ActiveRecord::Schema.define(:version => 20100415142544) do
     t.integer  "seating_capacity"
     t.datetime "arrival_time"
     t.integer  "passengers_list_job_number"
+    t.text     "note"
   end
 
   create_table "places", :force => true do |t|

@@ -24,8 +24,8 @@ class DemandTest < ActiveSupport::TestCase
     demand.suitor = users(:mickey_mouse)
     demand.departure_place = places(:sede_di_via_ravasi)
     demand.arrival_place = places(:sede_di_via_dunant)
-    demand.earliest_departure_time = 3.hours.from_now
-    demand.latest_arrival_time = 6.hours.from_now
+    demand.earliest_departure_time = 3.days.from_now
+    demand.latest_arrival_time = 6.days.from_now
     demand.expiry_time = 6.minutes.from_now
     assert demand.valid?
     assert demand.save
@@ -126,6 +126,37 @@ class DemandTest < ActiveSupport::TestCase
     demand = demands(:mickey_mouse_demand_n_2_dep_in_past)
     assert demand.expired?
     assert ! demand.deletable?
+  end
+
+
+  test "static method intersects" do
+    assert_raise(Exception) {
+      Demand.intersects_any?(0, 2.hours.from_now, 1.hour.from_now) }
+    #
+    uid = users(:mickey_mouse).id
+    assert Demand.intersects_any?(uid, 2.hours.ago, 30.seconds.ago)
+    assert Demand.intersects_any?(uid, 30.minutes.ago, 10.minutes.ago)
+    assert Demand.intersects_any?(uid, 3.hours.ago, 30.minutes.ago)
+    assert Demand.intersects_any?(uid, 30.minutes.ago, 30.seconds.ago)
+    assert ! Demand.intersects_any?(uid, 4.hours.ago, 3.hours.ago)
+    uid = users(:donald_duck)
+    assert ! Demand.intersects_any?(uid, 30.minutes.ago, 30.seconds.ago)
+  end
+
+
+  test "invalid if intersects" do
+    demand = Demand.new(:suitor => users(:mickey_mouse),
+                        :earliest_departure_time => 3.hours.from_now,
+                        :latest_arrival_time => 4.hours.from_now)
+    assert ! demand.valid?
+    assert demand.errors.invalid?(:earliest_departure_time)
+    assert demand.errors.invalid?(:latest_arrival_time)
+    assert_equal I18n.t('activerecord.errors.messages.demand.' +
+                        'time_incompatible'),
+                        demand.errors.on(:earliest_departure_time)
+    assert_equal I18n.t('activerecord.errors.messages.demand.' +
+                        'time_incompatible'),
+                        demand.errors.on(:latest_arrival_time)
   end
 
 

@@ -112,4 +112,9 @@ class UsedOffering < ActiveRecord::Base
     offering.expired?
   end
 
+
+  def note
+    offering.note
+  end
+
 end

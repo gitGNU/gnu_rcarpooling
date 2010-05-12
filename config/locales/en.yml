@@ -34,6 +34,7 @@ en:
           expiry_time_must_be_earlier_than_or_equal_to_earliest_departure_time: "must be earlier than or equal to earliest departure time"
           expiry_time_must_be_later_than_5_minutes_from_now: "must be later than 5 minutes from now"
           arrival_place_must_be_distinct_from_departure_place: "must be distinct from departure place"
+          time_incompatible: time incompatible
 
         edge:
           arrival_place_must_be_distinct_from_departure_place: "must be distinct from departure place"
@@ -45,6 +46,7 @@ en:
           expiry_time_must_be_later_than_or_equal_to_2_hours_before_departure_time: "must be later than or equal to 2 hours before departure time"
           arrival_place_must_be_distinct_from_departure_place: "must be distinct from departure place"
           arrival_time_must_be_later_than_departure_time: "must be later than departure time"
+          time_incompatible: time incompatible
 
         segment_on_foot:
           arrival_place_must_be_distinct_from_departure_place: "must be distinct from departure place"
@@ -318,6 +320,7 @@ en:
       length: Length
       duration: Duration
       vehicle_registration_plate: Vehicle registration plate
+      driver_note: "Driver's note"
       guide:
         delete: You can delete the request by pressing the button below.
 
@@ -358,6 +361,9 @@ en:
       arrival_place: Arrival place
       seating_capacity: Seatings
       submit_label: Send
+      note: Note
+      guide:
+        note: Maximum length is 500 characters.
     show:
       departure_time: Departure time
       arrival_time: Arrival time
@@ -374,6 +380,7 @@ en:
       chilled_in: Will be frozen in
       chilled_since: Frozen since
       all_offerings_link: All your offerings
+      note: Note
       guide:
         expiry_time: "The system will notify you the list of the passengers
                      until &quot;passengers notification&quot;."

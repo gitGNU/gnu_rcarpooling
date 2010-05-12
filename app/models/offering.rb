@@ -45,14 +45,18 @@ class Offering < ActiveRecord::Base
       :only_integer => true, :greater_than => 0
 
 
+  validates_length_of :note, :allow_nil => true, :maximum => 500
+
+
   validate_on_create :departure_time_must_be_later_than_10_minutes_from_now,
-      :expiry_time_must_be_later_than_5_minutes_from_now
+      :expiry_time_must_be_later_than_5_minutes_from_now, :times_compatible
 
 
   validate :expiry_time_must_be_earlier_than_or_equal_to_departure_time,
       :expiry_time_must_be_later_than_or_equal_to_2_hours_before_departure_time,
       :arrival_place_must_be_distinct_from_departure_place,
-      :arrival_time_must_be_later_than_departure_time
+      :arrival_time_must_be_later_than_departure_time,
+      :clean_note
 
 
   def travel_duration
@@ -77,6 +81,22 @@ class Offering < ActiveRecord::Base
 
   def expired?
     Time.now >= expiry_time
+  end
+
+
+  def self.intersects_any?(offerer_id, departure_time, arrival_time)
+    l = departure_time
+    r = arrival_time
+    unless l <= r
+      raise Exception.new
+    end
+    Offering.find(:first,
+        :conditions => ["offerer_id = ? and ((departure_time >= ? and " +
+                        "departure_time <= ?) or (arrival_time >= ? and " +
+                        "arrival_time <= ?) or (departure_time <= ? and " +
+                        "arrival_time >= ?) or (departure_time >= ? and " +
+                        "arrival_time <= ?))", offerer_id, l, r, l, r,
+                        l, r, l, r]) && true || false
   end
 
 
@@ -139,6 +159,31 @@ class Offering < ActiveRecord::Base
       errors.add(:arrival_time, I18n.t("activerecord.errors.messages." +
                                        "offering.arrival_time_must_be_" +
                                       "later_than_departure_time"))
+    end
+  end
+
+
+  def clean_note
+    if note
+      self.note.strip!
+      self.note = nil if note.empty?
+    end
+  end
+
+
+  def times_compatible
+    if departure_time and arrival_time and (offerer or offerer_id)
+      uid = offerer_id || offerer.id
+      d = departure_time; a = arrival_time
+      if Demand.intersects_any?(uid, d, a) or
+          Offering.intersects_any?(uid, d, a)
+        errors.add(:departure_time, I18n.t('activerecord.errors.' +
+                                            'messages.offering.' +
+                                            'time_incompatible'))
+        errors.add(:arrival_time, I18n.t('activerecord.errors.' +
+                                                'messages.offering.' +
+                                                'time_incompatible'))
+      end
     end
   end
 

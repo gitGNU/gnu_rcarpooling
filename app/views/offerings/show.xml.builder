@@ -30,4 +30,5 @@ xml.offering(:id => @offering.id, :href => offering_url(@offering)) do
   xml.travel_duration(@offering.travel_duration)
   xml.length(@offering.length)
   xml.seating_capacity(@offering.seating_capacity)
+  xml.note(@offering.note)
 end

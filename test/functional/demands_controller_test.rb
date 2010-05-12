@@ -153,8 +153,8 @@ class DemandsControllerTest < ActionController::TestCase
       post :create, :demand => {
         :departure_place_id => places(:stazione_fnm).id,
         :arrival_place_id => places(:sede_di_via_dunant).id,
-        :earliest_departure_time => 1.hour.from_now,
-        :latest_arrival_time => 6.hours.from_now,
+        :earliest_departure_time => 1.week.from_now,
+        :latest_arrival_time => 8.days.from_now,
         :expiry_time => 15.minutes.from_now }
     end
     assert_response :created
@@ -187,8 +187,8 @@ class DemandsControllerTest < ActionController::TestCase
       post :create, :format => "html", :demand => {
         :departure_place_id => places(:stazione_fnm).id,
         :arrival_place_id => places(:sede_di_via_dunant).id,
-        :earliest_departure_time => 1.hour.from_now,
-        :latest_arrival_time => 6.hours.from_now,
+        :earliest_departure_time => 1.week.from_now,
+        :latest_arrival_time => 8.days.from_now,
         :expiry_time => 15.minutes.from_now }
     end
     assert_not_nil assigns(:demand)
@@ -205,8 +205,8 @@ class DemandsControllerTest < ActionController::TestCase
       post :create, :demand => {
         :departure_place_id => places(:stazione_fnm).id,
         :arrival_place_id => places(:sede_di_via_dunant).id,
-        :earliest_departure_time => 1.hour.from_now,
-        :latest_arrival_time => 6.hours.from_now,
+        :earliest_departure_time => 1.week.from_now,
+        :latest_arrival_time => 8.days.from_now,
         :expiry_time => 15.minutes.from_now,
         :suitor_id => users(:mickey_mouse).id # <----------
       }

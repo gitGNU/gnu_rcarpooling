@@ -46,7 +46,8 @@ class Demand < ActiveRecord::Base
 
 
   validate_on_create :expiry_time_must_be_later_than_5_minutes_from_now,
-      :earliest_departure_time_must_be_later_than_10_minutes_from_now
+      :earliest_departure_time_must_be_later_than_10_minutes_from_now,
+      :times_compatible
 
 
 
@@ -80,6 +81,27 @@ class Demand < ActiveRecord::Base
       result_set << demand if !demand.expired? and !demand.fulfilled?
     end
     result_set
+  end
+
+
+  def self.intersects_any?(suitor_id, earliest_departure_time,
+                           latest_arrival_time)
+    l = earliest_departure_time
+    r = latest_arrival_time
+    unless l <= r
+      raise Exception.new
+    end
+    Demand.find(:first,
+        :conditions => ["suitor_id = ? and " +
+                        "((earliest_departure_time >= ? and " +
+                        "earliest_departure_time <= ?) or " +
+                        "(latest_arrival_time >= ? and " +
+                        "latest_arrival_time <= ?) or " +
+                        "(earliest_departure_time <= ? and " +
+                        "latest_arrival_time >= ?) or " +
+                        "(earliest_departure_time >= ? and " +
+                        "latest_arrival_time <= ?))", suitor_id,
+                        l, r, l, r, l, r, l, r]) && true || false
   end
 
 
@@ -136,6 +158,24 @@ class Demand < ActiveRecord::Base
     if arrival_place and departure_place and departure_place == arrival_place
       errors.add(:arrival_place, I18n.t("activerecord.errors.messages.demand." +
                         "arrival_place_must_be_distinct_from_departure_place"))
+    end
+  end
+
+
+  def times_compatible
+    if earliest_departure_time and latest_arrival_time and
+        (suitor or suitor_id)
+      uid = suitor_id || suitor.id
+      e = earliest_departure_time; l = latest_arrival_time
+      if Demand.intersects_any?(uid, e, l) or
+          Offering.intersects_any?(uid, e, l)
+        errors.add(:earliest_departure_time, I18n.t('activerecord.errors.' +
+                                                    'messages.demand.' +
+                                                    'time_incompatible'))
+        errors.add(:latest_arrival_time, I18n.t('activerecord.errors.' +
+                                                    'messages.demand.' +
+                                                    'time_incompatible'))
+      end
     end
   end
 

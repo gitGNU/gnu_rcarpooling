@@ -109,6 +109,16 @@
       </td>
     </tr>
   <% end -%>
+  <% if fd.vehicle_offering.note -%>
+    <tr>
+      <td class="bold">
+        <%= I18n.t 'fulfilled_demands.show.driver_note' %>
+      </td>
+      <td class="almost_normal" style='width: 15em;'>
+        <%= h fd.vehicle_offering.note %>
+      </td>
+    </tr>
+  <% end -%>
 </table>
 
 <% if fd.has_final_walk? -%>

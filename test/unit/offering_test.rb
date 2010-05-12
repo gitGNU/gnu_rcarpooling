@@ -24,11 +24,12 @@ class OfferingTest < ActiveSupport::TestCase
       :departure_place => places(:sede_di_via_ravasi),
       :arrival_place => places(:sede_di_via_dunant),
       :offerer => users(:donald_duck),
-      :departure_time => 2.hours.from_now,
-      :arrival_time => 2.hours.from_now + 20.minutes,
+      :departure_time => 8.hours.from_now,
+      :arrival_time => 8.hours.from_now + 20.minutes,
       :length => 4000,
-      :expiry_time => 15.minutes.from_now,
+      :expiry_time => 7.hours.from_now,
       :seating_capacity => 4)
+    assert_nil offering.note
     assert offering.valid?
     assert offering.save
   end
@@ -186,6 +187,69 @@ class OfferingTest < ActiveSupport::TestCase
     assert offering.chilled?
     offering.departure_time = 2.hours.from_now + 1.minute
     assert ! offering.chilled?
+  end
+
+
+  test "note full of spaces becomes nil" do
+    offering = Offering.new :note => "   "
+    offering.valid?
+    assert_nil offering.note
+  end
+
+
+  test "note empty becomes nil" do
+    offering = Offering.new :note => ""
+    offering.valid?
+    assert_nil offering.note
+  end
+
+
+  test "note can be at most 500 characters length" do
+    offering = Offering.new
+    long_string = ""
+    50.times { long_string += "asdfghjklqw" }
+    offering.note = long_string
+    assert !offering.valid?
+    assert offering.errors.invalid?(:note)
+    assert_equal I18n.t('activerecord.errors.messages.too_long',
+                        :count => 500), offering.errors.on(:note)
+  end
+
+
+  test "static method intersects" do
+    assert_raise(Exception) {
+      Offering.intersects_any?(0, 2.hours.from_now, 1.hour.from_now) }
+    #
+    uid = users(:donald_duck).id
+    assert Offering.intersects_any?(uid, 3.hours.ago, 30.minutes.ago)
+    assert Offering.intersects_any?(uid, (1.hour + 30.minutes).ago,
+                                    (1.hour + 10.minutes).ago)
+    assert Offering.intersects_any?(uid, 3.hours.ago,
+                                    (1.hour + 30.minutes).ago)
+    assert Offering.intersects_any?(uid, (1.hour + 30.minutes).ago,
+                                    30.minutes.ago)
+    assert ! Offering.intersects_any?(uid, 4.hours.ago, 3.hours.ago)
+    assert ! Offering.intersects_any?(uid, 3.hours.from_now,
+                                      4.hours.from_now)
+    uid = users(:mickey_mouse)
+    assert Offering.intersects_any?(uid, 3.hours.from_now,
+                                    4.hours.from_now)
+  end
+
+
+  test "invalid if intersects" do
+    offering = Offering.new(:offerer => users(:mickey_mouse),
+                        :departure_time => 3.hours.from_now,
+                        :arrival_time => 4.hours.from_now)
+    assert ! offering.valid?
+    assert offering.errors.invalid?(:departure_time)
+    assert offering.errors.invalid?(:arrival_time)
+    assert_equal I18n.t('activerecord.errors.messages.demand.' +
+                        'time_incompatible'),
+                        offering.errors.on(:departure_time)
+    assert_equal I18n.t('activerecord.errors.messages.demand.' +
+                        'time_incompatible'),
+                        offering.errors.on(:arrival_time)
   end
 
 end

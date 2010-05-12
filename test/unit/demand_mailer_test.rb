@@ -75,6 +75,8 @@ class DemandMailerTest < ActionMailer::TestCase
     # this demand must be valid!
     assert demand.valid?
     # setting factory
+    demand.earliest_departure_time = 1.month.from_now
+    demand.latest_arrival_time = (1.month + 1.day).from_now
     MailBodyParserFactory.set_factory(
       MailBodyParserFactoryMock.new(demand))
     #

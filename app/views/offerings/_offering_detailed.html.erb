@@ -64,6 +64,12 @@
       <%= distance_of_time_in_words Time.now, offering.chilled_since %>
     </td>
   </tr>
+  <% if offering.note -%>
+    <tr>
+      <td class="bold"><%= I18n.t 'offerings.show.note' %></td>
+      <td class="almost_normal" style='width: 20em;'><%= h offering.note %></td>
+    </tr>
+  <% end -%>
 </table>
 <p class="almost_normal">
   <%= I18n.t 'offerings.show.guide.expiry_time' %>

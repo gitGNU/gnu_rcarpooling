@@ -73,6 +73,10 @@ class OfferingMailerTest < ActionMailer::TestCase
   test "receive a valid offering" do
     offering = offerings(:donald_duck_offering_n_1)
     # this offering must be valid!
+    offering.departure_time = 8.hours.from_now
+    offering.arrival_time = 10.hours.from_now
+    offering.expiry_time = 7.hours.from_now
+    assert offering.valid?
     # setting factory
     MailBodyParserFactory.set_factory(
       MailBodyParserFactoryMock.new(offering))

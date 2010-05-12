@@ -108,6 +108,7 @@ it:
         expiry_time: "Scadenza"
         seating_capacity: "Posti a sedere"
         length: "Distanza"
+        note: "Nota"
 
       user_picture:
         content_type: "Tipo del contenuto"
@@ -131,6 +132,7 @@ it:
         greater_than_or_equal_to: "deve essere maggiore o uguale a \
                                   {{count}}"
         inclusion: "non &egrave; incluso nella lista"
+        too_long: "&egrave; troppo lungo (massimo {{count}} caratteri)"
 
         # SPECIFIC MESSAGES
         black_list_drivers_entry:
@@ -145,6 +147,7 @@ it:
           expiry_time_must_be_earlier_than_or_equal_to_earliest_departure_time: "deve essere precedente o uguale all'istante di partenza pi&ugrave; prossimo"
           expiry_time_must_be_later_than_5_minutes_from_now: "deve essere pi&ugrave; tardi di 5 minuti da ora"
           arrival_place_must_be_distinct_from_departure_place: "deve essere diverso dal luogo di partenza"
+          time_incompatible: tempo incompatibile
 
         edge:
           arrival_place_must_be_distinct_from_departure_place: "deve essere distinto dal luogo di partenza"
@@ -156,6 +159,7 @@ it:
           expiry_time_must_be_later_than_or_equal_to_2_hours_before_departure_time: "deve essere posteriore o uguale a 2 ore prima dell'istante di partenza"
           arrival_place_must_be_distinct_from_departure_place: "deve essere distinto dal luogo di partenza"
           arrival_time_must_be_later_than_departure_time: "deve essere posteriore all'istante di partenza"
+          time_incompatible: tempo incompatibile
 
         segment_on_foot:
           arrival_place_must_be_distinct_from_departure_place: "deve essere distinto dal luogo di partenza"
@@ -450,6 +454,7 @@ it:
       length: Distanza
       duration: Durata
       vehicle_registration_plate: Targa
+      driver_note: "Nota dell'autista"
       guide:
         delete: "Puoi cancellare la richiesta premendo il tasto sottostante.
                 Ti verr&agrave; richiesta conferma."
@@ -492,6 +497,9 @@ it:
       arrival_place: Luogo di arrivo
       seating_capacity: Posti disponibili
       submit_label: Invia
+      note: Nota
+      guide:
+        note: Lunghezza massima 500 caratteri.
     show:
       departure_time: Istante di partenza
       arrival_time: Istante di arrivo
@@ -508,6 +516,7 @@ it:
       chilled_in: "Sar&agrave; congelata tra"
       chilled_since: Congelata a partire dal
       all_offerings_link: Tutte le tue offerte
+      note: Nota
       guide:
         expiry_time: "Il sistema ti invier&agrave; la lista degli eventuali
                      passeggeri entro l'istante &quot;notifica

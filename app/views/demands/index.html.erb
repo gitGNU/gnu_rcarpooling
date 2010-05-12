@@ -27,6 +27,8 @@
 <% if @demands.empty? -%>
   <p class="italic"><%= I18n.t 'demands.index.empty' %></p>
 <% else -%>
+  <%= will_paginate @demands %>
+
   <%= render :partial => "demand", :collection => @demands,
       :spacer_template => "partials/spacer" %>
 

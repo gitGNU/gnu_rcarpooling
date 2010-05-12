@@ -100,6 +100,7 @@ class OfferingsControllerTest < ActionController::TestCase
       assert_select "travel_duration", o.travel_duration.to_s
       assert_select "length", o.length.to_s
       assert_select "seating_capacity", o.seating_capacity.to_s
+      assert_select "note", o.note
       assert_select "offerer[id=#{o.offerer.id}]" +
           "[href=#{user_url(o.offerer)}]"
     end
@@ -152,14 +153,15 @@ class OfferingsControllerTest < ActionController::TestCase
   test "create a new offering" do
     set_authorization_header(users(:donald_duck).nick_name,
                              users(:donald_duck).password)
-    departure_time = 1.hour.from_now
+    departure_time = 10.hours.from_now
     assert_difference('Offering.count', 1) do
       post :create, :offering => {
         :departure_place_id => places(:sede_di_via_ravasi).id,
         :arrival_place_id => places(:sede_di_via_dunant).id,
         :departure_time => departure_time,
         :seating_capacity => 1,
-        :expiry_time => 15.minutes.from_now }
+        :expiry_time => departure_time - 10.minutes,
+        :note => "this is my note"}
     end
     assert_response :created
     assert_not_nil assigns(:offering)
@@ -187,6 +189,7 @@ class OfferingsControllerTest < ActionController::TestCase
       assert_select "travel_duration", o.travel_duration.to_s
       assert_select "length", o.length.to_s
       assert_select "seating_capacity", o.seating_capacity.to_s
+      assert_select "note", o.note
       assert_select "offerer[id=#{o.offerer.id}]" +
           "[href=#{user_url(o.offerer)}]"
     end
@@ -196,14 +199,14 @@ class OfferingsControllerTest < ActionController::TestCase
   test "create a new offering format html" do
     set_authorization_header(users(:donald_duck).nick_name,
                              users(:donald_duck).password)
-    departure_time = 1.hour.from_now
+    departure_time = 10.hours.from_now
     assert_difference('Offering.count', 1) do
       post :create, :format => "html", :offering => {
         :departure_place_id => places(:sede_di_via_ravasi).id,
         :arrival_place_id => places(:sede_di_via_dunant).id,
         :departure_time => departure_time,
         :seating_capacity => 1,
-        :expiry_time => 15.minutes.from_now }
+        :expiry_time => departure_time - 20.minutes }
     end
     assert_not_nil assigns(:offering)
     offering = assigns(:offering)
@@ -292,12 +295,13 @@ class OfferingsControllerTest < ActionController::TestCase
   test "offerer is specified by credentials in HTTP auth header" do
     set_authorization_header(users(:mickey_mouse).nick_name,
                              users(:mickey_mouse).password)
+    departure_time = 2.days.from_now
     post :create, :offering => {
       :departure_place_id => places(:sede_di_via_ravasi).id,
       :arrival_place_id => places(:sede_di_via_dunant).id,
-      :departure_time => 1.hour.from_now,
+      :departure_time => departure_time,
       :seating_capacity => 1,
-      :expiry_time => 15.minutes.from_now,
+      :expiry_time => departure_time - 1.hour,
       :offerer_id => users(:donald_duck).id}
     assert_response :created
     assert_not_nil assigns(:offering)

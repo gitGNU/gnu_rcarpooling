@@ -31,7 +31,7 @@ class SolutionBuilderTest < ActiveSupport::TestCase
     @demand1 = Demand.new(:suitor => users(:usery),
                          :departure_place => places(:y1),
                          :arrival_place => places(:y2),
-                         :earliest_departure_time => 1.hour.from_now,
+                         :earliest_departure_time => 30.minutes.from_now,
                          :latest_arrival_time => 3.hours.from_now,
                          :expiry_time => 15.minutes.from_now)
     #
@@ -88,9 +88,8 @@ class SolutionBuilderTest < ActiveSupport::TestCase
     @offering2 = Offering.new(:offerer => users(:useryD),
                              :departure_place => places(:y1),
                              :arrival_place => places(:y4),
-                             :departure_time => 1.hour.from_now +
-                                30.minutes,
-                             :arrival_time => 2.hours.from_now,
+                             :departure_time => 40.minutes.from_now,
+                             :arrival_time => 50.minutes.from_now,
                              :expiry_time => 15.minutes.from_now,
                              :seating_capacity => 1,
                              :length => 12000)
