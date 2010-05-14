@@ -18,8 +18,12 @@
 -%>
 <% content_for(:navigation_path) do -%>
   <%= render :partial => "partials/navigation_path",
-      :object => [home_path] %>
+      :object => [home_path, about_path] %>
 <% end -%>
 <p>
-  <%= I18n.t('home.index.intro')%>
+  <%= I18n.t 'home.about',
+    :rcarpooling =>"<a href='http://savannah.nongnu.org/" +
+      "projects/rcarpooling'>Rcarpooling</a>",
+    :gnu_agpl => "<a href='http://www.gnu.org/licenses/agpl-3.0.html'>" +
+      "GNU Affero General Public License</a>" %>
 </p>

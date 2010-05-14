@@ -18,4 +18,18 @@
 require 'test_helper'
 
 class HomeControllerTest < ActionController::TestCase
+
+  test "get the home page" do
+    get :index
+    assert_response :success
+    assert_equal "text/html", @response.content_type
+  end
+
+
+  test "get the about page" do
+    get :about
+    assert_response :success
+    assert_equal "text/html", @response.content_type
+  end
+
 end

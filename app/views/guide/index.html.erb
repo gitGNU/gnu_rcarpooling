@@ -18,8 +18,5 @@
 -%>
 <% content_for(:navigation_path) do -%>
   <%= render :partial => "partials/navigation_path",
-      :object => [home_path] %>
+      :object => [home_path, guide_path] %>
 <% end -%>
-<p>
-  <%= I18n.t('home.index.intro')%>
-</p>

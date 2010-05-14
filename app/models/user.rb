@@ -15,6 +15,8 @@
 # You should have received a copy of the GNU Affero Public License
 # along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
 
+require 'digest/sha1'
+
 class User < ActiveRecord::Base
 
 
@@ -76,6 +78,9 @@ class User < ActiveRecord::Base
       :message => I18n.t('activerecord.errors.messages.user.sex_inclusion')
 
 
+  validate :password_cannot_be_blank
+
+
   before_save do |user|
     user.first_name = user.first_name.humanize
     user.last_name = user.last_name.humanize
@@ -97,11 +102,19 @@ class User < ActiveRecord::Base
 
 
   def self.authenticate(nick_name, password)
-    user = User.find_by_nick_name_and_password(nick_name, password)
+    user = User.find_by_nick_name(nick_name)
     if user
-      user.id
-    else
-      false
+      pwd_expected = encrypted_password(password, user.salt)
+      return user.id if pwd_expected == user.hashed_password
+    end
+    false
+  end
+
+
+  def password=(pwd)
+    unless pwd.blank?
+      self.salt = self.id.to_s + rand.to_s
+      self.hashed_password = User.encrypted_password(pwd, self.salt)
     end
   end
 
@@ -200,5 +213,19 @@ class User < ActiveRecord::Base
         "order by n.created_at DESC")
   end
 
+
+  def self.encrypted_password(password, salt)
+    Digest::SHA1.hexdigest(password + salt)
+  end
+
+
+  private
+
+
+  def password_cannot_be_blank
+    unless hashed_password and salt
+      errors.add(:password, I18n.t('activerecord.errors.messages.blank'))
+    end
+  end
 
 end

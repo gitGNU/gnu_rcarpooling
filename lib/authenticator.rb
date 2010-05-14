@@ -34,8 +34,7 @@ class Authenticator
     if uid
       uid # it is a known user, already signed
     else
-      pu = PotentialUser.find_by_account_name_and_password(
-        @account_name, @password)
+      pu = PotentialUser.authenticate(@account_name, @password)
       if pu
         -1
       else

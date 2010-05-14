@@ -43,6 +43,12 @@
     </div>
   <% end -%>
 </div>
+<div class="sidebar_entry">
+  <%= link_to I18n.t('sidebar.about'), about_url %>
+</div>
+<div class="sidebar_entry">
+  <%= link_to I18n.t('sidebar.guide'), guide_url %>
+</div>
 
 <% if !user_logged_in? -%>
   <div class="sidebar_entry">

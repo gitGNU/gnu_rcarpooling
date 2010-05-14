@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100513095254) do
+ActiveRecord::Schema.define(:version => 20100514183411) do
 
   create_table "black_list_drivers_entries", :force => true do |t|
     t.integer  "user_id"
@@ -106,6 +106,8 @@ ActiveRecord::Schema.define(:version => 20100513095254) do
     t.string   "password"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "hashed_password"
+    t.string   "salt"
   end
 
   create_table "segments", :force => true do |t|
@@ -147,7 +149,6 @@ ActiveRecord::Schema.define(:version => 20100513095254) do
     t.string   "last_name"
     t.string   "nick_name"
     t.string   "email"
-    t.string   "password"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "score",                      :default => 0
@@ -156,6 +157,9 @@ ActiveRecord::Schema.define(:version => 20100513095254) do
     t.integer  "max_foot_length",            :default => 3000
     t.string   "telephone_number"
     t.string   "vehicle_registration_plate"
+    t.string   "password"
+    t.string   "hashed_password"
+    t.string   "salt"
   end
 
 end

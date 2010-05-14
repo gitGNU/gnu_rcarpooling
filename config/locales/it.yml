@@ -175,6 +175,7 @@ it:
   navigation_path:
     title: "Sei in:&nbsp;"
     home_index: Home
+    home_about: informazioni
     users_me: area&nbsp;personale
     users_show: dati&nbsp;personali
     users_edit: modifica
@@ -190,21 +191,22 @@ it:
     users_login: "login"
     pictures_edit: "modifica&nbsp;foto"
     users_index: "cerca&nbsp;una&nbsp;persona"
+    guide_index: "guida&nbsp;dell'utente"
 
   sidebar:
-    guide: "Istruzioni per l'uso"
-    about_us: "Chi siamo"
-    personal_area: "Area personale"
-    sign_up: "Registrati"
-    not_logged_in: "Non sei autenticato"
+    guide: Guida utente
+    about: Informazioni
+    personal_area: Area personale
+    sign_up: Registrati
+    not_logged_in: Non sei autenticato
     logged_as: "Sei autenticato come:"
-    login_link: "Login"
-    logout_button_label: "Esci"
+    login_link: Login
+    logout_button_label: Esci
     language: "Lingua:"
-    new_demand: "Chiedi un passaggio"
-    your_demands: "Le tue richieste"
-    new_offering: "Offri un passaggio"
-    your_offerings: "Le tue offerte"
+    new_demand: Chiedi un passaggio
+    your_demands: Le tue richieste
+    new_offering: Offri un passaggio
+    your_offerings: Le tue offerte
     users_search: Cerca una persona
 
   notices:
@@ -223,6 +225,9 @@ it:
     picture_deleted: "Immagine cancellata"
 
   home:
+    about: "Questo servizio &egrave; implementato con {{rcarpooling}},
+           un software libero distribuito sotto le condizioni stabilite
+           dalla licenza {{gnu_agpl}}."
     index:
       intro: "contenuto della home page"
 

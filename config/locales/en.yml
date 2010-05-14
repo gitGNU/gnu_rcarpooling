@@ -61,6 +61,7 @@ en:
   navigation_path:
     title: "You are in:&nbsp;"
     home_index: Home
+    home_about: about
     users_me: personal&nbsp;area
     users_show: "personal&nbsp;details"
     users_edit: "edit"
@@ -76,21 +77,22 @@ en:
     users_login: "login"
     pictures_edit: "edit&nbsp;personal&nbsp;picture"
     users_index: "search&nbsp;people"
+    guide_index: "user's&nbsp;guide"
 
   sidebar:
-    guide: "User guide"
-    about_us: "About us"
-    personal_area: "Personal area"
-    sign_up: "Sign up"
-    not_logged_in: "You are not logged in"
+    guide: User guide
+    about: About
+    personal_area: Personal area
+    sign_up: Sign up
+    not_logged_in: You are not logged in
     logged_as: "You are logged in as:"
-    logout_button_label: "Logout"
-    login_link: "Login"
+    logout_button_label: Logout
+    login_link: Login
     language: "Language:"
-    new_demand: "Hitch a ride"
-    your_demands: "Your demands"
-    new_offering: "Offer a ride"
-    your_offerings: "Your offerings"
+    new_demand: Hitch a ride
+    your_demands: Your demands
+    new_offering: Offer a ride
+    your_offerings: Your offerings
     users_search: Search people
 
   notices:
@@ -109,6 +111,8 @@ en:
     picture_deleted: "Picture successfuly deleted"
 
   home:
+    about: "This service is imlemented with {{rcarpooling}}, a free software
+           distributed under the terms of {{gnu_agpl}}."
     index:
       intro: "this is the content of home page"
 

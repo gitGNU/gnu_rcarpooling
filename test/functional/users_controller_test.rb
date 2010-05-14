@@ -461,7 +461,6 @@ class UsersControllerTest < ActionController::TestCase
     assert_equal user_url(uncle_scrooge), @response.location
     # nick name and password are the same of params sent
     assert_equal requester.account_name, uncle_scrooge.nick_name
-    assert_equal requester.password, uncle_scrooge.password
     # params
     assert_equal "Uncle", uncle_scrooge.first_name
     assert_equal "Scrooge", uncle_scrooge.last_name
@@ -498,7 +497,6 @@ class UsersControllerTest < ActionController::TestCase
     assert_equal uncle_scrooge.id, session[:uid]
     # nick name and password are the same of params sent
     assert_equal requester.account_name, uncle_scrooge.nick_name
-    assert_equal requester.password, uncle_scrooge.password
     # params
     assert_equal "Uncle", uncle_scrooge.first_name
     assert_equal "Scrooge", uncle_scrooge.last_name

@@ -1,4 +1,3 @@
-<%
 # Copyright (C) 2010  Roberto Maestroni
 #
 # This file is part of Rcarpooling.
@@ -15,11 +14,15 @@
 #
 # You should have received a copy of the GNU Affero Public License
 # along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
--%>
-<% content_for(:navigation_path) do -%>
-  <%= render :partial => "partials/navigation_path",
-      :object => [home_path] %>
-<% end -%>
-<p>
-  <%= I18n.t('home.index.intro')%>
-</p>
+
+class PotentialUserPasswordHashed < ActiveRecord::Migration
+  def self.up
+    add_column :potential_users, :hashed_password, :string
+    add_column :potential_users, :salt, :string
+  end
+
+  def self.down
+    remove_column :potential_users, :hashed_password
+    remove_column :potential_users, :salt
+  end
+end

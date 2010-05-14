@@ -52,4 +52,12 @@ ActionController::Routing::Routes.draw do |map|
       :conditions => { :method => :post },
       :controller => "users",
       :action => "logout"
+  map.about '/about',
+      :conditions => { :method => :get },
+      :controller => "home",
+      :action => "about"
+  map.guide '/guide',
+      :conditions => { :method => :get },
+      :controller => "guide",
+      :action => "index"
 end

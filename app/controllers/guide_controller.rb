@@ -1,4 +1,3 @@
-<%
 # Copyright (C) 2010  Roberto Maestroni
 #
 # This file is part of Rcarpooling.
@@ -15,11 +14,6 @@
 #
 # You should have received a copy of the GNU Affero Public License
 # along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
--%>
-<% content_for(:navigation_path) do -%>
-  <%= render :partial => "partials/navigation_path",
-      :object => [home_path] %>
-<% end -%>
-<p>
-  <%= I18n.t('home.index.intro')%>
-</p>
+
+class GuideController < ApplicationController
+end

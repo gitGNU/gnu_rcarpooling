@@ -16,6 +16,7 @@
 # along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
 
 require 'test_helper'
+require 'digest/sha1'
 
 class UserTest < ActiveSupport::TestCase
 
@@ -40,6 +41,9 @@ class UserTest < ActiveSupport::TestCase
     assert user.errors.invalid?(:sex)
     assert_equal I18n.t('activerecord.errors.messages.user.sex_inclusion'),
         user.errors.on(:sex)
+    assert user.errors.invalid?(:password)
+    assert_equal I18n.t('activerecord.errors.messages.blank'),
+        user.errors.on(:password)
   end
 
 
@@ -90,6 +94,29 @@ class UserTest < ActiveSupport::TestCase
     assert_equal users(:donald_duck).id,
         User.authenticate(users(:donald_duck).nick_name,
                              users(:donald_duck).password)
+  end
+
+
+  test "set password" do
+    user = User.new
+    #
+    user.password = ""
+    assert_nil user.hashed_password
+    assert_nil user.salt
+    #
+    password = "this is a password"
+    user.password = password
+    assert_nil user.password # password is a field used only for tests
+    assert_equal User.encrypted_password(password, user.salt),
+        user.hashed_password
+  end
+
+
+  test "static method encrypt" do
+    string1 = "foo"
+    string2 = "bar"
+    assert_equal Digest::SHA1.hexdigest(string1 + string2),
+        User.encrypted_password(string1, string2)
   end
 
 

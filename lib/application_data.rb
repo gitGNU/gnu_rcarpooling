@@ -32,4 +32,9 @@ class ApplicationData
   end
 
 
+  def self.google_maps_key
+    "ABQIAAAA_aphsmAvHiqO-k55YnE0UxSfEdPd_3OY3V4ny" +
+        "-iDWd6IGSAlsBTe58RyV3GR6UZwnIRQRbMSzHNJ4A"
+  end
+
 end
