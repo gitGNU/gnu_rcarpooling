@@ -117,4 +117,9 @@ class UsedOffering < ActiveRecord::Base
     offering.note
   end
 
+
+  def offering_notification
+    offering.offering_notification
+  end
+
 end

@@ -198,4 +198,9 @@ class FulfilledDemand < ActiveRecord::Base
         driver.vehicle_registration_plate
   end
 
+
+  def demand_notifications
+    demand.demand_notifications
+  end
+
 end

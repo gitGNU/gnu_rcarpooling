@@ -222,6 +222,9 @@ en:
       profile_link_name: link
       profile_intro: "To see your personal details and edit your public profile
                      follow this {{link}}."
+      notifications:
+        title: "System's notifications"
+        note: This list is automatically refreshed every {{minutes}} minutes.
 
   unwelcome_passengers:
     index: You can put a person in your passengers' black list dragging his or her
@@ -247,6 +250,7 @@ en:
   previous: Prev.
   meters: "{{length}} meters"
   minutes: "{{duration}} minutes"
+  loading: loading
 
   demands:
     index:
@@ -390,7 +394,6 @@ en:
         intro: "If the offering is marked as &quot;not used&quot; there
                 aren't any passengers yet."
 
-
   used_offerings:
     show:
       title: "Details of offering (in use) #{{id}}"
@@ -404,3 +407,21 @@ en:
       all_offerings_link: All your offerings
       guide:
         delete: Press the button below to delete this offering.
+
+  notifications:
+    go: see
+    empty: No notification
+    open: Open
+    demand_fulfilled_notification:
+      title: Your demand is fulfilled
+      content: "Demand #{{id}} is fulfilled, {{link}}."
+    demand_no_longer_fulfilled_notification:
+      title: Your demand is no longer fulfilled
+      content: "Demand #{{id}} is no longer fulfilled, {{link}}."
+    demand_no_solution_notification:
+      title: No solution found
+      content: "We couldn't fulfill your request #{{id}}, {{link}}."
+    offering_notification:
+      title: List of passengers
+      content: "Passenger list for your offering #{{id}}, {{link}}."
+

@@ -346,6 +346,9 @@ it:
       profile_link_name: collegamento
       profile_intro: "Per visualizzare i tuoi dettagli personali e modificare il
                      tuo profilo pubblico segui questo {{link}}."
+      notifications:
+        title: Messaggi dal sistema
+        note: "L'elenco &egrave; automaticamente rigenerato ogni {{minutes}} minuti."
 
   unwelcome_passengers:
     index: Puoi aggiungere una persona alla lista dei passeggeri indesiderati
@@ -374,6 +377,7 @@ it:
   previous: Prec.
   meters: "{{length}} metri"
   minutes: "{{duration}} minuti"
+  loading: caricamento
 
   demands:
     index:
@@ -529,7 +533,6 @@ it:
                 uso&quot; significa che non vi &egrave; ancora nessun
                 passeggero."
 
-
   used_offerings:
     show:
       title: "Dettagli dell'offerta (in uso) #{{id}}"
@@ -544,3 +547,21 @@ it:
       guide:
         delete: "Puoi revocare la tua offerta premendo il bottone
                 sottostante. Ti verr&agrave; richiesta conferma."
+
+  notifications:
+    empty: Nessuna notifica
+    open: Apri
+    go: vedi
+    demand_fulfilled_notification:
+      title: La tua richiesta &egrave; stata soddisfatta
+      content: "Richiesta #{{id}} soddisfatta, {{link}}."
+    demand_no_longer_fulfilled_notification:
+      title: Soluzione di viaggio annullata
+      content: "Soluzione relativa alla richiesta #{{id}} annullata, {{link}}."
+    demand_no_solution_notification:
+      title: Nessuna soluzione trovata
+      content: "Nessuna soluzione per la tua richiesta #{{id}}, {{link}}."
+    offering_notification:
+      title: Lista dei passeggeri
+      content: "Elenco dei passeggeri relativamente alla tua offerta #{{id}},
+               {{link}}."

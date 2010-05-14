@@ -32,6 +32,8 @@ ActionController::Routing::Routes.draw do |map|
         :only => [:show, :create, :destroy, :index]
     user.resources :unwelcome_drivers,
         :only => [:show, :create, :destroy, :index]
+    user.resources :notifications,
+        :only => [:index, :show]
   end
   #
   map.home '',

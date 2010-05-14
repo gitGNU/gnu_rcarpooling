@@ -239,4 +239,19 @@ class UserTest < ActiveSupport::TestCase
   end
 
 
+  test "notifications" do
+    user = users(:donald_duck)
+    # donald duck has 3 notifications, 2 not seen
+    notifications = user.notifications
+    assert_equal 3, notifications.size
+    assert notifications.include?(notifications(:dd1))
+    assert notifications.include?(notifications(:dd2))
+    assert notifications.include?(notifications(:dd3))
+    #
+    notifications = user.notifications_not_seen
+    assert_equal 2, notifications.size
+    assert notifications.include?(notifications(:dd1))
+    assert notifications.include?(notifications(:dd2))
+  end
+
 end

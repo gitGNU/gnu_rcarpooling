@@ -20,6 +20,9 @@ class Demand < ActiveRecord::Base
   has_one :fulfilled_demand, :dependent => :nullify
 
 
+  has_many :demand_notifications, :dependent => :destroy
+
+
   belongs_to :suitor,
       :foreign_key => "suitor_id",
       :class_name => "User"

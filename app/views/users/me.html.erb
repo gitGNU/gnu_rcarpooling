@@ -31,6 +31,25 @@
 </h3>
 <p><%= I18n.t 'users.me.intro' %></p>
 
+<!-- notifications -->
+<h4><%= I18n.t 'users.me.notifications.title' %></h4>
+<% minutes = 1 -%>
+<p class="almost_normal">
+  <%= I18n.t 'users.me.notifications.note', :minutes => minutes %>
+</p>
+<div id='loading_notifications' style='margin: 0.5em 2em 0.5em 2em; display: none;'>
+  <span><%= I18n.t 'loading'%></span>
+  <%= image_tag "spinner1.gif", :style => 'position: relative; top: 4px;' %>
+</div>
+<%= render :partial => "notifications/notifications",
+      :object => @user.notifications %>
+<%= periodically_call_remote :url => user_notifications_url(:user_id => @user.id),
+      :method => :get, :frequency => minutes*60,
+      :before => "Element.show('loading_notifications')",
+      :complete => "Element.hide('loading_notifications')" %>
+<br/>
+
+<!-- last demand -->
 <h4><%= I18n.t 'users.me.your_last_demand' %></h4>
 <% if @last_demand -%>
   <%= render :partial => "demands/demand", :object => @last_demand %>
@@ -39,8 +58,9 @@
   <p class="italic"><%= I18n.t 'users.me.no_demand' %></p>
 <% end -%>
 <p><%= link_to I18n.t('users.me.new_demand_link'), new_demand_url %></p>
-
 <br/>
+
+<!-- last offering -->
 <h4><%= I18n.t 'users.me.your_last_offering' %></h4>
 <% if @last_offering -%>
   <%= render :partial => "offerings/offering", :object => @last_offering %>
@@ -49,8 +69,9 @@
   <p class="italic"><%= I18n.t 'users.me.no_offering' %></p>
 <% end -%>
 <p><%= link_to I18n.t('users.me.new_offering_link'), new_offering_url %></p>
-
 <br/>
+
+<!-- profile -->
 <h4><%= I18n.t 'users.me.your_profile' %></h4>
 <p>
   <%= I18n.t 'users.me.profile_intro',

@@ -1,0 +1,41 @@
+<%
+# Copyright (C) 2010  Roberto Maestroni
+#
+# This file is part of Rcarpooling.
+#
+# Rcarpooling is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Rcarpooling is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero Public License for more details.
+#
+# You should have received a copy of the GNU Affero Public License
+# along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
+-%>
+<% notification = notification_closed -%>
+<div id='<%= "notification_#{notification.id}" %>'>
+  <p class="almost_normal">
+    <span><%= I18n.l notification.created_at, :format => :short %></span>&nbsp;
+    <span<%= "class='bold'" unless notification.seen? %>>
+      <%= I18n.t "notifications.#{notification.class.name.underscore}.title" %>
+    </span>&nbsp;&nbsp;
+    <span>
+      <%= link_to_remote I18n.t('notifications.open'), :method => :get,
+            :url => user_notification_url(:user_id => notification.user.id,
+                                  :id => notification.id),
+            :before => "Element.show('loading_notification_#{notification.id}')",
+            :complete =>
+              "Element.hide('loading_notification_#{notification.id}')" %>
+    </span>
+  </p>
+  <div id='<%= "loading_notification_#{notification.id}" %>'
+    style='margin: 0.5em 2em 2em 2em; display: none;'>
+    <span class="small_bold"><%= I18n.t 'loading'%></span>
+    <%= image_tag "spinner2.gif" ,
+      :style => 'margin-left: 0.5em; position: relative; top: 5px;'%>
+  </div>
+</div>

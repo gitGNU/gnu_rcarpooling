@@ -31,6 +31,8 @@ class Notifier
       fulfilled_demand, user,
       user.lang,
       subject, ApplicationData.notifications_source_address)
+    #
+    DemandFulfilledNotification.create(:demand => fulfilled_demand.demand)
   end
 
 
@@ -49,6 +51,9 @@ class Notifier
       fulfilled_demand, user,
       user.lang,
       subject, ApplicationData.notifications_source_address)
+    #
+    DemandNoLongerFulfilledNotification.create(
+      :demand => fulfilled_demand.demand)
   end
 
 
@@ -122,6 +127,9 @@ class Notifier
     NotificationMailer.deliver_no_solution_for_a_demand(
       demand, demand.suitor.lang, subject,
       ApplicationData.notifications_source_address)
+    #
+    DemandNoSolutionNotification.create(
+      :demand => demand)
   end
 
 
@@ -137,6 +145,8 @@ class Notifier
     NotificationMailer.deliver_passengers_list(
       offering, offering.offerer.lang, subject,
       ApplicationData.notifications_source_address)
+    #
+    OfferingNotification.create(:offering => offering)
   end
 
 

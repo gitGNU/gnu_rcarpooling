@@ -19,6 +19,8 @@ class Offering < ActiveRecord::Base
 
   has_one :used_offering, :dependent => :nullify
 
+  has_one :offering_notification, :dependent => :destroy
+
 
   belongs_to :departure_place,
       :foreign_key => "departure_place_id",

@@ -181,4 +181,24 @@ class User < ActiveRecord::Base
     has_picture?
   end
 
+
+  def notifications
+    Notification.find_by_sql("select distinct n.* from notifications n, " +
+        "demands d, offerings o where d.suitor_id = #{id} and " +
+        "o.offerer_id = #{id} and " +
+        "(n.demand_id = d.id or n.offering_id = o.id) " +
+        "order by n.created_at DESC")
+  end
+
+
+  def notifications_not_seen
+    Notification.find_by_sql("select distinct n.* from notifications n, " +
+        "demands d, offerings o where d.suitor_id = #{id} and " +
+        "n.seen = false and " +
+        "o.offerer_id = #{id} and " +
+        "(n.demand_id = d.id or n.offering_id = o.id) " +
+        "order by n.created_at DESC")
+  end
+
+
 end

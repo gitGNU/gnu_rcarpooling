@@ -1,0 +1,44 @@
+<%
+# Copyright (C) 2010  Roberto Maestroni
+#
+# This file is part of Rcarpooling.
+#
+# Rcarpooling is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Rcarpooling is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero Public License for more details.
+#
+# You should have received a copy of the GNU Affero Public License
+# along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
+-%>
+<% notification = notification_opened -%>
+<div id='<%= "notification_#{notification.id}" %>'>
+  <table class="almost_normal">
+    <tr>
+      <td><%= I18n.l notification.created_at, :format => :short %></td>
+      <td <%= !notification.seen? && "class='bold'" %>>
+        <%= I18n.t "notifications.#{notification.class.name.underscore}.title" %>
+      </td>
+    <tr>
+      <td></td>
+      <td>
+        <% if "OfferingNotification" == notification.class.name -%>
+          <%= I18n.t "notifications.#{notification.class.name.underscore}.content",
+                :id => notification.offering.id,
+                :link => link_to(I18n.t('notifications.go'),
+                  offering_url(notification.offering)) %>
+        <% else -%>
+          <%= I18n.t "notifications.#{notification.class.name.underscore}.content",
+                :id => notification.demand.id,
+                :link => link_to(I18n.t('notifications.go'),
+                    demand_url(notification.demand)) %>
+        <% end -%>
+      </td>
+    </tr>
+  </table>
+</div>
