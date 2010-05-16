@@ -15,32 +15,34 @@
 # You should have received a copy of the GNU Affero Public License
 # along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
 
+<% SALT_1 = "foobar" %>
+
 uncle_scrooge:
   account_name: uncle scrooge
   password: dollars
-  salt: <%= SALT %>
-  hashed_password: <%= User.encrypted_password('dollars', SALT) %>
+  salt: <%= SALT_1 %>
+  hashed_password: <%= User.encrypted_password('dollars', SALT_1) %>
 
 donald_duck:
   account_name: dd
   password: donald
-  salt: <%= SALT %>
-  hashed_password: <%= User.encrypted_password('donald', SALT) %>
+  salt: <%= SALT_1 %>
+  hashed_password: <%= User.encrypted_password('donald', SALT_1) %>
 
 mickey_mouse:
   account_name: mm
   password: mickey
-  salt: <%= SALT %>
-  hashed_password: <%= User.encrypted_password('mickey', SALT) %>
+  salt: <%= SALT_1 %>
+  hashed_password: <%= User.encrypted_password('mickey', SALT_1) %>
 
 usery:
   account_name: usery
   password: usery
-  salt: <%= SALT %>
-  hashed_password: <%= User.encrypted_password('usery', SALT) %>
+  salt: <%= SALT_1 %>
+  hashed_password: <%= User.encrypted_password('usery', SALT_1) %>
 
 useryD:
   account_name: useryD
   password: useryD
-  salt: <%= SALT %>
-  hashed_password: <%= User.encrypted_password('useryD', SALT) %>
+  salt: <%= SALT_1 %>
+  hashed_password: <%= User.encrypted_password('useryD', SALT_1) %>
