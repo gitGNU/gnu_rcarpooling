@@ -20,6 +20,8 @@ class Notifier
 
   # notifies user that his/her demand has been fulfilled :)
   def notify_fulfilled_demand(fulfilled_demand)
+    DemandFulfilledNotification.create(:demand => fulfilled_demand.demand)
+    #
     user = fulfilled_demand.suitor
     subject = ApplicationData.application_name + " - " +
         "your demand has been fulfilled :)"
@@ -31,14 +33,15 @@ class Notifier
       fulfilled_demand, user,
       user.lang,
       subject, ApplicationData.notifications_source_address)
-    #
-    DemandFulfilledNotification.create(:demand => fulfilled_demand.demand)
   end
 
 
   # revokes a travel solution previously notified :(
   # it is caused by a driver's revoking
   def notify_demand_no_longer_fulfilled(fulfilled_demand)
+    DemandNoLongerFulfilledNotification.create(
+      :demand => fulfilled_demand.demand)
+    #
     user = fulfilled_demand.suitor
     subject = ApplicationData.application_name + " - " +
         "previous solution will no longer " +
@@ -51,9 +54,6 @@ class Notifier
       fulfilled_demand, user,
       user.lang,
       subject, ApplicationData.notifications_source_address)
-    #
-    DemandNoLongerFulfilledNotification.create(
-      :demand => fulfilled_demand.demand)
   end
 
 
@@ -62,16 +62,11 @@ class Notifier
   def schedule_default_reply_to_demand(demand)
     time_obj = demand.expiry_time.localtime
     year = time_obj.year.to_s
-    month = time_obj.month.to_s
-    month = "0" + month if month.length < 2
-    day = time_obj.day.to_s
-    day = "0" + day if day.length < 2
-    hour = time_obj.hour.to_s
-    hour = "0" + hour if hour.length < 2
-    min = time_obj.min.to_s
-    min = "0" + min if min.length < 2
-    sec = time_obj.sec.to_s
-    sec = "0" + sec if sec.length < 2
+    month = sprintf("%02d", time_obj.month)
+    day = sprintf("%02d", time_obj.day)
+    hour = sprintf("%02d", time_obj.hour)
+    min = sprintf("%02d", time_obj.min)
+    sec = sprintf("%02d", time_obj.sec)
     time_of_execution = year + month + day + hour + min + "." +
         sec
     #
@@ -90,16 +85,11 @@ class Notifier
   def schedule_passengers_list(offering)
     time_obj = offering.expiry_time.localtime
     year = time_obj.year.to_s
-    month = time_obj.month.to_s
-    month = "0" + month if month.length < 2
-    day = time_obj.day.to_s
-    day = "0" + day if day.length < 2
-    hour = time_obj.hour.to_s
-    hour = "0" + hour if hour.length < 2
-    min = time_obj.min.to_s
-    min = "0" + min if min.length < 2
-    sec = time_obj.sec.to_s
-    sec = "0" + sec if sec.length < 2
+    month = sprintf("%02d", time_obj.month)
+    day = sprintf("%02d", time_obj.day)
+    hour = sprintf("%02d", time_obj.hour)
+    min = sprintf("%02d", time_obj.min)
+    sec = sprintf("%02d", time_obj.sec)
     time_of_execution = year + month + day + hour + min + "." +
         sec
     #
@@ -118,6 +108,9 @@ class Notifier
   # method called with ruby script/runner from an "at" job
   def self.send_default_reply_for_a_demand(demand_id)
     demand = Demand.find(demand_id)
+    DemandNoSolutionNotification.create(
+      :demand => demand)
+    #
     subject = ApplicationData.application_name + " - " +
         "no solution found :("
     if "it" == demand.suitor.lang
@@ -127,15 +120,14 @@ class Notifier
     NotificationMailer.deliver_no_solution_for_a_demand(
       demand, demand.suitor.lang, subject,
       ApplicationData.notifications_source_address)
-    #
-    DemandNoSolutionNotification.create(
-      :demand => demand)
   end
 
 
   # method called with ruby script/runner from an "at" job
   def self.send_passengers_list(offering_id)
     offering = Offering.find(offering_id)
+    OfferingNotification.create(:offering => offering)
+    #
     subject = ApplicationData.application_name + " - " +
         "passengers list"
     if "it" == offering.offerer.lang
@@ -145,8 +137,6 @@ class Notifier
     NotificationMailer.deliver_passengers_list(
       offering, offering.offerer.lang, subject,
       ApplicationData.notifications_source_address)
-    #
-    OfferingNotification.create(:offering => offering)
   end
 
 

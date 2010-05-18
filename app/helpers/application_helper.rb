@@ -22,33 +22,12 @@ module ApplicationHelper
 
 
   def title
-    @page_title ||= "rcarpooling unconfigured"
-  end
-
-
-  def english_date(time)
-    time.localtime.to_date.to_s
-  end
-
-
-  def italian_date(time)
-    "#{time.localtime.day}/#{time.localtime.month}/" +
-        "#{time.localtime.year}"
+    @page_title ||= ApplicationData.application_name
   end
 
 
   def hour_minute(time)
     "#{time.localtime.hour}:#{time.localtime.min}"
-  end
-
-
-  def english_date_time(time)
-    english_date(time) + " " + hour_minute(time)
-  end
-
-
-  def italian_date_time(time)
-    italian_date(time) + " " + hour_minute(time)
   end
 
 

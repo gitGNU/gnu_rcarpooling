@@ -15,29 +15,12 @@
 # You should have received a copy of the GNU Affero Public License
 # along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
 
-class DemandNotification < Notification
-
-  belongs_to :demand
-
-
-  validates_presence_of :demand
-
-  validate :suitor_must_be_the_recipient
-
-
-  def user
-    demand && demand.suitor
+class AddRecipientToNotifications < ActiveRecord::Migration
+  def self.up
+    add_column :notifications, :recipient_id, :integer
   end
 
-  private
-
-  def suitor_must_be_the_recipient
-    if demand and recipient
-      unless demand.suitor == recipient
-        errors.add(:demand, I18n.t('activerecord.errors.messages.' +
-            'demand_notification.suitor_must_be_the_recipient'))
-      end
-    end
+  def self.down
+    remove_column :notifications, :recipient_id
   end
-
 end

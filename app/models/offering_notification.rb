@@ -22,9 +22,22 @@ class OfferingNotification < Notification
 
   validates_presence_of :offering
 
+  validate :offerer_must_be_the_recipient
+
 
   def user
     offering && offering.offerer
+  end
+
+  private
+
+  def offerer_must_be_the_recipient
+    if offering and recipient
+      unless offering.offerer == recipient
+        errors.add(:offering, I18n.t('activerecord.errors.messages.' +
+                    'offering_notification.offerer_must_be_the_recipient'))
+      end
+    end
   end
 
 end

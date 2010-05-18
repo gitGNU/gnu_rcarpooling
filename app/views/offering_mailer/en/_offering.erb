@@ -16,13 +16,17 @@
 # You should have received a copy of the GNU Affero Public License
 # along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
 -%>
+<% locale = "en" -%>
 <% departure_place = offering.departure_place -%>
 <% arrival_place = offering.arrival_place -%>
-departure place: <%= departure_place.address("en") %>
+departure place: <%= departure_place.address(locale) %>
 
-arrival place: <%= arrival_place.address("en") %>
+arrival place: <%= arrival_place.address(locale) %>
 
-departure time: <%= english_date_time(offering.departure_time) %>
-arrival time: <%= english_date_time(offering.arrival_time) %>
-expiry time: <%= english_date_time(offering.expiry_time) %>
+departure time: <%= I18n.l offering.departure_time,
+                      :format => :long, :locale => locale %>
+arrival time: <%= I18n.l offering.arrival_time,
+                      :format => :long, :locale => locale %>
+expiry time: <%= I18n.l offering.expiry_time,
+                      :format => :long, :locale => locale %>
 seating: <%= offering.seating_capacity %>

@@ -16,6 +16,7 @@
 # You should have received a copy of the GNU Affero Public License
 # along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
 -%>
+<% locale = "it" -%>
 <% departure_place = @fulfilled_demand.departure_place -%>
 <% arrival_place = @fulfilled_demand.arrival_place -%>
 <% car_departure_place = @fulfilled_demand.car_departure_place -%>
@@ -27,7 +28,8 @@ Lei partirà da <%= departure_place.name %>, all'indirizzo:
     <%= departure_place.address("it") %>
 
 <% if @fulfilled_demand.has_initial_walk? -%>
-La partenza è prevista il <%= italian_date_time(@fulfilled_demand.departure_time) %>
+La partenza è prevista il <%= I18n.l @fulfilled_demand.departure_time,
+                              :format => :long, :locale => locale %>
 Lei dovrà camminare per <%= @fulfilled_demand.initial_walk_duration %> minuti verso
 <%= car_departure_place.name %>, all'indirizzo:
   <%= car_departure_place.address("it") %>
@@ -39,7 +41,8 @@ in direzione di <%= car_arrival_place.name %> all'indirizzo:
 dove arriverà alle <%= hour_minute(car_arrival_time) %>
 <% else -%>
 Salirà sull'automobile di <%= driver.qualified_name %>
-che partirà il <%= italian_date_time(car_departure_time) %>
+che partirà il <%= I18n.l car_departure_time,
+                            :format => :long, :locale => locale %>
 in direzione di <%= car_arrival_place.name %> all'indirizzo:
   <%= car_arrival_place.address("it") %>
 dove arriverà alle <%= hour_minute(car_arrival_time) %>
@@ -52,9 +55,11 @@ all'indirizzo:
   <%= arrival_place.address("it") %>
 <% end -%>
 
-Lei può recedere da questa soluzione fino al <%= italian_date(@fulfilled_demand.chilled_since) %> alle ore <%= hour_minute(@fulfilled_demand.chilled_since) %>
+Lei può recedere da questa soluzione fino al <%= I18n.l @fulfilled_demand.chilled_since,
+                                              :format => :long, :locale => locale %>
 
 <% if !@fulfilled_demand.guaranteed? -%>
 Non possiamo assicurare l'usufruibilità di questa solutione fino al
-<%= italian_date(@fulfilled_demand.guaranteed_since) %> alle ore <%= hour_minute(@fulfilled_demand.guaranteed_since) %>
+<%= I18n.l @fulfilled_demand.guaranteed_since,
+          :format => :long, :locale => locale %>
 <% end -%>

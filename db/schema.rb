@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100514183411) do
+ActiveRecord::Schema.define(:version => 20100518165004) do
 
   create_table "black_list_drivers_entries", :force => true do |t|
     t.integer  "user_id"
@@ -69,9 +69,10 @@ ActiveRecord::Schema.define(:version => 20100514183411) do
     t.string   "type"
     t.integer  "demand_id"
     t.integer  "offering_id"
-    t.boolean  "seen",        :default => false, :null => false
+    t.boolean  "seen",         :default => false, :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "recipient_id"
   end
 
   create_table "offerings", :force => true do |t|

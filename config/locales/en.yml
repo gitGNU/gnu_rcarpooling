@@ -55,8 +55,15 @@ en:
           sex_inclusion: "should be 'M' or 'F'"
           wrong_credential: "wrong credential"
 
+        demand_notification:
+          suitor_must_be_the_recipient: suitor must be the recipient
+
+        offering_notification:
+          offerer_must_be_the_recipient: offerer must be the recipient
+
   layout:
-    subtitle: "this is Rcarpooling"
+    title: rcarpooling
+    subtitle: this is Rcarpooling
 
   navigation_path:
     title: "You are in:&nbsp;"

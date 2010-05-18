@@ -16,16 +16,19 @@
 # along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
 
 dd1:
+  recipient: donald_duck
   type: DemandFulfilledNotification
   seen: false
   demand: demand_N
 
 dd2:
+  recipient: donald_duck
   type: OfferingNotification
   seen: false
   offering: donald_duck_offering_n_1
 
 dd3:
+  recipient: donald_duck
   type: OfferingNotification
   seen: true
   offering: frozen_offering

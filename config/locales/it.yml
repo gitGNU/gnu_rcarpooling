@@ -168,8 +168,15 @@ it:
           sex_inclusion: "deve essere 'M' oppure 'F'"
           wrong_credential: "credenziale errata"
 
+        demand_notification:
+          suitor_must_be_the_recipient: "il fruitore deve essere il destinatario"
+
+        offering_notification:
+          offerer_must_be_the_recipient: "l'offerente deve essere il destinatario"
+
 
   layout:
+    title: rcarpooling
     subtitle: "questo &egrave; Rcarpooling"
 
   navigation_path:

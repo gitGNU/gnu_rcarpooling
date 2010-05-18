@@ -60,6 +60,15 @@ class User < ActiveRecord::Base
       :dependent => :destroy
 
 
+  has_many :notifications,
+      :foreign_key => 'recipient_id',
+      :dependent => :destroy do
+    def not_seen
+      find :all, :conditions => ['seen = false']
+    end
+  end
+
+
   belongs_to :language
 
 
@@ -195,22 +204,8 @@ class User < ActiveRecord::Base
   end
 
 
-  def notifications
-    Notification.find_by_sql("select distinct n.* from notifications n, " +
-        "demands d, offerings o where d.suitor_id = #{id} and " +
-        "o.offerer_id = #{id} and " +
-        "(n.demand_id = d.id or n.offering_id = o.id) " +
-        "order by n.created_at DESC")
-  end
-
-
   def notifications_not_seen
-    Notification.find_by_sql("select distinct n.* from notifications n, " +
-        "demands d, offerings o where d.suitor_id = #{id} and " +
-        "n.seen = false and " +
-        "o.offerer_id = #{id} and " +
-        "(n.demand_id = d.id or n.offering_id = o.id) " +
-        "order by n.created_at DESC")
+    notifications.not_seen
   end
 
 
