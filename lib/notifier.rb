@@ -20,7 +20,9 @@ class Notifier
 
   # notifies user that his/her demand has been fulfilled :)
   def notify_fulfilled_demand(fulfilled_demand)
-    DemandFulfilledNotification.create(:demand => fulfilled_demand.demand)
+    DemandFulfilledNotification.create!(
+      :demand => fulfilled_demand.demand,
+      :recipient => fulfilled_demand.suitor)
     #
     user = fulfilled_demand.suitor
     subject = ApplicationData.application_name + " - " +
@@ -39,8 +41,9 @@ class Notifier
   # revokes a travel solution previously notified :(
   # it is caused by a driver's revoking
   def notify_demand_no_longer_fulfilled(fulfilled_demand)
-    DemandNoLongerFulfilledNotification.create(
-      :demand => fulfilled_demand.demand)
+    DemandNoLongerFulfilledNotification.create!(
+      :demand => fulfilled_demand.demand,
+      :recipient => fulfilled_demand.suitor)
     #
     user = fulfilled_demand.suitor
     subject = ApplicationData.application_name + " - " +
@@ -108,8 +111,8 @@ class Notifier
   # method called with ruby script/runner from an "at" job
   def self.send_default_reply_for_a_demand(demand_id)
     demand = Demand.find(demand_id)
-    DemandNoSolutionNotification.create(
-      :demand => demand)
+    DemandNoSolutionNotification.create!(:demand => demand,
+                                         :recipient => demand.suitor)
     #
     subject = ApplicationData.application_name + " - " +
         "no solution found :("
@@ -126,7 +129,8 @@ class Notifier
   # method called with ruby script/runner from an "at" job
   def self.send_passengers_list(offering_id)
     offering = Offering.find(offering_id)
-    OfferingNotification.create(:offering => offering)
+    OfferingNotification.create!(:offering => offering,
+                                 :recipient => offering.offerer)
     #
     subject = ApplicationData.application_name + " - " +
         "passengers list"

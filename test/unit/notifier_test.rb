@@ -34,6 +34,7 @@ class NotifierTest < ActiveSupport::TestCase
         @emails[0].to[0]
     #
     assert_not_nil fulfilled_demand.demand_notifications
+    assert fulfilled_demand.demand_notifications.size > 0
   end
 
 
@@ -46,6 +47,7 @@ class NotifierTest < ActiveSupport::TestCase
         @emails[0].to[0]
     #
     assert_not_nil fulfilled_demand.demand_notifications
+    assert fulfilled_demand.demand_notifications.size > 0
   end
 
 
@@ -57,6 +59,7 @@ class NotifierTest < ActiveSupport::TestCase
     assert_equal demand.suitor.email, @emails[0].to[0]
     #
     assert_not_nil demand.demand_notifications
+    assert demand.demand_notifications.size > 0
   end
 
 
