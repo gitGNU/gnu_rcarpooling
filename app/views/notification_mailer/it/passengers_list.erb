@@ -16,7 +16,8 @@
 # You should have received a copy of the GNU Affero Public License
 # along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
 -%>
-<% passengers = @offering.used_offering.passengers if @offering.used_offering -%>
+<% passengers = @offering.in_use? &&
+    @offering.used_offering.passengers || [] -%>
 Gent. <%= @user.qualified_name %>,
 relativamente alla Sua offerta numero <%= @offering.id %>,
 <% if passengers.empty? -%>

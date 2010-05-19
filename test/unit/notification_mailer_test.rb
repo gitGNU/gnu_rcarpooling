@@ -79,6 +79,22 @@ class NotificationMailerTest < ActionMailer::TestCase
 
   test "passengers list" do
     offering = offerings(:donald_duck_offering_n_1)
+    assert offering.in_use? # offering must be in use
+    subject = "qwerty"
+    from = "a@b"
+    @languages.each do |lang|
+      email = NotificationMailer.create_passengers_list(
+        offering, lang, subject, from)
+      assert_equal offering.offerer.email, email.to[0]
+      assert_equal subject, email.subject
+      assert_equal from, email.from[0]
+    end
+  end
+
+
+  test "passengers list of unused offering" do
+    offering = offerings(:mickey_mouse_offering_n_1)
+    assert !offering.in_use? # offering must be unused
     subject = "qwerty"
     from = "a@b"
     @languages.each do |lang|
