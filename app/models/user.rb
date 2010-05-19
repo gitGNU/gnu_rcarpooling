@@ -62,9 +62,11 @@ class User < ActiveRecord::Base
 
   has_many :notifications,
       :foreign_key => 'recipient_id',
-      :dependent => :destroy do
+      :dependent => :destroy,
+      :order => "created_at DESC" do
     def not_seen
-      find :all, :conditions => ['seen = false']
+      find :all, :conditions => ['seen = false'],
+          :order => "created_at DESC"
     end
   end
 
