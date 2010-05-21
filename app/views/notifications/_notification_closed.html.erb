@@ -20,7 +20,7 @@
 <div id='<%= "notification_#{notification.id}" %>'>
   <p class="almost_normal">
     <span><%= I18n.l notification.created_at, :format => :short %></span>&nbsp;
-    <span<%= "class='bold'" unless notification.seen? %>>
+    <span <%= "class='bold'" unless notification.seen? %>>
       <%= I18n.t "notifications.#{notification.class.name.underscore}.title" %>
     </span>&nbsp;&nbsp;
     <span>
