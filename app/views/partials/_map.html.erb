@@ -16,103 +16,78 @@
 # You should have received a copy of the GNU Affero Public License
 # along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
 -%>
-<div id="map" style="width: 550px; height: 450px"></div>
+<div id="map_canvas" style="width: 550px; height: 450px;"></div>
 <script type="text/javascript">
   //<![CDATA[
-  if (GBrowserIsCompatible())
-  {
-    // A function to create the marker and set up the event window
-    // Dont try to unroll this function. It has to be here for the function closure
-    // Each instance of the function preserves the contends of a different instance
-    // of the "marker" and "html" variables which will be needed later when the event
-    // triggers.
-    function createMarker(point, html)
-    {
-      var marker = new GMarker(point);
-      GEvent.addListener(marker, "click", function() {
-        marker.openInfoWindowHtml(html);
-      });
-      return marker;
-    }
-    // Display the map, with some controls and set the initial location
-    var map = new GMap2(document.getElementById("map"));
-    map.addControl(new GLargeMapControl());
-    map.addControl(new GMapTypeControl());
-    map.setCenter(new GLatLng(<%= Place.average_latitude %>,<%= Place.average_longitude %>),10);
+  var avgLatLng = new google.maps.LatLng(<%= Place.average_latitude %>,
+                                         <%= Place.average_longitude %>);
+  var mapOptions = {
+    zoom: 9,
+    center: avgLatLng,
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  };
+  var map = new google.maps.Map($('map_canvas'), mapOptions);
+
+  var PLACES = {};
+  var MARKERS = {};
+  var INFOWINDOWS = {};
 
 
-    function showMarkers(xmlDoc)
-    {
-      var places = xmlDoc.getElementsByTagName("place");
-      for (var i = 0; i < places.length; i++)
-      {
-        var lat = parseFloat(places[i].getElementsByTagName("latitude")[0].childNodes[0].nodeValue);
-        var lng = parseFloat(places[i].getElementsByTagName("longitude")[0].childNodes[0].nodeValue);
-        var point = new GLatLng(lat,lng);
-        var placeName = places[i].getElementsByTagName("name")[0].childNodes[0].nodeValue;
-        // create the marker
-        var markerContent = '<span class="map-marker">' + placeName + '</span><br/>' +
-          '<a class="h4" onclick="setAsDeparturePlace(' + places[i].getAttribute("id") +
-          ');">' + <%= "\"" + I18n.t('partials.map.set_as_departure_place') + "\""%> + '</a>' +
-          '<br/>' +
-          '<a class="h4" onclick="setAsArrivalPlace(' + places[i].getAttribute("id") +
-          ');">' + <%= "\"" + I18n.t('partials.map.set_as_arrival_place') + "\""%> + '</a>'
-        var marker = createMarker(point, markerContent);
-        map.addOverlay(marker);
-      }
-    }
-
-    // getting data from the ws
-    xhr = new XMLHttpRequest();
-    xhr.open("GET", <%= "\"" + places_url + "\"" %>, true);
-    xhr.onreadystatechange = function() {
-      if (4 == xhr.readyState)
-      {
-        showMarkers(xhr.responseXML);
-      }
-    }
-    xhr.send(null);
-
-    // set the places in the form
-    function setAsDeparturePlace(placeId)
-    {
-      sel = document.getElementById("departure_place_select");
-      opts = sel.getElementsByTagName("option");
-      for (i = 0; i < opts.length; i++)
-      {
-        if (placeId.toString() == opts[i].getAttribute("value"))
-        {
-          opts[i].selected = true;
-          break;
-        }
-      }
-    }
-
-    // set the places in the form
-    function setAsArrivalPlace(placeId)
-    {
-      sel = document.getElementById("arrival_place_select");
-      opts = sel.getElementsByTagName("option");
-      for (i = 0; i < opts.length; i++)
-      {
-        if (placeId.toString() == opts[i].getAttribute("value"))
-        {
-          opts[i].selected = true;
-          break;
-        }
-      }
-    }
-
-  } // end if
-  else
-  {
-    //display a warning if the browser was not compatible
-    alert("Sorry, the Google Maps API is not compatible with this browser");
+  function infoWinContent(placeId, placeName) {
+    return '<span class="bold">' + placeName + '</span><br/>' +
+        '<a class="almost_normal" onclick="setAsDeparturePlace(' + placeId +
+        ');">' + <%= "\"#{I18n.t('partials.map.set_as_departure_place')}\""%> + '</a>' +
+        '<br/>' +
+        '<a class="almost_normal" onclick="setAsArrivalPlace(' + placeId +
+        ');">' + <%= "\"#{I18n.t('partials.map.set_as_arrival_place')}\""%> + '</a>'
   }
 
-  // This Javascript is based on code provided by the
-  // Community Church Javascript Team
-  // http://www.bisphamchurch.org.uk/
-  // http://econym.org.uk/gmap/
+
+  <% places = Place.find(:all) -%>
+  <% places.each do |place| -%>
+    <%= "PLACES[\"#{place.id}\"] = {\"name\": \"#{place.name}\", " +
+      "\"id\": \"#{place.id}\", \"href\": " +
+      "\"#{place_url(:id => place.id)}\", " +
+      "\"latitude\": \"#{place.latitude}\", " +
+      "\"longitude\": \"#{place.longitude}\"};"%>
+    <%= "MARKERS[\"#{place.id}\"] = new google.maps.Marker({ " +
+        "position: new google.maps.LatLng(#{place.latitude}, #{place.longitude}), " +
+        "map: map, " +
+        "title: \"#{place.name}\" " +
+        "});" %>
+    <%= "INFOWINDOWS[\"#{place.id}\"] = new google.maps.InfoWindow({ " +
+        "content: infoWinContent(\"#{place.id}\", \"#{place.name}\")" +
+        "});" %>
+    <%= "google.maps.event.addListener(MARKERS[\"#{place.id}\"], 'click', " +
+        "function() { INFOWINDOWS[\"#{place.id}\"].open(map, MARKERS[\"#{place.id}\"]);});" %>
+  <% end -%>
+
+
+  // set the places in the form
+  function setAsDeparturePlace(placeId) {
+    sel = $('departure_place_select');
+    opts = sel.getElementsByTagName("option");
+    for (i = 0; i < opts.length; i++) {
+      if (placeId.toString() == opts[i].getAttribute("value")) {
+        opts[i].selected = true;
+        break;
+      }
+    }
+    INFOWINDOWS[placeId].close();
+  }
+
+  // set the places in the form
+  function setAsArrivalPlace(placeId) {
+    sel = $('arrival_place_select');
+    opts = sel.getElementsByTagName("option");
+    for (i = 0; i < opts.length; i++) {
+      if (placeId.toString() == opts[i].getAttribute("value")) {
+        opts[i].selected = true;
+        break;
+      }
+    }
+    INFOWINDOWS[placeId].close();
+  }
+
   //]]>
 </script>
