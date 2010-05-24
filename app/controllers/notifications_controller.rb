@@ -21,7 +21,8 @@ class NotificationsController < ApplicationController
 
 
   def index
-    @notifications = @user.notifications
+    @notifications = @user.notifications.paginate :page => params[:page],
+        :per_page => 4
     render :update do |page|
       page.replace "notifications", :partial => "notifications",
           :object => @notifications

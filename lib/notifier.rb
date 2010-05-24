@@ -74,7 +74,7 @@ class Notifier
         sec
     #
     pipe = IO.popen("/usr/bin/at -t #{time_of_execution} 2>&1", "w+")
-    pipe.puts "#{ENV['_']} script/runner \
+    pipe.puts "#{ApplicationData.ruby} script/runner \
         -e #{ENV['RAILS_ENV']} \
         Notifier.send_default_reply_for_a_demand\\(#{demand.id}\\)"
     pipe.close_write
@@ -97,7 +97,7 @@ class Notifier
         sec
     #
     pipe = IO.popen("/usr/bin/at -t #{time_of_execution} 2>&1", "w+")
-    pipe.puts "#{ENV['_']} script/runner \
+    pipe.puts "#{ApplicationData.ruby} script/runner \
         -e #{ENV['RAILS_ENV']} \
         Notifier.send_passengers_list\\(#{offering.id}\\)"
     pipe.close_write

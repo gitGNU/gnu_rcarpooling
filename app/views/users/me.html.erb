@@ -41,8 +41,10 @@
   <span><%= I18n.t 'loading'%></span>
   <%= image_tag "spinner1.gif", :style => 'position: relative; top: 4px;' %>
 </div>
-<%= render :partial => "notifications/notifications",
-      :object => @user.notifications %>
+<div id='notifications'></div>
+<%= javascript_tag remote_function(:url => user_notifications_url(
+                                                :user_id => @user.id),
+                                   :method => :get) %>
 <%= periodically_call_remote :url => user_notifications_url(:user_id => @user.id),
       :method => :get, :frequency => minutes*60,
       :before => "Element.show('loading_notifications')",

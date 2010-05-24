@@ -31,4 +31,9 @@ class ApplicationData
     "rcarpooling@unconfigured"
   end
 
+
+  def self.ruby
+    "/usr/bin/ruby"
+  end
+
 end
