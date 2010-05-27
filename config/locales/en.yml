@@ -61,6 +61,9 @@ en:
         offering_notification:
           offerer_must_be_the_recipient: offerer must be the recipient
 
+        forwarded_message:
+          recipient_must_be_distinct_from_sender: recipient must be distinct from sender
+
   layout:
     title: rcarpooling
     subtitle: this is Rcarpooling

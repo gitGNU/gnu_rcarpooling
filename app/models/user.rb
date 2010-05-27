@@ -71,6 +71,17 @@ class User < ActiveRecord::Base
   end
 
 
+  # sent messages
+  has_many :sent_messages,
+      :class_name => 'Message',
+      :foreign_key => 'sender_id'
+
+  # incoming messages
+  has_many :incoming_messages,
+      :class_name => 'ForwardedMessage',
+      :foreign_key => 'recipient_id'
+
+
   belongs_to :language
 
 
