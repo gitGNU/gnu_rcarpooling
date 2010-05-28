@@ -31,6 +31,12 @@ class MessageTest < ActiveSupport::TestCase
   end
 
 
+  test "check default values" do
+    m = Message.new
+    assert !m.deleted?
+  end
+
+
   test "invalid with empty required fields" do
     m = Message.new
     assert !m.valid?

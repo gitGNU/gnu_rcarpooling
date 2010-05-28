@@ -27,9 +27,10 @@ class ForwardedMessageTest < ActiveSupport::TestCase
   end
 
 
-  test "default value for seen" do
+  test "check default values" do
     fm = ForwardedMessage.new
-    assert !fm.seen
+    assert !fm.seen?
+    assert !fm.deleted?
   end
 
 

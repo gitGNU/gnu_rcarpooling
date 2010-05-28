@@ -15,23 +15,13 @@
 # You should have received a copy of the GNU Affero Public License
 # along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
 
-one_without_message:
-  recipient: mickey_mouse
-
-one:
-  message: one
-  recipient: donald_duck
-
-message_two_to_donald_duck:
-  message: two
-  recipient: donald_duck
-
-message_two_to_user_N:
-  message: two
-  recipient: user_N
-
-message_deleted:
-  message: three
-  recipient: donald_duck
-  deleted: true
-
+xml.sent_message(:id => @message.id, :href => sent_message_url(@message)) do
+  xml.subject(h @message.subject)
+  xml.content(h @message.content)
+  xml.created_at(@message.created_at.xmlschema)
+  xml.recipients do
+    @message.recipients.each do |recipient|
+      xml.recipient(:id => recipient.id, :href => user_url(recipient))
+    end
+  end
+end

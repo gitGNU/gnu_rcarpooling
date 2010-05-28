@@ -25,8 +25,13 @@ mickey_mouse_sender:
   subject: bla
   content: bla bla
 
-
 two:
   sender: mickey_mouse
   subject: aaaa
   content: bla bla bla bla bla
+
+three:
+  sender: mickey_mouse
+  subject: xxx
+  content: yyyyyyy
+  deleted: true

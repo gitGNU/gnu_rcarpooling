@@ -49,6 +49,11 @@ class ForwardedMessage < ActiveRecord::Base
   end
 
 
+  def deleted?
+    deleted
+  end
+
+
   private
 
   def recipient_must_be_distinct_from_sender

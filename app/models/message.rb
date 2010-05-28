@@ -42,6 +42,11 @@ class Message < ActiveRecord::Base
   validate :presence_of_fwd_messages
 
 
+  def deleted?
+    deleted
+  end
+
+
   private
 
   def presence_of_fwd_messages

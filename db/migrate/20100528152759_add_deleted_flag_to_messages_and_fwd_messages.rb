@@ -15,23 +15,14 @@
 # You should have received a copy of the GNU Affero Public License
 # along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
 
-one_without_message:
-  recipient: mickey_mouse
+class AddDeletedFlagToMessagesAndFwdMessages < ActiveRecord::Migration
+  def self.up
+    add_column :messages, :deleted, :boolean, :default => false
+    add_column :forwarded_messages, :deleted, :boolean, :default => false
+  end
 
-one:
-  message: one
-  recipient: donald_duck
-
-message_two_to_donald_duck:
-  message: two
-  recipient: donald_duck
-
-message_two_to_user_N:
-  message: two
-  recipient: user_N
-
-message_deleted:
-  message: three
-  recipient: donald_duck
-  deleted: true
-
+  def self.down
+    remove_column :messages, :deleted
+    remove_column :forwarded_messages, :deleted
+  end
+end

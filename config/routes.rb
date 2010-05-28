@@ -35,6 +35,8 @@ ActionController::Routing::Routes.draw do |map|
     user.resources :notifications,
         :only => [:index, :show]
   end
+  map.resources :sent_messages, :only => [:index, :show, :destroy]
+  map.resources :incoming_messages, :only => [:index, :show, :destroy]
   #
   map.home '',
       :conditions => { :method => :get },
