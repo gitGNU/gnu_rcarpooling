@@ -64,6 +64,10 @@ en:
         forwarded_message:
           recipient_must_be_distinct_from_sender: recipient must be distinct from sender
 
+        message:
+          forwarded_messages_invalid: recipients list invalid
+          forwarded_messages_empty: "recipients list can't be empty"
+
   layout:
     title: rcarpooling
     subtitle: this is Rcarpooling

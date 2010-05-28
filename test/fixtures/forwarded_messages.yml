@@ -15,18 +15,13 @@
 # You should have received a copy of the GNU Affero Public License
 # along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
 
-one:
-  sender: mickey_mouse
-  subject: this is the subject
-  content: this is a message :P
+one_without_message:
+  recipient: mickey_mouse
 
-mickey_mouse_sender:
-  sender: mickey_mouse
-  subject: bla
-  content: bla bla
+message_two_to_donald_duck:
+  message: two
+  recipient: donald_duck
 
-
-two:
-  sender: mickey_mouse
-  subject: aaaa
-  content: bla bla bla bla bla
+message_two_to_user_N:
+  message: two
+  recipient: user_N

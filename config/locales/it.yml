@@ -177,6 +177,10 @@ it:
         forwarded_message:
           recipient_must_be_distinct_from_sender: il destinatario deve essere diverso dal mittente
 
+        message:
+          forwarded_messages_invalid: elenco destinatari non valido
+          forwarded_messages_empty: "l'elenco dei destinatari non pu&ograve; essere vuoto"
+
 
   layout:
     title: rcarpooling

@@ -20,9 +20,12 @@ require 'test_helper'
 class MessageTest < ActiveSupport::TestCase
 
   test "valid message" do
+    fm = forwarded_messages(:one_without_message)
     m = Message.new(:sender => users(:donald_duck),
                     :subject => "hello",
                     :content => "this is a text, bla bla")
+    fm.message = m
+    m.forwarded_messages << fm
     assert m.valid?
     assert m.save
   end
@@ -40,6 +43,10 @@ class MessageTest < ActiveSupport::TestCase
     assert m.errors.invalid?(:content)
     assert_equal I18n.t('activerecord.errors.messages.blank'),
         m.errors.on(:content)
+    assert m.errors.invalid?(:forwarded_messages)
+    assert_equal I18n.t('activerecord.errors.messages.message.' +
+                        'forwarded_messages_empty'),
+                        m.errors.on(:forwarded_messages)
   end
 
 
@@ -64,6 +71,26 @@ class MessageTest < ActiveSupport::TestCase
     assert_equal I18n.t('activerecord.errors.messages.too_long',
                         :count => 20000),
                         m.errors.on(:content)
+  end
+
+
+  test "invalid if forwarded messages is invalid" do
+    fm = ForwardedMessage.new #invalid
+    m = Message.new
+    m.forwarded_messages << fm
+    assert !m.valid?
+    assert m.errors.invalid?(:forwarded_messages)
+    assert_equal I18n.t('activerecord.errors.messages.message.' +
+                        'forwarded_messages_invalid'),
+                        m.errors.on(:forwarded_messages)
+  end
+
+
+  test "recipients association" do
+    message = messages(:two)
+    assert_equal 2, message.recipients.length
+    assert message.recipients.include?(users(:donald_duck))
+    assert message.recipients.include?(users(:user_N))
   end
 
 end
