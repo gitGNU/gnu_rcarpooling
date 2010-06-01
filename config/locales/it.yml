@@ -584,3 +584,18 @@ it:
       title: Lista dei passeggeri
       content: "Elenco dei passeggeri relativamente alla tua offerta #{{id}},
                {{link}}."
+
+  incoming_messages:
+    index:
+      no_message: Nessun messaggio
+      title: Messaggi in arrivo
+      subject: Oggetto
+      sender: Mittente
+      date: Data
+      open: apri
+      delete: cancella
+      intro: "L'elenco &egrave; automaticamente rigenerato ogni {{minutes}} minuti."
+    opened_message:
+      subject: Oggetto
+      from: Da
+      sent_at: Inviato il

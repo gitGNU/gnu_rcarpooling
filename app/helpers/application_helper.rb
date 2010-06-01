@@ -46,14 +46,17 @@ module ApplicationHelper
       nick_name = User.find(session[:uid]).nick_name
       if max_length == 0
         nick_name
-      elsif max_length <= 3
-        "..."
       else
-        nick_name.to(max_length - 4) + "..."
+        truncate(nick_name, max_length, "...")
       end
     else
       nil
     end
+  end
+
+
+  def snippet(string, max_length)
+    truncate(string, :length => max_length, :omission => "...")
   end
 
 

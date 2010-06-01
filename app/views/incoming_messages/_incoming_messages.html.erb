@@ -1,0 +1,59 @@
+<%
+# Copyright (C) 2010  Roberto Maestroni
+#
+# This file is part of Rcarpooling.
+#
+# Rcarpooling is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Rcarpooling is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero Public License for more details.
+#
+# You should have received a copy of the GNU Affero Public License
+# along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
+-%>
+<div id='incoming_messages' style='margin: 1em;'>
+  <%= will_paginate incoming_messages, :class => 'pagination ajax' %>
+  <table>
+    <% if incoming_messages.empty? -%>
+      <tr>
+        <td class="italic">
+          <%= I18n.t 'incoming_messages.index.no_message' %>
+        </td>
+      </tr>
+    <% else -%>
+      <tr class="bold">
+        <td><%= I18n.t 'incoming_messages.index.subject' %></td>
+        <td><%= I18n.t 'incoming_messages.index.sender' %></td>
+        <td><%= I18n.t 'incoming_messages.index.date' %></td>
+      </tr>
+      <% incoming_messages.each do |message| -%>
+        <% domid = "incoming_message_#{message.id}" -%>
+        <tr id='<%= domid %>'>
+          <td <%= !message.seen? && " class='bold'" || "" %>>
+            <%= h snippet(message.subject, 15) %>
+          </td>
+          <td>
+            <%= render :partial => 'users/user_name_plain',
+                      :object => message.sender %>
+          </td>
+          <td><%= I18n.l message.created_at, :format => :short %></td>
+          <td>
+            <%= link_to_remote I18n.t('incoming_messages.index.open'),
+                  :url => incoming_message_url(message), :method => :get %>
+          </td>
+          <td>
+            <%= link_to_remote I18n.t('incoming_messages.index.delete'),
+                  :url => incoming_message_url(message), :method => :delete,
+                  :confirm => I18n.t('are_you_sure?') %>
+          </td>
+        </tr>
+      <% end -%>
+    <% end -%>
+  </table>
+  <%= will_paginate incoming_messages, :class => 'pagination ajax' %>
+</div>

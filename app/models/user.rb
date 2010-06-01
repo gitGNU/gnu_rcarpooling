@@ -79,7 +79,9 @@ class User < ActiveRecord::Base
   # incoming messages
   has_many :incoming_messages,
       :class_name => 'ForwardedMessage',
-      :foreign_key => 'recipient_id'
+      :foreign_key => 'recipient_id',
+      :conditions => 'deleted = false',
+      :order => 'created_at DESC'
 
 
   belongs_to :language

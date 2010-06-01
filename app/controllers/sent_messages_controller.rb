@@ -22,7 +22,8 @@ class SentMessagesController < ApplicationController
   # GET /sent_messages
   def index
     @messages = @user.sent_messages.find(:all,
-                                         :conditions => "deleted = false")
+                                         :conditions => "deleted = false",
+                                         :order => "created_at DESC")
     respond_to do |format|
       format.xml { render }
     end

@@ -21,10 +21,18 @@ class IncomingMessagesController < ApplicationController
 
   # GET /incoming_messages
   def index
-    @incoming_messages =
-        @user.incoming_messages.find(:all, :conditions => "deleted = false")
-    respond_to do |format|
-      format.xml { render }
+    @incoming_messages = @user.incoming_messages.paginate(
+        :per_page => 6, :page => params[:page])
+    if request.xhr?
+      render :update do |page|
+        page.replace 'incoming_messages', :partial => 'incoming_messages',
+            :object => @incoming_messages
+      end
+    else
+      respond_to do |format|
+        format.xml { @incoming_messages = @user.incoming_messages; render }
+        format.html
+      end
     end
   end
 
@@ -35,8 +43,17 @@ class IncomingMessagesController < ApplicationController
                                           :conditions => "deleted = false")
     if @incoming_message
       if @incoming_message.recipient == @user
-        respond_to do |format|
-          format.xml { render }
+        @incoming_message.seen = true
+        @incoming_message.save!
+        if request.xhr?
+          render :update do |page|
+            page.replace 'opened_message', :partial => 'opened_message',
+                :object => @incoming_message
+          end
+        else
+          respond_to do |format|
+            format.xml
+          end
         end
       else
         head :forbidden
@@ -55,7 +72,13 @@ class IncomingMessagesController < ApplicationController
       if @incoming_message.recipient == @user
         @incoming_message.deleted = true
         @incoming_message.save!
-        head :ok
+        if request.xhr?
+          render :update do |page|
+            page.remove "incoming_message_#{@incoming_message.id}"
+          end
+        else
+          head :ok
+        end
       else
         head :forbidden
       end

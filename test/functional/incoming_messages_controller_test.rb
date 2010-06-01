@@ -47,6 +47,26 @@ class IncomingMessagesControllerTest < ActionController::TestCase
   end
 
 
+  test "get index, format html" do
+    user = users(:donald_duck)
+    set_authorization_header(user.nick_name, user.password)
+    #
+    get :index, :format => 'html'
+    assert_response :success
+    assert_equal 'text/html', @response.content_type
+  end
+
+
+  test "get index by xhr" do
+    user = users(:donald_duck)
+    set_authorization_header(user.nick_name, user.password)
+    #
+    xhr(:get, :index)
+    assert_response :success
+    assert_equal 'text/javascript', @response.content_type
+  end
+
+
   test "deleted messages are not in index" do
     user = users(:donald_duck)
     set_authorization_header(user.nick_name, user.password)
@@ -69,10 +89,12 @@ class IncomingMessagesControllerTest < ActionController::TestCase
     user = users(:donald_duck)
     set_authorization_header(user.nick_name, user.password)
     #
+    assert !forwarded_messages(:one).seen?
     get :show, :id => forwarded_messages(:one).id
     assert_response :success
     assert_not_nil assigns(:incoming_message)
     m = assigns(:incoming_message)
+    assert m.seen?
     # testing response content
     assert_select "incoming_message:root[id=#{m.id}]" +
         "[href=#{incoming_message_url(m)}]" do
@@ -82,6 +104,17 @@ class IncomingMessagesControllerTest < ActionController::TestCase
       assert_select "subject", m.subject
       assert_select "content", m.content
     end
+  end
+
+
+  test "get show by xhr" do
+    user = users(:donald_duck)
+    set_authorization_header(user.nick_name, user.password)
+    #
+    assert !forwarded_messages(:one).seen?
+    xhr(:get, :show, :id => forwarded_messages(:one).id)
+    assert_response :success
+    assert_equal 'text/javascript', @response.content_type
   end
 
 
@@ -127,6 +160,16 @@ class IncomingMessagesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:incoming_message)
     m = assigns(:incoming_message)
     assert m.deleted?
+  end
+
+
+  test "delete an incoming message by xhr" do
+    user = users(:donald_duck)
+    set_authorization_header(user.nick_name, user.password)
+    #
+    xhr(:delete, :destroy, :id => forwarded_messages(:one).id)
+    assert_response :success
+    assert_equal 'text/javascript', @response.content_type
   end
 
 

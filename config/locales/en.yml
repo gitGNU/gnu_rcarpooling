@@ -443,3 +443,18 @@ en:
       title: List of passengers
       content: "Passenger list for your offering #{{id}}, {{link}}."
 
+  incoming_messages:
+    index:
+      no_message: No message
+      title: Incoming messages
+      subject: Subject
+      sender: Sender
+      date: Date
+      open: open
+      delete: delete
+      intro: This list is automatically refreshed every {{minutes}} minutes.
+    opened_message:
+      subject: Subject
+      from: From
+      sent_at: Sent at
+
