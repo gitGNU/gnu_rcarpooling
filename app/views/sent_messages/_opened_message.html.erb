@@ -21,23 +21,26 @@
   <table>
     <tr>
       <td class="bold">
-        <%= I18n.t 'incoming_messages.opened_message.subject' %>
+        <%= I18n.t 'sent_messages.opened_message.subject' %>
       </td>
       <td>
-        <%= h snippet(message.subject, 60) %>
+        <%= h snippet(message.subject, 50) %>
       </td>
     </tr>
     <tr>
       <td class="bold">
-        <%= I18n.t 'incoming_messages.opened_message.from' %>
+        <%= I18n.t 'sent_messages.opened_message.to' %>
       </td>
       <td>
-        <%= render :partial => 'users/user_name', :object => message.sender %>
+        <% recipients = message.recipients.map { |r|
+            render(:partial => 'users/user_name',
+                   :object => r) }.join(", ") -%>
+        <%= recipients %>
       </td>
     </tr>
     <tr>
       <td class="bold">
-        <%= I18n.t 'incoming_messages.opened_message.sent_at' %>
+        <%= I18n.t 'sent_messages.opened_message.sent_at' %>
       </td>
       <td><%= I18n.l message.created_at, :format => :long %></td>
     </tr>

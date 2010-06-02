@@ -21,11 +21,13 @@ class SentMessagesController < ApplicationController
 
   # GET /sent_messages
   def index
-    @messages = @user.sent_messages.find(:all,
-                                         :conditions => "deleted = false",
-                                         :order => "created_at DESC")
     respond_to do |format|
-      format.xml { render }
+      format.xml { @messages = @user.sent_messages; render }
+      format.html do
+        @messages = @user.sent_messages.paginate(:page => params[:page],
+                                                 :per_page => 6)
+        render
+      end
     end
   end
 
@@ -36,8 +38,15 @@ class SentMessagesController < ApplicationController
                                   :conditions => "deleted = false")
     if @message
       if @message.sender == @user
-        respond_to do |format|
-          format.xml { render }
+        if request.xhr?
+          render :update do |page|
+            page.replace 'opened_message', :partial => 'opened_message',
+                :object => @message
+          end
+        else
+          respond_to do |format|
+            format.xml { render }
+          end
         end
       else
         head :forbidden
@@ -56,7 +65,13 @@ class SentMessagesController < ApplicationController
       if @message.sender == @user
         @message.deleted = true
         @message.save!
-        head :ok
+        if request.xhr?
+          render :update do |page|
+            page.remove "sent_message_#{@message.id}"
+          end
+        else
+          head :ok
+        end
       else
         head :forbidden
       end

@@ -74,7 +74,9 @@ class User < ActiveRecord::Base
   # sent messages
   has_many :sent_messages,
       :class_name => 'Message',
-      :foreign_key => 'sender_id'
+      :foreign_key => 'sender_id',
+      :conditions => "deleted = false",
+      :order => "created_at DESC"
 
   # incoming messages
   has_many :incoming_messages,

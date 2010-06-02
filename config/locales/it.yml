@@ -599,3 +599,17 @@ it:
       subject: Oggetto
       from: Da
       sent_at: Inviato il
+
+  sent_messages:
+    index:
+      no_message: Nessun messaggio
+      title: Messaggi inviati
+      subject: Oggetto
+      recipient: Destinatario
+      date: Data
+      open: apri
+      delete: cancella
+    opened_message:
+      subject: Oggetto
+      to: A
+      sent_at: Inviato il

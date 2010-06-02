@@ -458,3 +458,17 @@ en:
       from: From
       sent_at: Sent at
 
+  sent_messages:
+    index:
+      no_message: No message
+      title: Sent messages
+      subject: Subject
+      recipient: Recipient
+      date: Date
+      open: open
+      delete: delete
+    opened_message:
+      subject: Subject
+      to: To
+      sent_at: Sent at
+

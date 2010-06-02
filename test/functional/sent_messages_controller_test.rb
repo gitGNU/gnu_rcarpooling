@@ -50,6 +50,16 @@ class SentMessagesControllerTest < ActionController::TestCase
   end
 
 
+  test "get index format html" do
+    user = users(:mickey_mouse)
+    set_authorization_header(user.nick_name, user.password)
+    #
+    get :index, :format => 'html'
+    assert_response :success
+    assert_not_nil assigns(:messages)
+  end
+
+
   test "deleted messages are not in the index" do
     user = users(:mickey_mouse)
     set_authorization_header(user.nick_name, user.password)
@@ -89,6 +99,16 @@ class SentMessagesControllerTest < ActionController::TestCase
         end
       end
     end
+  end
+
+
+  test "get show by xhr" do
+    user = users(:mickey_mouse)
+    set_authorization_header(user.nick_name, user.password)
+    #
+    xhr(:get, :show, :id => messages(:two).id)
+    assert_response :success
+    assert_equal 'text/javascript', @response.content_type
   end
 
 
@@ -132,6 +152,19 @@ class SentMessagesControllerTest < ActionController::TestCase
     #
     delete :destroy, :id => messages(:one).id
     assert_response :ok
+    assert_not_nil assigns(:message)
+    message = assigns(:message)
+    assert message.deleted?
+  end
+
+
+  test "delete a message by xhr" do
+    user = users(:mickey_mouse)
+    set_authorization_header(user.nick_name, user.password)
+    #
+    xhr(:delete, :destroy, :id => messages(:one).id)
+    assert_response :success
+    assert_equal 'text/javascript', @response.content_type
     assert_not_nil assigns(:message)
     message = assigns(:message)
     assert message.deleted?

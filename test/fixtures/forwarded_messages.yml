@@ -35,3 +35,8 @@ message_deleted:
   recipient: donald_duck
   deleted: true
 
+mickey_mouse_sender_fwd:
+  message: mickey_mouse_sender
+  recipient: mickey_mouse
+
+
