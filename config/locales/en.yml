@@ -92,6 +92,9 @@ en:
     pictures_edit: "edit&nbsp;personal&nbsp;picture"
     users_index: "search&nbsp;people"
     guide_index: "user's&nbsp;guide"
+    incoming_messages_index: "incoming&nbsp;messages"
+    messages_new: "write&nbsp;a&nbsp;message"
+    sent_messages_index: "sent&nbsp;messages"
 
   sidebar:
     guide: User guide
@@ -107,7 +110,8 @@ en:
     your_demands: Your demands
     new_offering: Offer a ride
     your_offerings: Your offerings
-    users_search: Search people
+    incoming_messages: Incoming messages
+    write_a_message: Write a message
 
   notices:
     user_updated: "Your data have been successfuly updated"
@@ -123,6 +127,7 @@ en:
     login_succeded: "Login succeded"
     picture_uploaded: "Picture successfuly uploaded"
     picture_deleted: "Picture successfuly deleted"
+    message_sent: Message sent
 
   home:
     about: "This service is imlemented with {{rcarpooling}}, a free software
@@ -471,4 +476,19 @@ en:
       subject: Subject
       to: To
       sent_at: Sent at
+
+  messages:
+    new:
+      title: Write a message
+      intro: "Here you can write a message to one or many people. They'll see your
+             message in their web board. Depending on recipients preferences, they'll
+             receive the message also in their e-mail boxes."
+      send_label: Send
+      subject: Subject
+      content: Text
+      recipients: Recipients
+      guide:
+        subject: Max {{maxlength}} characters
+        recipients: Add a recipient dragging his/her name from the search results over
+                    the input field.
 

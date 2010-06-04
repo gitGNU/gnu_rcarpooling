@@ -16,6 +16,10 @@
 # You should have received a copy of the GNU Affero Public License
 # along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
 -%>
+<% content_for(:navigation_path) do -%>
+  <%= render :partial => 'partials/navigation_path',
+             :object => [home_path, sent_messages_path] %>
+<% end -%>
 <h3><%= I18n.t 'sent_messages.index.title' %></h3>
 
 <div style='margin: 1em;'>

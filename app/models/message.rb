@@ -17,6 +17,9 @@
 
 class Message < ActiveRecord::Base
 
+  attr_accessor :recipients_ids_string
+
+
   has_many :forwarded_messages,
       :validate => false # see validates_associated below
 

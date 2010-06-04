@@ -58,7 +58,10 @@
 
 <% if user_logged_in? -%>
   <div class="sidebar_entry">
-    <%= link_to I18n.t('sidebar.users_search'), users_url %>
+    <%= link_to I18n.t('sidebar.incoming_messages'), incoming_messages_url %>
+  </div>
+  <div class="sidebar_entry">
+    <%= link_to I18n.t('sidebar.write_a_message'), new_message_url %>
   </div>
   <div class="sidebar_entry">
     <%= link_to I18n.t('sidebar.personal_area'), me_users_url %>

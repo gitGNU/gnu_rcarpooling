@@ -17,6 +17,10 @@
 # along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
 -%>
 <% minutes = 2 -%>
+<% content_for(:navigation_path) do -%>
+  <%= render :partial => 'partials/navigation_path',
+             :object => [home_path, incoming_messages_path] %>
+<% end -%>
 <h3><%= I18n.t 'incoming_messages.index.title' %></h3>
 
 <p><%= I18n.t 'incoming_messages.index.intro', :minutes => minutes %></p>

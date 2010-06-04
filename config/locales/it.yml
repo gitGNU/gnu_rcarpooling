@@ -81,6 +81,7 @@ it:
       demand: "richiesta"
       offering: "offerta"
       picture: "immagine"
+      message: messaggio
 
     attributes:
 
@@ -114,6 +115,11 @@ it:
         content_type: "Tipo del contenuto"
         size: "Dimensione"
         filename: "Nome file"
+
+      message:
+        subject: Oggetto
+        content: Contenuto
+        forwarded_messages: Messaggi inoltrati
 
 
     errors:
@@ -206,6 +212,9 @@ it:
     pictures_edit: "modifica&nbsp;foto"
     users_index: "cerca&nbsp;una&nbsp;persona"
     guide_index: "guida&nbsp;dell'utente"
+    incoming_messages_index: "messaggi&nbsp;in&nbsp;arrivo"
+    messages_new: "scrivi&nbsp;un&nbsp;messaggio"
+    sent_messages_index: "messaggi&nbsp;inviati"
 
   sidebar:
     guide: Guida utente
@@ -221,7 +230,8 @@ it:
     your_demands: Le tue richieste
     new_offering: Offri un passaggio
     your_offerings: Le tue offerte
-    users_search: Cerca una persona
+    incoming_messages: Messaggi in arrivo
+    write_a_message: Scrivi un messaggio
 
   notices:
     user_updated: "Le modifiche sono state registrate con successo"
@@ -237,6 +247,7 @@ it:
     login_succeded: "Autenticazione riuscita"
     picture_uploaded: "Immagine caricata con successo"
     picture_deleted: "Immagine cancellata"
+    message_sent: Messaggio inviato
 
   home:
     about: "Questo servizio &egrave; implementato con {{rcarpooling}},
@@ -613,3 +624,19 @@ it:
       subject: Oggetto
       to: A
       sent_at: Inviato il
+
+  messages:
+    new:
+      title: Scrivi un messaggio
+      intro: "Qui puoi scrivere un messaggio ad una o pi&ugrave; persone. Esse potranno
+             leggere il tuo messaggio nella loro bacheca web e, in relazione alle
+             loro impostazioni, lo riceveranno anche nella loro casella di posta
+             elettronica."
+      send_label: Invia
+      subject: Oggetto
+      content: Testo
+      recipients: Destinatari
+      guide:
+        subject: Massimo {{maxlength}} caratteri
+        recipients: Aggiungi un destinatario trascinandone il nome dai risultati della
+                    ricerca sopra alla casella di input sottostante.

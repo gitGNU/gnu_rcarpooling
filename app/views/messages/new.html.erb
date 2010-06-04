@@ -1,0 +1,85 @@
+<%
+# Copyright (C) 2010  Roberto Maestroni
+#
+# This file is part of Rcarpooling.
+#
+# Rcarpooling is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Rcarpooling is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero Public License for more details.
+#
+# You should have received a copy of the GNU Affero Public License
+# along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
+-%>
+<% content_for(:navigation_path) do -%>
+  <%= render :partial => 'partials/navigation_path',
+             :object => [home_path, new_message_path ] %>
+<% end -%>
+
+<h3><%= I18n.t 'messages.new.title' %></h3>
+
+<p><%= I18n.t 'messages.new.intro' %></p>
+
+<% form_for :message, :url => messages_url,
+            :html => { :class => 'form' } do |form| %>
+
+  <%= error_messages_for :message, :class => 'errors' %>
+
+  <%= render :partial => "partials/form_required_field_note" %>
+
+  <div class="form_div">
+    <div class="form_label">
+      <%= I18n.t('messages.new.subject') + required_field %>
+    </div>
+    <div class="form_guide">
+      <%= I18n.t 'messages.new.guide.subject', :maxlength => 70 %>
+    </div>
+    <div class="form_input">
+      <%= form.text_field :subject, :size => 70, :maxlength => 70 %>
+    </div>
+  </div>
+
+  <div class="form_div">
+    <div class="form_label">
+      <%= I18n.t('messages.new.content') + required_field %>
+    </div>
+    <div class="form_input">
+      <%= form.text_area :content, :cols => 70, :rows => 20 %>
+    </div>
+  </div>
+
+  <div class="form_div" id="recipients_list"
+       style="padding-top: 0.5em; padding-bottom: 1em;">
+    <div class="form_label">
+      <%= I18n.t('messages.new.recipients') + required_field %>
+    </div>
+    <div class="form_guide">
+      <%= I18n.t 'messages.new.guide.recipients' %>
+    </div>
+    <div class="form_input">
+      <%= form.text_field :recipients_ids_string, :size => 70,
+             :id => 'recipients_input' %>
+    </div>
+  </div>
+
+  <div class="form_submit">
+    <%= submit_tag I18n.t('messages.new.send_label'),
+          :confirm => I18n.t('are_you_sure?') %>
+  </div>
+<% end -%>
+
+<%= drop_receiving_element('recipients_list', :accept => 'user',
+  :hoverclass => "hover",
+  :onDrop => "function(draggable_el, droppable_el, event) { " +
+             "var user_id = draggable_el.id.split('_').last(); " +
+             "var actual_value = $('recipients_input').value; " +
+             "if (actual_value.length > 0)" +
+             "  $('recipients_input').value += \" , \" + user_id; " +
+             "else $('recipients_input').value = user_id;}") %>
+
+<div style="margin-left: 4em;"><%= render :partial => 'users/search' %></div>
