@@ -458,6 +458,7 @@ en:
       open: open
       delete: delete
       intro: This list is automatically refreshed every {{minutes}} minutes.
+      go_to_sent_messages: Go to sent messages
     opened_message:
       subject: Subject
       from: From
@@ -491,4 +492,7 @@ en:
         subject: Max {{maxlength}} characters
         recipients: Add a recipient dragging his/her name from the search results over
                     the input field.
+
+  message_mailer:
+    intro: "This message is from {{sender}} through the service {{service_name}}."
 

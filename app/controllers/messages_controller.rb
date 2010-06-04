@@ -48,6 +48,12 @@ class MessagesController < ApplicationController
           redirect_to sent_messages_url
         end
       end
+      # forwarding by email
+      @message.recipients.each do |recipient|
+        if recipient.wants_message_by_email?
+          MessageMailer.deliver_message(@message, recipient)
+        end
+      end
     else
       respond_to do |format|
         format.xml do

@@ -606,6 +606,7 @@ it:
       open: apri
       delete: cancella
       intro: "L'elenco &egrave; automaticamente rigenerato ogni {{minutes}} minuti."
+      go_to_sent_messages: Vai ai messaggi inviati
     opened_message:
       subject: Oggetto
       from: Da
@@ -640,3 +641,7 @@ it:
         subject: Massimo {{maxlength}} caratteri
         recipients: Aggiungi un destinatario trascinandone il nome dai risultati della
                     ricerca sopra alla casella di input sottostante.
+
+  message_mailer:
+    intro: "Questo messaggio ti è stato inviato da {{sender}} mediante il sistema
+            {{service_name}}."

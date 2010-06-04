@@ -231,6 +231,11 @@ class User < ActiveRecord::Base
   end
 
 
+  def wants_message_by_email?
+    forward_messages_to_mail
+  end
+
+
   private
 
 

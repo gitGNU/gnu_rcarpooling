@@ -19,6 +19,12 @@ require 'test_helper'
 
 class MessagesControllerTest < ActionController::TestCase
 
+  def setup
+    @emails = ActionMailer::Base.deliveries
+    @emails.clear
+  end
+
+
   # POST /messages
 
   test "send message" do
@@ -57,6 +63,11 @@ class MessagesControllerTest < ActionController::TestCase
         end
       end
     end
+    # email fwd
+    assert_equal 2, @emails.size
+    recipients.each do |r|
+      assert @emails.map { |e| e.to[0] }.include?(r.email)
+    end
   end
 
 
@@ -84,6 +95,8 @@ class MessagesControllerTest < ActionController::TestCase
     set_authorization_header(sender.nick_name, sender.password)
     #
     recipients = [users(:donald_duck), users(:user_N)]
+    recipients[1].forward_messages_to_mail = false
+    recipients[1].save!
     assert_difference('Message.count', 1) do
       assert_difference('ForwardedMessage.count', 2) do
         post :create, :message => { :subject => "hello world!",
@@ -104,6 +117,9 @@ class MessagesControllerTest < ActionController::TestCase
     assert_equal "foo bar", message.content
     assert message.recipients.include?(recipients[0])
     assert message.recipients.include?(recipients[1])
+    # email fwd
+    assert_equal 1, @emails.size
+    assert @emails.map { |e| e.to[0] }.include?(recipients[0].email)
   end
 
 
@@ -114,6 +130,7 @@ class MessagesControllerTest < ActionController::TestCase
                                   "#{users(:mickey_mouse).id}"
                               }
     assert_response :unauthorized
+    assert_equal 0, @emails.size
   end
 
 
@@ -133,6 +150,7 @@ class MessagesControllerTest < ActionController::TestCase
       end
     end
     assert_response :unprocessable_entity
+    assert_equal 0, @emails.size
   end
 
 
@@ -150,6 +168,7 @@ class MessagesControllerTest < ActionController::TestCase
       end
     end
     assert_response :unprocessable_entity
+    assert_equal 0, @emails.size
   end
 
 
@@ -168,6 +187,7 @@ class MessagesControllerTest < ActionController::TestCase
       end
     end
     assert_template 'new'
+    assert_equal 0, @emails.size
   end
 
 

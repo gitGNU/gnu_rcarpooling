@@ -23,6 +23,11 @@
 <% end -%>
 <h3><%= I18n.t 'incoming_messages.index.title' %></h3>
 
+<p>
+  <%= link_to I18n.t('incoming_messages.index.go_to_sent_messages'),
+       sent_messages_url %>
+</p>
+
 <p><%= I18n.t 'incoming_messages.index.intro', :minutes => minutes %></p>
 
 <div id='loading_messages' style='margin: 0.5em 2em 0.5em 2em; display: none;'>

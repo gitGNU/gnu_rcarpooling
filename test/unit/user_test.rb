@@ -51,6 +51,8 @@ class UserTest < ActiveSupport::TestCase
     user = User.new :first_name => "Uncle", :last_name => "Scrooge",
         :nick_name => "us", :email => "uncle.scrooge@foo.bar",
         :password => "uncle", :language => languages(:en), :sex => "M"
+    # default value for messages email forwarding
+    assert user.wants_message_by_email?
     assert user.valid?
     assert user.save
   end
