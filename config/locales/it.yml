@@ -305,6 +305,7 @@ it:
     vehicle_registration_plate_not_set: "non impostata"
     max_foot_length: "Massima distanza accettabile a piedi"
     lang: "Lingua per i messaggi di notifica"
+    messages_fwd: Inoltro i messaggi personali nella tua casella e-mail
     no_drivers_in_black_list: "Nessun autista nella black list"
     no_passengers_in_black_list: "Nessun passeggero nella black list"
     no_picture: "Nessuna foto"
@@ -319,6 +320,7 @@ it:
       this_user_is: Questo utente &egrave;
       in_drivers_bl: tra i tuoi autisti indesiderati
       in_passengers_bl: tra i tuoi passeggeri indesiderati
+      write_a_message: Scrivigli/le un messaggio
     member_since: Membro a partire dal
     guide:
       telephone_number: "Se inserito far&agrave; parte del
@@ -336,6 +338,8 @@ it:
                        prevedere degli spostamenti a piedi. Indica quanto sei
                        disposto a camminare.
       lang: Il sistema ti invier&agrave; e-mail in questa lingua.
+      messages_fwd: "Se scegli &quot;si&quot; i messaggi personali inviati da altri
+                     utenti saranno inoltrati alla tua casella e-mail."
     show:
       intro: "I campi <span class='public'>sottolineati</span> fanno parte del tuo
              profilo pubblico, quindi altri utenti registrati possono visualizzarli."
@@ -479,6 +483,7 @@ it:
       arrival_time: Ora arrivo
       car_title: Tratto in automobile
       with: Con
+      write_to_driver: "Scrivi all'autista"
       final_walk_title: Ultimo tratto a piedi
       guaranteed: Questa soluzione &egrave; garantita.
       not_guaranteed: "Questa soluzione non &egrave; garantita
@@ -571,6 +576,7 @@ it:
       delete_label: Elimina
       passengers_intro: "Viaggeranno con te:"
       actual_seating_capacity: Posti attualmente liberi
+      write_to_passengers: Scrivi un messaggio a tutti i passeggeri
       passengers_note: "Ti ricordiamo che la lista dei passeggeri pu&ograve;
                        variare fino al momento della notifica."
       all_offerings_link: Tutte le tue offerte

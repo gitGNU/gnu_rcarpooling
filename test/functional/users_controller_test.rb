@@ -283,7 +283,8 @@ class UsersControllerTest < ActionController::TestCase
                                            :last_name => "Minnielast",
                                            :email => "new@email",
                                            :sex => "F",
-                                           :max_foot_length => 1000
+                                           :max_foot_length => 1000,
+                                           :forward_messages_to_mail => 0
                                           }
     assert_response :success
     assert_not_nil assigns(:user)
@@ -297,6 +298,7 @@ class UsersControllerTest < ActionController::TestCase
     assert_equal user.language, user_updated.language
     assert_nil user_updated.telephone_number
     assert_nil user_updated.vehicle_registration_plate
+    assert !user_updated.wants_message_by_email?
   end
 
 

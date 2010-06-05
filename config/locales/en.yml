@@ -185,6 +185,7 @@ en:
     vehicle_registration_plate_not_set: "not set"
     max_foot_length: "Max distance acceptable on foot"
     lang: "Favourite language for notifications"
+    messages_fwd: "Forward personal messages in your e-mail"
     no_drivers_in_black_list: "There are no drivers in your black list"
     no_passengers_in_black_list: "There are no passengers in your black list"
     no_picture: "No picture"
@@ -199,6 +200,7 @@ en:
       this_user_is: This user is
       in_drivers_bl: in your drivers' black list
       in_passengers_bl: in your passengers' black list
+      write_a_message: Write him/her a message
     member_since: Member since
     guide:
       telephone_number: If set, it will be part of your public profile. Other
@@ -209,6 +211,8 @@ en:
                        provide walking. Select how much you
                        willing to walk.
       lang: It is relative to the messages from the system only.
+      messages_fwd: "Selecting &quot;yes&quot; messages from other users will
+                     be forwarded to your e-mail box."
     show:
       intro: "<span class='public'>Underlined</span> fields belong to your public
              profile. Other users can see them."
@@ -339,6 +343,7 @@ en:
       arrival_time: Arr. time
       car_title: Journey by car
       with: With
+      write_to_driver: Write to driver
       final_walk_title: Final walk
       guaranteed: This solution is guaranteed.
       not_guaranteed: This solution is not guaranteed until {{time}}
@@ -425,6 +430,7 @@ en:
       delete_label: Delete
       passengers_intro: "Your passengers are:"
       actual_seating_capacity: "Actual free seatings"
+      write_to_passengers: Write a message to all passengers
       passengers_note: Please note that the passengers list can vary
                        until the notification time.
       all_offerings_link: All your offerings

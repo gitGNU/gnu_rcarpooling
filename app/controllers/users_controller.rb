@@ -98,6 +98,9 @@ class UsersController < ApplicationController
             @user.vehicle_registration_plate =
                 data[:vehicle_registration_plate]
           end
+          if data[:forward_messages_to_mail]
+            @user.forward_messages_to_mail = data[:forward_messages_to_mail]
+          end
         end
         # now save
         if @user.save

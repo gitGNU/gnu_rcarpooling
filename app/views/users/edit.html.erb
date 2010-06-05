@@ -109,6 +109,21 @@
       </div>
     </div>
 
+    <div class="form_div">
+      <div class="form_label"><%= I18n.t('users.messages_fwd') + required_field %></div>
+      <div class="form_guide"><%= I18n.t 'users.guide.messages_fwd' %></div>
+      <div class="form_input">
+        <span>
+          <%= I18n.t 'yes_w' %>
+          <%= form.radio_button :forward_messages_to_mail, true %>
+        </span>&nbsp;&nbsp;
+        <span>
+          <%= I18n.t 'no_w' %>
+          <%= form.radio_button :forward_messages_to_mail, false %>
+        </span>
+      </div>
+    </div>
+
     <div class="form_submit">
       <%= submit_tag I18n.t('users.actions.save_button_label') %>
     </div>

@@ -95,3 +95,8 @@
       </li>
     </ul>
 
+  <p>
+    <%= link_to I18n.t('users.public.write_a_message'),
+          new_message_url(:recipients => recipients_param([@user])) %>
+  </p>
+

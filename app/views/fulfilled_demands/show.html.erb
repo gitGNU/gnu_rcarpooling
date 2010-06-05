@@ -97,6 +97,11 @@
       <%= render :partial => "users/user_name",
             :object => fd.vehicle_offering.driver %>
     </td>
+    <td>
+      <%= link_to I18n.t('fulfilled_demands.show.write_to_driver'),
+            new_message_url(
+              :recipients => recipients_param([fd.vehicle_offering.driver])) %>
+    </td>
   </tr>
   <% if fd.vehicle_registration_plate -%>
     <tr>

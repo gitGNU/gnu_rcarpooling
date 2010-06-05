@@ -49,6 +49,10 @@
     <li><%= render :partial => "users/user_name", :object => p %></li>
   <% end -%>
 </ul>
+<p>
+  <%= link_to I18n.t('used_offerings.show.write_to_passengers'),
+        new_message_url(:recipients => recipients_param(uo.passengers)) %>
+</p>
 <p><%= I18n.t 'used_offerings.show.passengers_note' %></p>
 
 <% if !uo.chilled? -%>

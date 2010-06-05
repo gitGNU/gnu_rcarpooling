@@ -106,6 +106,7 @@
 
   <br/>
 
+  <!-- PREFERENCES -->
   <h3><%= I18n.t('users.heading_prefs')%></h3>
   <table>
     <tr>
@@ -113,8 +114,14 @@
       <td><%= h @user.lang %></td>
     </tr>
     <tr>
+      <td><span class="bold"><%= I18n.t('users.messages_fwd') %></span></td>
+      <td>
+        <%= @user.wants_message_by_email? && I18n.t('yes_w') || I18n.t('no_w') %>
+      </td>
+    </tr>
+    <tr>
       <td><span class="bold"><%= I18n.t('users.max_foot_length')%></span></td>
-      <td><%= h @user.max_foot_length %></td>
+      <td><%= I18n.t('meters', :length => h(@user.max_foot_length)) %></td>
     </tr>
   </table>
   <%= button_to I18n.t('users.actions.edit_button_label'),

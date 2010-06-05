@@ -65,6 +65,11 @@ module ApplicationHelper
   end
 
 
+  def recipients_param(recipients)
+    recipients.map { |r| "#{r.name}<#{r.id}>" }.join(',')
+  end
+
+
   include WillPaginate::ViewHelpers
 
   def will_paginate_with_i18n(collection, options = {})
