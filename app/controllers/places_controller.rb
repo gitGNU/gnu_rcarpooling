@@ -22,6 +22,7 @@ class PlacesController < ApplicationController
     @places = Place.find :all
     respond_to do |format|
       format.xml
+      format.html
     end
   end
 
@@ -32,6 +33,7 @@ class PlacesController < ApplicationController
     if @place
       respond_to do |format|
         format.xml
+        format.html
       end
     else
       head :not_found

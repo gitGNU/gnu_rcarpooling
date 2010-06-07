@@ -96,6 +96,8 @@ en:
     incoming_messages_index: "incoming&nbsp;messages"
     messages_new: "write&nbsp;a&nbsp;message"
     sent_messages_index: "sent&nbsp;messages"
+    places_index: places
+    places_show: place&nbsp;details
 
   sidebar:
     guide: User guide
@@ -517,4 +519,15 @@ en:
 
   message_mailer:
     intro: "This message is from {{sender}} through the service {{service_name}}."
+
+  places:
+    show:
+      title: Details of &quot;{{place_name}}&quot;
+      name: Name
+      address: Address
+      latitude: Latitude
+      longitude: Longitude
+      description: Description
+    index:
+      title: Places list
 

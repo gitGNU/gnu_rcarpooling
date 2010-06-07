@@ -217,6 +217,8 @@ it:
     incoming_messages_index: "messaggi&nbsp;in&nbsp;arrivo"
     messages_new: "scrivi&nbsp;un&nbsp;messaggio"
     sent_messages_index: "messaggi&nbsp;inviati"
+    places_index: luoghi
+    places_show: dettagli&nbsp;luogo
 
   sidebar:
     guide: Guida utente
@@ -671,3 +673,15 @@ it:
   message_mailer:
     intro: "Questo messaggio ti è stato inviato da {{sender}} mediante il sistema
             {{service_name}}."
+
+  places:
+    show:
+      title: Dettagli di &quot;{{place_name}}&quot;
+      name: Nome convenzionale
+      address: Indirizzo
+      latitude: Latitudine
+      longitude: Longitudine
+      description: Descrizione
+    index:
+      title: Lista dei luoghi
+

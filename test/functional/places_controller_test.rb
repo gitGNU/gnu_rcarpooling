@@ -40,6 +40,14 @@ class PlacesControllerTest < ActionController::TestCase
   end
 
 
+  test "get all places, format html" do
+    get :index, :format => 'html'
+    assert_response :success
+    assert_equal 'text/html', @response.content_type
+    assert_not_nil assigns(:places)
+  end
+
+
   test "get a particular place" do
     get :show, :id => places(:sede_di_via_ravasi).id
     assert_response :success
@@ -55,6 +63,14 @@ class PlacesControllerTest < ActionController::TestCase
       assert_select "civic_number", place.civic_number
       assert_select "description", place.description
     end
+  end
+
+
+  test "get a particular place, format html" do
+    get :show, :id => Place.first.id, :format => 'html'
+    assert_response :success
+    assert_equal 'text/html', @response.content_type
+    assert_not_nil assigns(:place)
   end
 
 
