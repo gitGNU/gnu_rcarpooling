@@ -184,6 +184,8 @@ en:
     telephone_number_not_set: "not set"
     vehicle_registration_plate: "Vehicle registration plate"
     vehicle_registration_plate_not_set: "not set"
+    car_details: Car description
+    car_details_not_set: not set
     max_foot_length: "Max distance acceptable on foot"
     lang: "Favourite language for notifications"
     messages_fwd: "Forward personal messages in your e-mail"
@@ -216,7 +218,11 @@ en:
       telephone_number: If set, it will be part of your public profile. Other
                         users will be able to see it (according to access rules).
       vehicle_registration_plate: If set, it will be part of your public profile.
-                                  Other users will be able to see it (according to access rules).
+                                  Other users will be able to see it (according to
+                                  access rules).
+      car_details: Maximum length {{count}} characters.
+                   If set, it will be part of your public profile. Other users will be
+                   able to see it (according to access rules).
       max_foot_length: Transport solutions computed by the system can
                        provide walking. Select how much you
                        willing to walk.

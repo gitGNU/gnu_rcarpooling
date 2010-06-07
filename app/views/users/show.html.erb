@@ -68,6 +68,18 @@
         <% end -%>
       </td>
     </tr>
+    <tr>
+      <td>
+        <span class="public_bold"><%= I18n.t 'users.car_details' %></span>
+      </td>
+      <td>
+        <% if @user.car_details -%>
+          <span class="public"><%= h @user.car_details %></span>
+        <% else -%>
+          <span class="italic"><%= I18n.t 'users.car_details_not_set' %></span>
+        <% end -%>
+      </td>
+    </tr>
     <!-- picture -->
     <tr>
       <td><span class="public_bold"><%= I18n.t 'users.picture' %></span></td>

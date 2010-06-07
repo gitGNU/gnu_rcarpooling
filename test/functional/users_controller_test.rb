@@ -403,7 +403,6 @@ class UsersControllerTest < ActionController::TestCase
                                           }
     assert_response :success
     assert_not_nil assigns(:user)
-    # check the entity-body returned
     user_updated = assigns(:user)
     assert_equal user.first_name, user_updated.first_name
     assert_equal user.last_name, user_updated.last_name
@@ -411,8 +410,10 @@ class UsersControllerTest < ActionController::TestCase
     assert_equal "F", user_updated.sex
     assert_equal 1000, user_updated.max_foot_length
     assert_equal user.language, user_updated.language
-    assert_nil user_updated.telephone_number
-    assert_nil user_updated.vehicle_registration_plate
+    assert_equal user.telephone_number, user_updated.telephone_number
+    assert_equal user.vehicle_registration_plate,
+        user_updated.vehicle_registration_plate
+    assert_equal user.car_details, user_updated.car_details
     assert !user_updated.wants_message_by_email?
     assert user_updated.visible_by_all?
   end
@@ -424,14 +425,15 @@ class UsersControllerTest < ActionController::TestCase
     #
     put :update, :format => "xml",
                  :id => user.id, :user => {:telephone_number => "",
-                                           :vehicle_registration_plate => ""
+                                           :vehicle_registration_plate => "",
+                                           :car_details => ""
                                           }
     assert_response :success
     assert_not_nil assigns(:user)
-    # check the entity-body returned
     user_updated = assigns(:user)
     assert_nil user_updated.telephone_number
     assert_nil user_updated.vehicle_registration_plate
+    assert_nil user_updated.car_details
   end
 
 
@@ -441,13 +443,14 @@ class UsersControllerTest < ActionController::TestCase
     #
     put :update, :format => "html",
                 :id => user.id, :user => {:first_name => "Minnie",
-                                           :last_name => "Minnielast",
-                                           :sex => "F",
-                                           :max_foot_length => 1000,
-                                           :language_id =>
-                                              languages(:it).id,
-                                           :telephone_number => "abc",
-                                           :vehicle_registration_plate => "X"
+                                          :last_name => "Minnielast",
+                                          :sex => "F",
+                                          :max_foot_length => 1000,
+                                          :language_id =>
+                                             languages(:it).id,
+                                          :telephone_number => "abc",
+                                          :vehicle_registration_plate => "X",
+                                          :car_details => "foo bar"
                                           }
     assert_redirected_to user_url(user)
     assert_not_nil assigns(:user)
@@ -461,6 +464,7 @@ class UsersControllerTest < ActionController::TestCase
     assert_equal languages(:it), user_updated.language
     assert_equal "abc", user_updated.telephone_number
     assert_equal "X", user_updated.vehicle_registration_plate
+    assert_equal "foo bar", user_updated.car_details
   end
 
 

@@ -57,6 +57,16 @@
       </td>
     </tr>
   <% end -%>
+  <% if @user.shows_car_details? -%>
+    <tr>
+      <td>
+        <span class="bold"><%= I18n.t 'users.car_details' %></span>
+      </td>
+      <td>
+        <%= h @user.car_details %>
+      </td>
+    </tr>
+  <% end -%>
   <% if @user.shows_picture? -%>
     <tr>
       <td><span class="bold"><%= I18n.t 'users.picture' %></span></td>

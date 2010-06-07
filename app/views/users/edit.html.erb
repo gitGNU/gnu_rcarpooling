@@ -83,6 +83,18 @@
       </div>
     </div>
 
+    <div class="form_div">
+      <div class="form_label">
+        <%= I18n.t 'users.car_details' %>
+      </div>
+      <div class="form_guide">
+        <%= I18n.t 'users.guide.car_details', :count => User::CAR_DETAILS_MAX_LENGTH %>
+      </div>
+      <div class="form_input">
+        <%= form.text_area :car_details, :cols => 50, :rows => 10 %>
+      </div>
+    </div>
+
     <!-- preferences -->
     <div class="form_div">
       <div class="form_label"><%= I18n.t('users.max_foot_length') + required_field%></div>

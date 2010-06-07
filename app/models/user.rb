@@ -117,6 +117,12 @@ class User < ActiveRecord::Base
                         :values => User.public_visibility_values)
 
 
+  CAR_DETAILS_MAX_LENGTH = 500
+  validates_length_of :car_details,
+      :maximum => CAR_DETAILS_MAX_LENGTH,
+      :allow_nil => true
+
+
   validate :password_cannot_be_blank
 
 
@@ -135,6 +141,12 @@ class User < ActiveRecord::Base
       user.vehicle_registration_plate.strip!
       if user.vehicle_registration_plate.empty?
         user.vehicle_registration_plate = nil
+      end
+    end
+    if user.car_details
+      user.car_details.strip!
+      if user.car_details.empty?
+        user.car_details = nil
       end
     end
   end
@@ -231,6 +243,11 @@ class User < ActiveRecord::Base
 
   def shows_picture?
     has_picture?
+  end
+
+
+  def shows_car_details?
+    car_details && true
   end
 
 

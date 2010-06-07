@@ -112,6 +112,7 @@ class UsersController < ApplicationController
             @user.vehicle_registration_plate =
                 data[:vehicle_registration_plate]
           end
+          @user.car_details = data[:car_details] if data[:car_details]
           if data[:forward_messages_to_mail]
             @user.forward_messages_to_mail = data[:forward_messages_to_mail]
           end

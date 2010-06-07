@@ -302,9 +302,11 @@ it:
     score: "Punteggio"
     picture: "Foto"
     telephone_number: "Recapito telefonico"
-    telephone_number_not_set: "non impostato"
-    vehicle_registration_plate: "Targa del proprio veicolo"
-    vehicle_registration_plate_not_set: "non impostata"
+    telephone_number_not_set: non inserito
+    vehicle_registration_plate: Targa del veicolo
+    vehicle_registration_plate_not_set: non inserita
+    car_details: Descrizione del veicolo
+    car_details_not_set: non inserita
     max_foot_length: "Massima distanza accettabile a piedi"
     lang: "Lingua per i messaggi di notifica"
     messages_fwd: Inoltro i messaggi personali nella tua casella e-mail
@@ -347,6 +349,10 @@ it:
                                   perch&egrave; gli eventuali passeggeri possano
                                   identificare
                                   la tua automobile."
+      car_details: "Lunghezza massima {{count}} caratteri.
+                    Se inserito far&agrave; parte del tuo profilo pubblico, quindi
+                    sar&agrave; visibile dagli altri utenti registrati (in relazione
+                    ai permessi di accesso impostati)."
       max_foot_length: Le soluzioni di trasporto computate dal sistema possono
                        prevedere degli spostamenti a piedi. Indica quanto sei
                        disposto a camminare.

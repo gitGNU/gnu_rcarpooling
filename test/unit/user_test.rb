@@ -244,12 +244,43 @@ class UserTest < ActiveSupport::TestCase
   end
 
 
+  test "car details empty becomes nil before validation" do
+    user = User.new :car_details => ""
+    user.valid?
+    assert_nil user.car_details
+    # but...
+    user.car_details = "I have got a red car"
+    user.valid?
+    assert_equal "I have got a red car", user.car_details
+  end
+
+
   test "telephone and vehicle plate full of spaces" do
     user = User.new :vehicle_registration_plate => "   ",
         :telephone_number => "  "
     user.valid?
     assert_nil user.vehicle_registration_plate
     assert_nil user.telephone_number
+  end
+
+
+  test "car details full of spaces" do
+    user = User.new :car_details => "     "
+    user.valid?
+    assert_nil user.car_details
+  end
+
+
+  test "car details max length" do
+    user = User.new
+    string = "aaaaaaaaaa"
+    51.times { string += "aaaaaaaaaa" }
+    user.car_details = string
+    assert !user.valid?
+    assert user.errors.invalid?(:car_details)
+    assert_equal I18n.t('activerecord.errors.messages.too_long',
+                        :count => User::CAR_DETAILS_MAX_LENGTH),
+                        user.errors.on(:car_details)
   end
 
 
@@ -280,6 +311,14 @@ class UserTest < ActiveSupport::TestCase
     assert ! user.shows_picture?
     user.picture = UserPicture.new
     assert user.shows_picture?
+  end
+
+
+  test "shows car details" do
+    user = User.new
+    assert ! user.shows_car_details?
+    user.car_details = "foo bar"
+    assert user.shows_car_details?
   end
 
 
