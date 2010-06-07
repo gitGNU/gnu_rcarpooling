@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100604212310) do
+ActiveRecord::Schema.define(:version => 20100605085903) do
 
   create_table "black_list_drivers_entries", :force => true do |t|
     t.integer  "user_id"
@@ -180,6 +180,7 @@ ActiveRecord::Schema.define(:version => 20100604212310) do
     t.string   "hashed_password"
     t.string   "salt"
     t.boolean  "forward_messages_to_mail",   :default => true
+    t.integer  "public_profile_visibility",  :default => 0
   end
 
 end

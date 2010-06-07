@@ -19,6 +19,12 @@ require 'digest/sha1'
 
 class User < ActiveRecord::Base
 
+  PUBLIC_VISIBILITY = {:no_one => 0, :only_known => 1, :all => 2}
+
+  def self.public_visibility_values
+    PUBLIC_VISIBILITY.values.join " or "
+  end
+
 
   has_many :demands,
       :foreign_key => "suitor_id",
@@ -102,6 +108,13 @@ class User < ActiveRecord::Base
 
   validates_inclusion_of :sex, :in => %w{M F},
       :message => I18n.t('activerecord.errors.messages.user.sex_inclusion')
+
+
+  validates_inclusion_of :public_profile_visibility,
+      :in => PUBLIC_VISIBILITY.values,
+      :message => I18n.t('activerecord.errors.messages.user.' +
+                        'profile_visibility_inclusion',
+                        :values => User.public_visibility_values)
 
 
   validate :password_cannot_be_blank
@@ -233,6 +246,42 @@ class User < ActiveRecord::Base
 
   def wants_message_by_email?
     forward_messages_to_mail
+  end
+
+
+  def fulfilled_demands
+    FulfilledDemand.find_by_sql "select fd.* from fulfilled_demands fd, " +
+        "demands d where fd.demand_id = d.id and d.suitor_id = #{id}"
+  end
+
+
+  def used_offerings
+    UsedOffering.find_by_sql "select uo.* from used_offerings uo, " +
+        "offerings o where uo.offering_id = o.id and o.offerer_id = #{id}"
+  end
+
+
+  def knows?(other_user)
+    fulfilled_demands.each { |fd| return true if other_user == fd.driver }
+    used_offerings.each do |uo|
+      return true if uo.passengers.include?(other_user)
+    end
+    false
+  end
+
+
+  def visible_by_all?
+    PUBLIC_VISIBILITY[:all] == public_profile_visibility
+  end
+
+
+  def not_visible?
+    PUBLIC_VISIBILITY[:no_one] == public_profile_visibility
+  end
+
+
+  def visible_only_by_known?
+    PUBLIC_VISIBILITY[:only_known] == public_profile_visibility
   end
 
 

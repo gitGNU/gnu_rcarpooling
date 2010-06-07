@@ -54,6 +54,7 @@ en:
         user:
           sex_inclusion: "should be 'M' or 'F'"
           wrong_credential: "wrong credential"
+          profile_visibility_inclusion: should be {{values}}
 
         demand_notification:
           suitor_must_be_the_recipient: suitor must be the recipient
@@ -186,6 +187,14 @@ en:
     max_foot_length: "Max distance acceptable on foot"
     lang: "Favourite language for notifications"
     messages_fwd: "Forward personal messages in your e-mail"
+    public_profile_visibility:
+      label: Your public profile is accessible by
+      all: All registered users
+      only_known: Only users related with you
+      no_one: No one
+      guide: If you select &quot;only users related with you&quot;, your public profile
+             will be readable only by users travelling with you, in any solution computed
+             by the system.
     no_drivers_in_black_list: "There are no drivers in your black list"
     no_passengers_in_black_list: "There are no passengers in your black list"
     no_picture: "No picture"
@@ -201,12 +210,13 @@ en:
       in_drivers_bl: in your drivers' black list
       in_passengers_bl: in your passengers' black list
       write_a_message: Write him/her a message
+      forbidden: "You haven't got the right to see {{user_name}}'s public profile."
     member_since: Member since
     guide:
       telephone_number: If set, it will be part of your public profile. Other
-                        users will be able to see it.
+                        users will be able to see it (according to access rules).
       vehicle_registration_plate: If set, it will be part of your public profile.
-                                  Other users will be able to see it.
+                                  Other users will be able to see it (according to access rules).
       max_foot_length: Transport solutions computed by the system can
                        provide walking. Select how much you
                        willing to walk.
@@ -215,7 +225,7 @@ en:
                      be forwarded to your e-mail box."
     show:
       intro: "<span class='public'>Underlined</span> fields belong to your public
-             profile. Other users can see them."
+             profile. Other users can see them according to access rules set."
       guide:
         score: Score is a rough total of passages offered and received.
                The system adds one point for every kilometer for each person carried.

@@ -53,6 +53,10 @@ class UserTest < ActiveSupport::TestCase
         :password => "uncle", :language => languages(:en), :sex => "M"
     # default value for messages email forwarding
     assert user.wants_message_by_email?
+    # default value for public profile visibility
+    assert_equal User::PUBLIC_VISIBILITY[:no_one],
+        user.public_profile_visibility
+    #
     assert user.valid?
     assert user.save
   end
@@ -64,6 +68,17 @@ class UserTest < ActiveSupport::TestCase
     assert user.errors.invalid?(:sex)
     assert_equal I18n.t('activerecord.errors.messages.user.sex_inclusion'),
         user.errors.on(:sex)
+  end
+
+
+  test "public profile visibility must be one in PUBLIC VISIBILITY" do
+    user = User.new(:public_profile_visibility => -1) # invalid value
+    assert !user.valid?
+    assert user.errors.invalid?(:public_profile_visibility)
+    assert_equal I18n.t('activerecord.errors.messages.user.' +
+                        'profile_visibility_inclusion',
+                        :values => User.public_visibility_values),
+                 user.errors.on(:public_profile_visibility)
   end
 
 
@@ -281,6 +296,39 @@ class UserTest < ActiveSupport::TestCase
     assert_equal 2, notifications.size
     assert notifications.include?(notifications(:dd1))
     assert notifications.include?(notifications(:dd2))
+  end
+
+
+  test "constant value for no-one public profile visibility" do
+    assert_equal 0, User::PUBLIC_VISIBILITY[:no_one]
+  end
+
+
+  test "fulfilled demands method" do
+    user = users(:donald_duck)
+    expected = user.demands.map do |d|
+      d.fulfilled_demand if d.fulfilled?
+    end
+    expected.reject! { |item| item.nil? }
+    assert_equal expected, user.fulfilled_demands
+  end
+
+
+  test "used offerings method" do
+    user = users(:donald_duck)
+    expected = user.offerings.map do |o|
+      o.used_offering if o.in_use?
+    end
+    expected.reject! { |item| item.nil? }
+    assert_equal expected, user.used_offerings
+  end
+
+
+  test "method knows" do
+    assert users(:donald_duck).knows?(users(:mickey_mouse))
+    assert users(:mickey_mouse).knows?(users(:donald_duck))
+    assert !users(:donald_duck).knows?(users(:donald_duck))
+    assert !users(:user_N).knows?(users(:mickey_mouse))
   end
 
 end

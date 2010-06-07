@@ -93,6 +93,7 @@ it:
         score: "Punteggio"
         sex: "Sesso"
         max_foot_length: "Massima distanza a piedi"
+        public_profile_visibility: "Visibilit&agrave; del profilo pubblico"
 
       demand:
         earliest_departure_time: "Istante di partenza minimo"
@@ -173,6 +174,7 @@ it:
         user:
           sex_inclusion: "deve essere 'M' oppure 'F'"
           wrong_credential: "credenziale errata"
+          profile_visibility_inclusion: deve essere {{values}}
 
         demand_notification:
           suitor_must_be_the_recipient: "il fruitore deve essere il destinatario"
@@ -306,6 +308,14 @@ it:
     max_foot_length: "Massima distanza accettabile a piedi"
     lang: "Lingua per i messaggi di notifica"
     messages_fwd: Inoltro i messaggi personali nella tua casella e-mail
+    public_profile_visibility:
+      label: Il tuo profilo pubblico &egrave; visibile da
+      all: Tutti gli utenti registrati
+      only_known: Solo utenti in rapporto con te
+      no_one: Nessuno
+      guide: Se scegli &quot;solo utenti in rapporto con te&quot;, il tuo profilo sar&agrave;
+             visibile solo da coloro che hanno viaggiato oppure viaggeranno con te in
+             relazione a qualunque soluzione computata dal sistema.
     no_drivers_in_black_list: "Nessun autista nella black list"
     no_passengers_in_black_list: "Nessun passeggero nella black list"
     no_picture: "Nessuna foto"
@@ -321,14 +331,17 @@ it:
       in_drivers_bl: tra i tuoi autisti indesiderati
       in_passengers_bl: tra i tuoi passeggeri indesiderati
       write_a_message: Scrivigli/le un messaggio
+      forbidden: Non hai il permesso di vedere il profilo pubblico di {{user_name}}.
     member_since: Membro a partire dal
     guide:
       telephone_number: "Se inserito far&agrave; parte del
                         tuo profilo pubblico, quindi sar&agrave; visibile dagli altri
-                        utenti registrati."
+                        utenti registrati (in relazione ai permessi di accesso impostati)."
       vehicle_registration_plate: "Se inserito far&agrave;
                                   parte del tuo profilo pubblico, quindi sar&agrave;
-                                  visibile dagli altri utenti registrati. Se prevedi
+                                  visibile dagli altri utenti registrati
+                                  (in relazione ai permessi di accesso impostati).
+                                  Se prevedi
                                   di offrire dei passaggi ti consigliamo di
                                   impostarlo, dato che &egrave; fondamentale
                                   perch&egrave; gli eventuali passeggeri possano
@@ -342,7 +355,8 @@ it:
                      utenti saranno inoltrati alla tua casella e-mail."
     show:
       intro: "I campi <span class='public'>sottolineati</span> fanno parte del tuo
-             profilo pubblico, quindi altri utenti registrati possono visualizzarli."
+             profilo pubblico, quindi altri utenti registrati possono visualizzarli
+             in relazione alle preferenze di accesso impostate."
       guide:
         score: Il punteggio &egrave; un totale grossolano dei passaggi offerti
                e ricevuti. Il sistema aggiunge un punto per ogni chilometro per persona

@@ -31,78 +31,19 @@ class UsersControllerTest < ActionController::TestCase
 
   # GET /users/:id
 
-  test "get a user" do
+  test "get show" do
     user = users(:donald_duck)
-    set_authorization_header(user.nick_name, user.password)
-    get :show, :id => user.id
-    assert_response :success
-    assert_not_nil assigns(:user)
-  end
-
-
-  test "cannot get a user without credentials" do
-    get :show, :id => users(:donald_duck).id
-    assert_response :unauthorized
-  end
-
-
-  test "get a non-existent user" do
-    user = users(:donald_duck)
-    set_authorization_header(user.nick_name, user.password)
-    get :show, :id => -1
-    assert_response :not_found
-  end
-
-
-  test "get someone other with format xml" do
-    user = users(:user_N_2)
-    requester = users(:donald_duck)
-    set_authorization_header(requester.nick_name,
-                             requester.password)
-    get :show, :id => user.id
-    assert_response :success
-    assert_not_nil assigns(:requester)
-    assert_equal requester, assigns(:requester)
-    # testing response contents
-    assert_select "user:root[id=#{user.id}][href=#{user_url(user)}]" do
-      assert_select "first_name", user.first_name
-      assert_select "last_name", user.last_name
-      assert_select "sex", user.sex
-      assert_select "nick_name", user.nick_name
-      assert_select "created_at", user.created_at.xmlschema
-      assert_select("email", user.email) if user.shows_email?
-      assert_select("telephone_number",
-                    user.telephone_number) if user.shows_telephone_number?
-      if user.shows_vehicle_registration_plate?
-        assert_select("vehicle_registration_plate",
-                      user.vehicle_registration_plate)
-      end
-    end
-  end
-
-
-  test "get someone other with format html" do
-    user = users(:user_N_2)
-    requester = users(:donald_duck)
-    set_authorization_header(requester.nick_name,
-                             requester.password)
-    get :show, :id => user.id, :format => "html"
-    assert_response :success
-    assert_not_nil assigns(:requester)
-    assert_equal requester, assigns(:requester)
-  end
-
-
-  test "user xml contents" do
-    user = users(:donald_duck)
+    #
     user.drivers_in_black_list << users(:mickey_mouse)
     user.passengers_in_black_list << users(:mickey_mouse)
     user.vehicle_registration_plate = "bla bla bla"
     user.telephone_number = "123456"
     user.save!
+    #
     set_authorization_header(user.nick_name, user.password)
-    get :show, :format => "xml", :id => user.id
+    get :show, :id => user.id
     assert_response :success
+    assert_not_nil assigns(:user)
     # testing response content
     assert_select "user:root[id=#{user.id}][href=#{user_url(user)}]" do
       assert_select "first_name", user.first_name
@@ -141,6 +82,178 @@ class UsersControllerTest < ActionController::TestCase
         end # loop on passengers
       end
     end
+  end
+
+
+  test "cannot get a user without credentials" do
+    get :show, :id => users(:donald_duck).id
+    assert_response :unauthorized
+  end
+
+
+  test "get a non-existent user" do
+    user = users(:donald_duck)
+    set_authorization_header(user.nick_name, user.password)
+    get :show, :id => -1
+    assert_response :not_found
+  end
+
+
+  test "get someone other visible by all, format xml" do
+    user = users(:user_N_2)
+    requester = users(:donald_duck)
+    set_authorization_header(requester.nick_name,
+                             requester.password)
+    #
+    user.public_profile_visibility = User::PUBLIC_VISIBILITY[:all]
+    user.save!
+    #
+    get :show, :id => user.id
+    assert_response :success
+    assert_not_nil assigns(:requester)
+    assert_equal requester, assigns(:requester)
+    # testing response contents
+    assert_select "user:root[id=#{user.id}][href=#{user_url(user)}]" do
+      assert_select "first_name", user.first_name
+      assert_select "last_name", user.last_name
+      assert_select "sex", user.sex
+      assert_select "nick_name", user.nick_name
+      assert_select "created_at", user.created_at.xmlschema
+      assert_select("email", user.email) if user.shows_email?
+      assert_select("telephone_number",
+                    user.telephone_number) if user.shows_telephone_number?
+      if user.shows_vehicle_registration_plate?
+        assert_select("vehicle_registration_plate",
+                      user.vehicle_registration_plate)
+      end
+    end
+  end
+
+
+  test "get someone other visible by all, format html" do
+    user = users(:user_N_2)
+    requester = users(:donald_duck)
+    set_authorization_header(requester.nick_name,
+                             requester.password)
+    #
+    user.public_profile_visibility = User::PUBLIC_VISIBILITY[:all]
+    user.save!
+    #
+    get :show, :id => user.id, :format => "html"
+    assert_response :success
+    assert_template 'show_public'
+    assert_not_nil assigns(:requester)
+    assert_equal requester, assigns(:requester)
+  end
+
+
+  test "get someone other visible by known, format xml, 1" do
+    user = users(:mickey_mouse)
+    requester = users(:donald_duck)
+    # mickey mouse knows donald duck
+    set_authorization_header(requester.nick_name,
+                             requester.password)
+    #
+    user.public_profile_visibility = User::PUBLIC_VISIBILITY[:only_known]
+    user.save!
+    #
+    get :show, :id => user.id
+    assert_response :success
+    assert_not_nil assigns(:requester)
+    assert_equal requester, assigns(:requester)
+    # testing response contents
+    assert_select "user:root[id=#{user.id}][href=#{user_url(user)}]" do
+      assert_select "first_name", user.first_name
+      assert_select "last_name", user.last_name
+      assert_select "sex", user.sex
+      assert_select "nick_name", user.nick_name
+      assert_select "created_at", user.created_at.xmlschema
+      assert_select("email", user.email) if user.shows_email?
+      assert_select("telephone_number",
+                    user.telephone_number) if user.shows_telephone_number?
+      if user.shows_vehicle_registration_plate?
+        assert_select("vehicle_registration_plate",
+                      user.vehicle_registration_plate)
+      end
+    end
+  end
+
+
+  test "get someone other visible by known, format html, 1" do
+    user = users(:mickey_mouse)
+    requester = users(:donald_duck)
+    # mickey mouse knows donald duck
+    set_authorization_header(requester.nick_name,
+                             requester.password)
+    #
+    user.public_profile_visibility = User::PUBLIC_VISIBILITY[:only_known]
+    user.save!
+    #
+    get :show, :id => user.id, :format => "html"
+    assert_response :success
+    assert_template 'show_public'
+    assert_not_nil assigns(:requester)
+    assert_equal requester, assigns(:requester)
+  end
+
+
+  test "get someone other visible by known, format xml, 2" do
+    user = users(:mickey_mouse)
+    requester = users(:user_N)
+    # mickey mouse doesn't know user_N
+    set_authorization_header(requester.nick_name,
+                             requester.password)
+    #
+    user.public_profile_visibility = User::PUBLIC_VISIBILITY[:only_known]
+    user.save!
+    #
+    get :show, :id => user.id
+    assert_response :forbidden
+  end
+
+
+  test "get someone other visible by known, format html, 2" do
+    user = users(:mickey_mouse)
+    requester = users(:user_N)
+    # mickey mouse doesn't know user_N
+    set_authorization_header(requester.nick_name,
+                             requester.password)
+    #
+    user.public_profile_visibility = User::PUBLIC_VISIBILITY[:only_known]
+    user.save!
+    #
+    get :show, :id => user.id, :format => 'html'
+    assert_response :success
+    assert_template 'show_forbidden'
+  end
+
+
+  test "get someone other not visible, format xml" do
+    user = users(:user_N_2)
+    requester = users(:donald_duck)
+    set_authorization_header(requester.nick_name,
+                             requester.password)
+    #
+    user.public_profile_visibility = User::PUBLIC_VISIBILITY[:no_one]
+    user.save!
+    #
+    get :show, :id => user.id
+    assert_response :forbidden
+  end
+
+
+  test "get someone other not visible, format html" do
+    user = users(:user_N_2)
+    requester = users(:donald_duck)
+    set_authorization_header(requester.nick_name,
+                             requester.password)
+    #
+    user.public_profile_visibility = User::PUBLIC_VISIBILITY[:no_one]
+    user.save!
+    #
+    get :show, :id => user.id, :format => 'html'
+    assert_response :success
+    assert_template 'show_forbidden'
   end
 
 
@@ -284,7 +397,9 @@ class UsersControllerTest < ActionController::TestCase
                                            :email => "new@email",
                                            :sex => "F",
                                            :max_foot_length => 1000,
-                                           :forward_messages_to_mail => 0
+                                           :forward_messages_to_mail => 0,
+                                           :public_profile_visibility =>
+                                              User::PUBLIC_VISIBILITY[:all]
                                           }
     assert_response :success
     assert_not_nil assigns(:user)
@@ -299,6 +414,7 @@ class UsersControllerTest < ActionController::TestCase
     assert_nil user_updated.telephone_number
     assert_nil user_updated.vehicle_registration_plate
     assert !user_updated.wants_message_by_email?
+    assert user_updated.visible_by_all?
   end
 
 

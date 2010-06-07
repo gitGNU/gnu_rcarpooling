@@ -95,11 +95,8 @@ class UsedOffering < ActiveRecord::Base
 
 
   def passengers
-    fulfilled_demands = FulfilledDemand.
-      find_all_fulfilled_by_a_used_offering(self)
-    passengers_set = []
-    fulfilled_demands.each { |fd| passengers_set << fd.suitor }
-    passengers_set
+    FulfilledDemand.find_all_fulfilled_by_a_used_offering(
+      self).map { |fd| fd.suitor }
   end
 
 

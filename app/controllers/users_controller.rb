@@ -56,10 +56,24 @@ class UsersController < ApplicationController
           format.html
         end
       else
+        @requester = User.find(params[:uid])
         respond_to do |format|
-          @requester = User.find(params[:uid])
-          format.xml { render :template => "users/show_public.xml.builder" }
-          format.html { render :template => "users/show_public.html.erb" }
+          format.xml do
+            if @user.visible_by_all? or (@user.visible_only_by_known? and
+                                         @user.knows?(@requester))
+              render :template => 'users/show_public.xml.builder'
+            else
+              head :forbidden
+            end
+          end
+          format.html do
+            if @user.visible_by_all? or (@user.visible_only_by_known? and
+                                         @user.knows?(@requester))
+              render :template => 'users/show_public.html.erb'
+            else
+              render :template => 'users/show_forbidden.html.erb'
+            end
+          end
         end
       end
     else
@@ -100,6 +114,9 @@ class UsersController < ApplicationController
           end
           if data[:forward_messages_to_mail]
             @user.forward_messages_to_mail = data[:forward_messages_to_mail]
+          end
+          if data[:public_profile_visibility]
+            @user.public_profile_visibility = data[:public_profile_visibility]
           end
         end
         # now save

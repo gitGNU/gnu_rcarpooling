@@ -120,6 +120,23 @@
       </td>
     </tr>
     <tr>
+      <td>
+        <span class="bold"><%= I18n.t 'users.public_profile_visibility.label' %></span>
+      </td>
+      <td>
+        <% case
+           when @user.visible_by_all? -%>
+            <%= I18n.t 'users.public_profile_visibility.all' %>
+        <% when @user.visible_only_by_known? -%>
+            <%= I18n.t 'users.public_profile_visibility.only_known' %>
+        <% when @user.not_visible? -%>
+            <%= I18n.t 'users.public_profile_visibility.no_one' %>
+        <% else -%>
+            something went wrong
+        <% end -%>
+      </td>
+    </tr>
+    <tr>
       <td><span class="bold"><%= I18n.t('users.max_foot_length')%></span></td>
       <td><%= I18n.t('meters', :length => h(@user.max_foot_length)) %></td>
     </tr>

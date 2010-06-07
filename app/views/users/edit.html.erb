@@ -124,6 +124,32 @@
       </div>
     </div>
 
+    <div class="form_div">
+      <div class="form_label">
+        <%= I18n.t('users.public_profile_visibility.label') + required_field %>
+      </div>
+      <div class="form_guide">
+        <%= I18n.t 'users.public_profile_visibility.guide' %>
+      </div>
+      <div class="form_input">
+        <span>
+          <%= I18n.t 'users.public_profile_visibility.no_one' %>
+          <%= form.radio_button :public_profile_visibility,
+                User::PUBLIC_VISIBILITY[:no_one] %>
+        </span>&nbsp;&nbsp;
+        <span>
+          <%= I18n.t 'users.public_profile_visibility.all' %>
+          <%= form.radio_button :public_profile_visibility,
+                User::PUBLIC_VISIBILITY[:all] %>
+        </span>&nbsp;&nbsp;
+        <span>
+          <%= I18n.t 'users.public_profile_visibility.only_known' %>
+          <%= form.radio_button :public_profile_visibility,
+                User::PUBLIC_VISIBILITY[:only_known] %>
+        </span>
+      </div>
+    </div>
+
     <div class="form_submit">
       <%= submit_tag I18n.t('users.actions.save_button_label') %>
     </div>

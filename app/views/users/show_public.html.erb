@@ -16,87 +16,60 @@
 # You should have received a copy of the GNU Affero Public License
 # along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
 -%>
-  <h3>
-    <%= I18n.t('users.public.heading_details') %>
-    <%= render :partial => "user_name", :object => @user %>
-  </h3>
-  <table>
-    <tr><td><span class="bold"><%= I18n.t('users.first_name')%></span>
-      </td><td><%= h @user.first_name %></td>
-    </tr>
-    <tr><td><span class="bold"><%= I18n.t('users.last_name')%></span>
-      </td><td><%= h @user.last_name %></td>
-    </tr>
-    <tr><td><span class="bold"><%= I18n.t('users.sex')%></span>
-      </td><td><%= h @user.sex %></td>
-    </tr>
-    <tr><td><span class="bold"><%= I18n.t('users.nick_name')%></span>
-      </td><td><%= h @user.nick_name %></td>
-    </tr>
-    <% if @user.shows_email? -%>
-      <tr>
-        <td><span class="bold"><%= I18n.t('users.email')%></span></td>
-        <td><%= h @user.email %></td>
-      </tr>
-    <% end -%>
-    <% if @user.shows_telephone_number? -%>
-      <tr>
-        <td><span class="bold"><%= I18n.t('users.telephone_number')%></span></td>
-        <td>
-          <%= h @user.telephone_number %>
-        </td>
-      </tr>
-    <% end -%>
-    <% if @user.shows_vehicle_registration_plate? -%>
-      <tr>
-        <td>
-          <span class="bold"><%= I18n.t('users.public.vehicle_registration_plate')%></span>
-        </td>
-        <td>
-          <%= h @user.vehicle_registration_plate %>
-        </td>
-      </tr>
-    <% end -%>
-    <% if @user.shows_picture? -%>
-      <tr>
-        <td><span class="bold"><%= I18n.t 'users.picture' %></span></td>
-        <td>
-          <%= render :partial => "pictures/picture", :object => @user.picture %>
-        </td>
-      </tr>
-    <% end -%>
+<h3>
+  <%= I18n.t('users.public.heading_details') %>
+  <%= render :partial => "user_name", :object => @user %>
+</h3>
+<table>
+  <tr><td><span class="bold"><%= I18n.t('users.first_name')%></span>
+    </td><td><%= h @user.first_name %></td>
+  </tr>
+  <tr><td><span class="bold"><%= I18n.t('users.last_name')%></span>
+    </td><td><%= h @user.last_name %></td>
+  </tr>
+  <tr><td><span class="bold"><%= I18n.t('users.sex')%></span>
+    </td><td><%= h @user.sex %></td>
+  </tr>
+  <tr><td><span class="bold"><%= I18n.t('users.nick_name')%></span>
+    </td><td><%= h @user.nick_name %></td>
+  </tr>
+  <% if @user.shows_email? -%>
     <tr>
-      <td><span class="bold"><%= I18n.t 'users.member_since' %></span></td>
-      <td><%= I18n.l @user.created_at, :format => :long %></td>
+      <td><span class="bold"><%= I18n.t('users.email')%></span></td>
+      <td><%= h @user.email %></td>
     </tr>
-  </table>
+  <% end -%>
+  <% if @user.shows_telephone_number? -%>
+    <tr>
+      <td><span class="bold"><%= I18n.t('users.telephone_number')%></span></td>
+      <td>
+        <%= h @user.telephone_number %>
+      </td>
+    </tr>
+  <% end -%>
+  <% if @user.shows_vehicle_registration_plate? -%>
+    <tr>
+      <td>
+        <span class="bold"><%= I18n.t('users.public.vehicle_registration_plate')%></span>
+      </td>
+      <td>
+        <%= h @user.vehicle_registration_plate %>
+      </td>
+    </tr>
+  <% end -%>
+  <% if @user.shows_picture? -%>
+    <tr>
+      <td><span class="bold"><%= I18n.t 'users.picture' %></span></td>
+      <td>
+        <%= render :partial => "pictures/picture", :object => @user.picture %>
+      </td>
+    </tr>
+  <% end -%>
+  <tr>
+    <td><span class="bold"><%= I18n.t 'users.member_since' %></span></td>
+    <td><%= I18n.l @user.created_at, :format => :long %></td>
+  </tr>
+</table>
 
-    <span><%= I18n.t 'users.public.this_user_is' %></span>
-    <ul>
-      <li>
-        <span><%= I18n.t 'users.public.in_drivers_bl' %></span>:
-        <span class='bold'>
-          <% if @requester.drivers_in_black_list.include?(@user) -%>
-            <%= I18n.t 'yes_w' %>
-          <% else -%>
-            <%= I18n.t 'no_w' %>
-          <% end -%>
-        </span>
-      </li>
-      <li>
-        <span><%= I18n.t 'users.public.in_passengers_bl' %></span>:
-        <span class='bold'>
-          <% if @requester.passengers_in_black_list.include?(@user) -%>
-            <%= I18n.t 'yes_w' %>
-          <% else -%>
-            <%= I18n.t 'no_w' %>
-          <% end -%>
-        </span>
-      </li>
-    </ul>
-
-  <p>
-    <%= link_to I18n.t('users.public.write_a_message'),
-          new_message_url(:recipients => recipients_param([@user])) %>
-  </p>
-
+<%= render :partial => 'show_public_common', :locals => { :user => @user,
+                                                :requester => @requester } %>
