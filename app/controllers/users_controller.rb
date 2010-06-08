@@ -116,6 +116,9 @@ class UsersController < ApplicationController
           if data[:forward_messages_to_mail]
             @user.forward_messages_to_mail = data[:forward_messages_to_mail]
           end
+          if data[:forward_ads_to_mail]
+            @user.forward_ads_to_mail = data[:forward_ads_to_mail]
+          end
           if data[:public_profile_visibility]
             @user.public_profile_visibility = data[:public_profile_visibility]
           end

@@ -9,7 +9,14 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100607144658) do
+ActiveRecord::Schema.define(:version => 20100608073356) do
+
+  create_table "ads", :force => true do |t|
+    t.string   "subject"
+    t.text     "content"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "black_list_drivers_entries", :force => true do |t|
     t.integer  "user_id"
@@ -182,6 +189,7 @@ ActiveRecord::Schema.define(:version => 20100607144658) do
     t.boolean  "forward_messages_to_mail",   :default => true
     t.integer  "public_profile_visibility",  :default => 0
     t.text     "car_details"
+    t.boolean  "forward_ads_to_mail",        :default => true
   end
 
 end

@@ -1,4 +1,3 @@
-<%
 # Copyright (C) 2010  Roberto Maestroni
 #
 # This file is part of Rcarpooling.
@@ -15,25 +14,23 @@
 #
 # You should have received a copy of the GNU Affero Public License
 # along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
--%>
-<% content_for(:navigation_path) do -%>
-  <%= render :partial => "partials/navigation_path",
-      :object => [home_path] %>
-<% end -%>
 
-<% if user_logged_in? -%>
-  <p>
-    <%= I18n.t 'home.index.greeting',
-          :user_first_name => h(user_logged.first_name) %>
-    <br/><br/>
-    <%= I18n.t 'home.index.new_items',
-         :messages_count => user_logged.incoming_messages.not_seen.size,
-         :notifications_count => user_logged.notifications.not_seen.size %>
-  </p>
-<% end -%>
+require 'test_helper'
 
-<p><%= I18n.t 'home.index.intro' %></p>
+class AdMailerTest < ActionMailer::TestCase
 
-<h2><%= I18n.t 'ads.title' %></h2>
-<div id="ads"></div>
-<%= javascript_tag remote_function(:url => ads_url, :method => :get) %>
+  test "forward an ad" do
+    ad = ads(:one)
+    mail = AdMailer.create_ad(ad)
+    assert_equal ApplicationData.notifications_source_address,
+        mail.from[0]
+    recipients = User.find(
+      :all, :conditions => 'forward_ads_to_mail = true').map { |u| u.email }
+    assert_equal recipients, mail.bcc
+    assert_nil mail.to
+    assert_equal "#{ApplicationData.application_name} - #{ad.subject}",
+        mail.subject
+    assert_equal ad.content, mail.body.delete("\n")
+  end
+
+end

@@ -38,6 +38,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :sent_messages, :only => [:index, :show, :destroy]
   map.resources :incoming_messages, :only => [:index, :show, :destroy]
   map.resources :messages, :only => [:new, :create]
+  map.resources :ads, :only => [:index]
   #
   map.home '',
       :conditions => { :method => :get },

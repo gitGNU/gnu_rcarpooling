@@ -132,6 +132,12 @@
       </td>
     </tr>
     <tr>
+      <td class="bold"><%= I18n.t 'users.ads_fwd' %></td>
+      <td>
+        <%= @user.forward_ads_to_mail && I18n.t('yes_w') || I18n.t('no_w') %>
+      </td>
+    </tr>
+    <tr>
       <td>
         <span class="bold"><%= I18n.t 'users.public_profile_visibility.label' %></span>
       </td>

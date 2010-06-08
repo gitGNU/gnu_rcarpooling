@@ -103,17 +103,6 @@
               :recipients => recipients_param([fd.vehicle_offering.driver])) %>
     </td>
   </tr>
-  <% if fd.vehicle_registration_plate -%>
-    <tr>
-      <td class="bold">
-        <%= I18n.t 'fulfilled_demands.show.vehicle_registration_plate' %>
-      </td>
-      <td>
-        <%= render :partial => "users/user_vehicle_registration_plate",
-                   :object => fd.driver %>
-      </td>
-    </tr>
-  <% end -%>
   <% if fd.vehicle_offering.note -%>
     <tr>
       <td class="bold">

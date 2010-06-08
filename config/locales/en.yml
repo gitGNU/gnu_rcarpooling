@@ -136,7 +136,10 @@ en:
     about: "This service is imlemented with {{rcarpooling}}, a free software
            distributed under the terms of {{gnu_agpl}}."
     index:
-      intro: "this is the content of home page"
+      intro: intro
+      greeting: Hello {{user_first_name}}!
+      new_items: "You have got {{messages_count}} new messages and
+                  {{notifications_count}} new notifications from the system."
 
   partials:
     map:
@@ -191,6 +194,7 @@ en:
     max_foot_length: "Max distance acceptable on foot"
     lang: "Favourite language for notifications"
     messages_fwd: "Forward personal messages in your e-mail"
+    ads_fwd: Forward public ads in your e-mail
     public_profile_visibility:
       label: Your public profile is accessible by
       all: All registered users
@@ -231,6 +235,8 @@ en:
       lang: It is relative to the messages from the system only.
       messages_fwd: "Selecting &quot;yes&quot; messages from other users will
                      be forwarded to your e-mail box."
+      ads_fwd: Selecting &quot;yes&quot; public ads will be forwarded to your
+               e-mail box.
     show:
       intro: "<span class='public'>Underlined</span> fields belong to your public
              profile. Other users can see them according to access rules set."
@@ -531,3 +537,6 @@ en:
     index:
       title: Places list
 
+  ads:
+    title: Latest news
+    no_ads: No news

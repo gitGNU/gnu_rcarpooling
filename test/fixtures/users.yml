@@ -95,4 +95,5 @@ user_N_2:
   sex: M
   telephone_number: 123
   vehicle_registration_plate: abcde
+  forward_ads_to_mail: false
 

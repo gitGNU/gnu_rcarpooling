@@ -89,7 +89,11 @@ class User < ActiveRecord::Base
       :class_name => 'ForwardedMessage',
       :foreign_key => 'recipient_id',
       :conditions => 'deleted = false',
-      :order => 'created_at DESC'
+      :order => 'created_at DESC' do
+    def not_seen
+      find :all, :conditions => 'seen = false'
+    end
+  end
 
 
   belongs_to :language

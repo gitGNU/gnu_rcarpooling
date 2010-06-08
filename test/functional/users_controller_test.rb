@@ -398,6 +398,7 @@ class UsersControllerTest < ActionController::TestCase
                                            :sex => "F",
                                            :max_foot_length => 1000,
                                            :forward_messages_to_mail => 0,
+                                           :forward_ads_to_mail => 0,
                                            :public_profile_visibility =>
                                               User::PUBLIC_VISIBILITY[:all]
                                           }
@@ -415,6 +416,7 @@ class UsersControllerTest < ActionController::TestCase
         user_updated.vehicle_registration_plate
     assert_equal user.car_details, user_updated.car_details
     assert !user_updated.wants_message_by_email?
+    assert !user_updated.forward_ads_to_mail
     assert user_updated.visible_by_all?
   end
 

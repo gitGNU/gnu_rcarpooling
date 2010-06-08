@@ -1,4 +1,3 @@
-<%
 # Copyright (C) 2010  Roberto Maestroni
 #
 # This file is part of Rcarpooling.
@@ -15,25 +14,13 @@
 #
 # You should have received a copy of the GNU Affero Public License
 # along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
--%>
-<% content_for(:navigation_path) do -%>
-  <%= render :partial => "partials/navigation_path",
-      :object => [home_path] %>
-<% end -%>
 
-<% if user_logged_in? -%>
-  <p>
-    <%= I18n.t 'home.index.greeting',
-          :user_first_name => h(user_logged.first_name) %>
-    <br/><br/>
-    <%= I18n.t 'home.index.new_items',
-         :messages_count => user_logged.incoming_messages.not_seen.size,
-         :notifications_count => user_logged.notifications.not_seen.size %>
-  </p>
-<% end -%>
+class AddForwardAdsToUsers < ActiveRecord::Migration
+  def self.up
+    add_column :users, :forward_ads_to_mail, :boolean, :default => true
+  end
 
-<p><%= I18n.t 'home.index.intro' %></p>
-
-<h2><%= I18n.t 'ads.title' %></h2>
-<div id="ads"></div>
-<%= javascript_tag remote_function(:url => ads_url, :method => :get) %>
+  def self.down
+    remove_column :users, :forward_ads_to_mail
+  end
+end

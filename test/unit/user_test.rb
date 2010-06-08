@@ -56,6 +56,8 @@ class UserTest < ActiveSupport::TestCase
     # default value for public profile visibility
     assert_equal User::PUBLIC_VISIBILITY[:no_one],
         user.public_profile_visibility
+    # default value for ads email forwarding
+    assert user.forward_ads_to_mail
     #
     assert user.valid?
     assert user.save

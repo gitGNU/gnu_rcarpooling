@@ -137,6 +137,21 @@
     </div>
 
     <div class="form_div">
+      <div class="form_label"><%= I18n.t('users.ads_fwd') + required_field %></div>
+      <div class="form_guide"><%= I18n.t 'users.guide.ads_fwd' %></div>
+      <div class="form_input">
+        <span>
+          <%= I18n.t 'yes_w' %>
+          <%= form.radio_button :forward_ads_to_mail, true %>
+        </span>&nbsp;&nbsp;
+        <span>
+          <%= I18n.t 'no_w' %>
+          <%= form.radio_button :forward_ads_to_mail, false %>
+        </span>
+      </div>
+    </div>
+
+    <div class="form_div">
       <div class="form_label">
         <%= I18n.t('users.public_profile_visibility.label') + required_field %>
       </div>

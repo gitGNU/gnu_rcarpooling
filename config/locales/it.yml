@@ -258,7 +258,10 @@ it:
            un software libero distribuito sotto le condizioni stabilite
            dalla licenza {{gnu_agpl}}."
     index:
-      intro: "contenuto della home page"
+      intro: intro
+      greeting: Buongiorno {{user_first_name}}!
+      new_items: "Hai {{messages_count}} nuovi messaggi e {{notifications_count}} nuove
+                  notifiche dal sistema."
 
   partials:
     map:
@@ -312,6 +315,7 @@ it:
     max_foot_length: "Massima distanza accettabile a piedi"
     lang: "Lingua per i messaggi di notifica"
     messages_fwd: Inoltro i messaggi personali nella tua casella e-mail
+    ads_fwd: Inoltro gli avvisi pubblici nella tua casella e-mail
     public_profile_visibility:
       label: Il tuo profilo pubblico &egrave; visibile da
       all: Tutti gli utenti registrati
@@ -361,6 +365,8 @@ it:
       lang: Il sistema ti invier&agrave; e-mail in questa lingua.
       messages_fwd: "Se scegli &quot;si&quot; i messaggi personali inviati da altri
                      utenti saranno inoltrati alla tua casella e-mail."
+      ads_fwd: Se scegli &quot;si&quot; gli avvisi pubblici saranno inoltrati alla
+               tua casella e-mail.
     show:
       intro: "I campi <span class='public'>sottolineati</span> fanno parte del tuo
              profilo pubblico, quindi altri utenti registrati possono visualizzarli
@@ -685,3 +691,6 @@ it:
     index:
       title: Lista dei luoghi
 
+  ads:
+    title: Ultime notizie
+    no_ads: Nessuna notizia
