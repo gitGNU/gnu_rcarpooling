@@ -25,7 +25,7 @@ class UnwelcomePassengersControllerTest < ActionController::TestCase
   end
 
 
-  def tear_down
+  def teardown
     AuthenticatorFactory.clear_factory
   end
 

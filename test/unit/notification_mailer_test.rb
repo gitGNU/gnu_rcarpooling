@@ -26,7 +26,7 @@ class NotificationMailerTest < ActionMailer::TestCase
   end
 
 
-  def tear_down
+  def teardown
     @languages.clear
   end
 

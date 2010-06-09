@@ -15,25 +15,14 @@
 # You should have received a copy of the GNU Affero Public License
 # along with Rcarpooling.  If not, see <http://www.gnu.org/licenses/>.
 
-class MailBodyParserFactory
+require 'test_helper'
 
-  @@factory = nil
+class MailBodyParserFactoryTest < ActiveSupport::TestCase
 
-
-  def self.build_parser(mail_body, lang, place_finder = nil)
-    @@factory &&
-        @@factory.build_parser(mail_body, lang, place_finder) ||
-            MailBodyParser.new(mail_body, lang, place_finder || Place)
-  end
-
-
-  def self.set_factory(factory)
-    @@factory = factory
-  end
-
-
-  def self.clear_factory
-    @@factory = nil
+  test "static method build factory, default value" do
+    default_parser = MailBodyParserFactory.build_parser('foo bar', 'en')
+    assert_equal MailBodyParser, default_parser.class
+    assert_equal Place, default_parser.place_finder
   end
 
 end

@@ -32,7 +32,7 @@ class OfferingMailerTest < ActionMailer::TestCase
   end
 
 
-  def tear_down
+  def teardown
     MailBodyParserFactory.clear_factory
     OfferingProcessorFactory.clear_factory
   end
@@ -128,7 +128,7 @@ class OfferingMailerTest < ActionMailer::TestCase
     end
 
 
-    def build_parser(mail_body, lang)
+    def build_parser(mail_body, lang, place_finder)
       MockParser.new(@offering)
     end
 

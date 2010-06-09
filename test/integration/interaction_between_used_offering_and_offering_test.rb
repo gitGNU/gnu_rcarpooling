@@ -32,7 +32,7 @@ class InteractionBetweenUsedOfferingAndOfferingTest <
   end
 
 
-  def tear_down
+  def teardown
     DemandProcessorFactory.clear_factory
     #
     OfferingProcessorFactory.clear_factory

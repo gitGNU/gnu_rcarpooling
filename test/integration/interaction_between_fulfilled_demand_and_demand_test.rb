@@ -29,7 +29,7 @@ class InteractionBetweenFulfilledDemandAndDemandTest < ActionController::Integra
   end
 
 
-  def tear_down
+  def teardown
     DemandProcessorFactory.clear_factory
     #
     DemandProcessorFactory.clear_factory

@@ -29,7 +29,7 @@ class FulfilledDemandsControllerTest < ActionController::TestCase
   end
 
 
-  def tear_down
+  def teardown
     AuthenticatorFactory.clear_factory
     #
     DemandProcessorFactory.clear_factory

@@ -32,7 +32,7 @@ class DemandMailerTest < ActionMailer::TestCase
   end
 
 
-  def tear_down
+  def teardown
     MailBodyParserFactory.clear_factory
     DemandProcessorFactory.clear_factory
   end
@@ -127,7 +127,7 @@ class DemandMailerTest < ActionMailer::TestCase
     end
 
 
-    def build_parser(mail_body, lang)
+    def build_parser(mail_body, lang, place_finder)
       MockParser.new(@demand)
     end
 
