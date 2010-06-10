@@ -29,7 +29,7 @@ class MailBodyParserTest < ActiveSupport::TestCase
   end
 
 
-  test "should get departure place by name, language en" do
+  test "should get departure place by name, language en, 1" do
     email_body = "\ndeparture: " +
         "#{places(:sede_di_via_ravasi).name}    \n \n   \n"
     parser = MailBodyParser.new(email_body, 'en', @place_finder)
@@ -38,7 +38,7 @@ class MailBodyParserTest < ActiveSupport::TestCase
   end
 
 
-  test "should get departure place by name, language it" do
+  test "should get departure place by name, language it, 1" do
     email_body = "\n partenza:     " +
         "#{places(:sede_di_via_ravasi).name}    \n \n   \n"
     #
@@ -48,7 +48,26 @@ class MailBodyParserTest < ActiveSupport::TestCase
   end
 
 
-  test "should get departure place by address, language en" do
+  test "should get departure place by name, language en, 2" do
+    email_body = "\ndeparture: " +
+        "#{places(:point_and_apostrophe).name}    \n \n   \n"
+    parser = MailBodyParser.new(email_body, 'en', @place_finder)
+    assert_equal places(:point_and_apostrophe),
+        parser.get_departure_place
+  end
+
+
+  test "should get departure place by name, language it, 2" do
+    email_body = "\n partenza:     " +
+        "#{places(:point_and_apostrophe).name}    \n \n   \n"
+    #
+    parser = MailBodyParser.new(email_body, 'it', @place_finder)
+    assert_equal places(:point_and_apostrophe),
+        parser.get_departure_place
+  end
+
+
+  test "should get departure place by address, language en, 1" do
     place = places(:sede_di_via_ravasi)
     email_body = "\ndeparture address: " +
         "#{place.civic_number}, #{place.street}, #{place.city}  \n \n"
@@ -57,8 +76,26 @@ class MailBodyParserTest < ActiveSupport::TestCase
   end
 
 
-  test "should get departure place by address, language it" do
+  test "should get departure place by address, language it, 1" do
     place = places(:sede_di_via_ravasi)
+    email_body = "\nindirizzo di partenza: " +
+        "#{place.street},#{place.civic_number}, #{place.city}  \n \n"
+    parser = MailBodyParser.new(email_body, 'it', @place_finder)
+    assert_equal place, parser.get_departure_place
+  end
+
+
+  test "should get departure place by address, language en, 2" do
+    place = places(:point_and_apostrophe)
+    email_body = "\ndeparture address: " +
+        "#{place.civic_number}, #{place.street}, #{place.city}  \n \n"
+    parser = MailBodyParser.new(email_body, 'en', @place_finder)
+    assert_equal place, parser.get_departure_place
+  end
+
+
+  test "should get departure place by address, language it, 2" do
+    place = places(:point_and_apostrophe)
     email_body = "\nindirizzo di partenza: " +
         "#{place.street},#{place.civic_number}, #{place.city}  \n \n"
     parser = MailBodyParser.new(email_body, 'it', @place_finder)

@@ -115,3 +115,12 @@ y4:
   latitude: 1.0
   longitude: 1.0
   description: bla
+
+point_and_apostrophe:
+  name: "this. is' a strange.. na'me"
+  city: "Va'.res'e."
+  street: "bla.. foo'.bar'"
+  civic_number: "12.3'"
+  latitude: 1.0
+  longitude: 1.0
+  description: bla

@@ -102,12 +102,12 @@ class MailBodyParser
 
 
   def get_place(token_name, token_address, lang, string, place_finder)
-    pattern = /^.*#{token_name} *([\w ]+)$/
+    pattern = /^.*#{token_name} *([\w .']+)$/
     if pattern =~ string
       place_finder.find_by_name($1.strip)
     else
       # try find by address
-      pattern = /^.*#{token_address} *([\w ]+),([\w ]+),([\w ]+)$/
+      pattern = /^.*#{token_address} *([\w .']+),([\w .']+),([\w .']+)$/
       civic_n, street, city = nil
       if pattern =~ string
         if 'it' == lang

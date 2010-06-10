@@ -23,6 +23,7 @@ class DemandMailer < ActionMailer::Base
   def receive(email)
     user = User.find_by_email(email.from[0])
     if user
+      logger.info "Received a demand mail from user #{user.id}"
       # the user is authorized
       parser = MailBodyParserFactory.build_parser(email.body, user.lang)
       # extract fields
@@ -53,6 +54,7 @@ class DemandMailer < ActionMailer::Base
       end
     else
       # unknown user
+      logger.info "Received a demand mail from unknown #{email.from[0]}"
       DemandMailer.deliver_not_authenticated_reply(email.from[0])
     end
   end # method receive
@@ -60,7 +62,7 @@ class DemandMailer < ActionMailer::Base
 
   def not_authenticated_reply(email_address)
     subject     ApplicationData.application_name + " - " +
-        "your are not a trusted user"
+        "your are not a registered user"
     recipients  email_address
     from        ApplicationData.reply_source_address
     body        render_message("demand_mailer/en/" +

@@ -24,6 +24,7 @@ class OfferingMailer < ActionMailer::Base
     # is the sender a user of this system?
     user = User.find_by_email(email.from[0])
     if user # the sender is ok :)
+      logger.info "Received an offering mail from user #{user.id}"
       # now parse the e-mail body
       parser = MailBodyParserFactory.build_parser(email.body, user.lang)
       # retrieve required fields
@@ -69,6 +70,7 @@ class OfferingMailer < ActionMailer::Base
                                                   offering.errors.to_a)
       end
     else # the sender is not a system's user :P
+      logger.info "Received an offering mail from unknown #{email.from[0]}"
       OfferingMailer.deliver_not_authenticated_reply(email.from[0])
     end
   end
@@ -76,7 +78,7 @@ class OfferingMailer < ActionMailer::Base
 
   def not_authenticated_reply(email_address)
     subject     ApplicationData.application_name + " - " +
-        "your are not a trusted user"
+        "your are not a registered user"
     recipients  email_address
     from        ApplicationData.reply_source_address
     body        render_message("offering_mailer/en/" +
