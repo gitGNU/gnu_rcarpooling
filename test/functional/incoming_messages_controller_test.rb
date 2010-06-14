@@ -25,8 +25,9 @@ class IncomingMessagesControllerTest < ActionController::TestCase
     user = users(:donald_duck)
     set_authorization_header(user.nick_name, user.password)
     #
-    get :index
+    get :index, :format => 'xml'
     assert_response :success
+    assert_equal 'application/xml', @response.content_type
     assert_not_nil assigns(:incoming_messages)
     mess = assigns(:incoming_messages)
     assert_equal user.incoming_messages.find(:all,
@@ -51,7 +52,7 @@ class IncomingMessagesControllerTest < ActionController::TestCase
     user = users(:donald_duck)
     set_authorization_header(user.nick_name, user.password)
     #
-    get :index, :format => 'html'
+    get :index
     assert_response :success
     assert_equal 'text/html', @response.content_type
   end
@@ -71,7 +72,7 @@ class IncomingMessagesControllerTest < ActionController::TestCase
     user = users(:donald_duck)
     set_authorization_header(user.nick_name, user.password)
     #
-    get :index
+    get :index, :format => 'xml'
     incoming_messages = assigns(:incoming_messages)
     assert !incoming_messages.include?(forwarded_messages(:message_deleted))
   end
@@ -92,6 +93,7 @@ class IncomingMessagesControllerTest < ActionController::TestCase
     assert !forwarded_messages(:one).seen?
     get :show, :id => forwarded_messages(:one).id
     assert_response :success
+    assert_equal 'application/xml', @response.content_type
     assert_not_nil assigns(:incoming_message)
     m = assigns(:incoming_message)
     assert m.seen?

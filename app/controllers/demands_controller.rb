@@ -24,13 +24,13 @@ class DemandsController < ApplicationController
   def index
     @user = User.find(params[:uid])
     respond_to do |format|
-      format.xml {
-        @demands = @user.demands.find :all, :order => 'created_at DESC'
-      }
-      format.html {
+      format.html do
         @demands = @user.demands.paginate :page => params[:page],
           :order => 'created_at DESC', :per_page => 4
-      }
+      end
+      format.xml do
+        @demands = @user.demands.find :all, :order => 'created_at DESC'
+      end
     end
   end
 
@@ -51,8 +51,8 @@ class DemandsController < ApplicationController
       if @demand.suitor == User.find(params[:uid])
         unless @demand.fulfilled?
           respond_to do |format|
-            format.xml
             format.html
+            format.xml
           end
         else
           redirect_to(fulfilled_demand_url(@demand.fulfilled_demand),
@@ -77,17 +77,25 @@ class DemandsController < ApplicationController
       processor.process_incoming_demand(@demand)
       #
       respond_to do |format|
-        format.xml { render :action => "show", :location => @demand,
-                     :status => :created }
-        format.html { flash[:notice] = I18n.t 'notices.demand_created'
-                      redirect_to demand_url(@demand) }
+        format.html do
+          flash[:notice] = I18n.t 'notices.demand_created'
+          redirect_to demand_url(@demand)
+        end
+        format.xml do
+          render :action => "show", :location => @demand,
+              :status => :created
+        end
       end
     else
       respond_to do |format|
-        format.xml { render :xml => @demand.errors,
-                     :status => :unprocessable_entity }
-        format.html { @places = Place.find :all
-                      render :action => "new" }
+        format.html do
+          @places = Place.find :all
+          render :action => "new"
+        end
+        format.xml do
+          render :xml => @demand.errors,
+              :status => :unprocessable_entity
+        end
       end
     end
   end
@@ -104,10 +112,11 @@ class DemandsController < ApplicationController
             processor.revoke_demand(@demand)
             @demand.destroy
             respond_to do |format|
+              format.html do
+                flash[:notice] = I18n.t 'notices.demand_deleted'
+                redirect_to demands_url
+              end
               format.xml { head :ok }
-              format.html { flash[:notice] =
-                            I18n.t 'notices.demand_deleted'
-                          redirect_to demands_url }
             end
           else
             head :method_not_allowed

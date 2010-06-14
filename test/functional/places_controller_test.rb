@@ -20,8 +20,9 @@ require 'test_helper'
 class PlacesControllerTest < ActionController::TestCase
 
   test "get all places" do
-    get :index
+    get :index, :format => 'xml'
     assert_response :success
+    assert_equal 'application/xml', @response.content_type
     assert_not_nil assigns(:places)
     # testing response content
     places = assigns(:places)
@@ -41,7 +42,7 @@ class PlacesControllerTest < ActionController::TestCase
 
 
   test "get all places, format html" do
-    get :index, :format => 'html'
+    get :index
     assert_response :success
     assert_equal 'text/html', @response.content_type
     assert_not_nil assigns(:places)
@@ -49,8 +50,9 @@ class PlacesControllerTest < ActionController::TestCase
 
 
   test "get a particular place" do
-    get :show, :id => places(:sede_di_via_ravasi).id
+    get :show, :id => places(:sede_di_via_ravasi).id, :format => 'xml'
     assert_response :success
+    assert_equal 'application/xml', @response.content_type
     assert_not_nil assigns(:place)
     # testing response content
     place = assigns(:place)
@@ -67,7 +69,7 @@ class PlacesControllerTest < ActionController::TestCase
 
 
   test "get a particular place, format html" do
-    get :show, :id => Place.first.id, :format => 'html'
+    get :show, :id => Place.first.id
     assert_response :success
     assert_equal 'text/html', @response.content_type
     assert_not_nil assigns(:place)

@@ -39,8 +39,10 @@ class FulfilledDemandsControllerTest < ActionController::TestCase
   test "get a specific fulfilled demand" do
     set_authorization_header(users(:donald_duck).nick_name,
                              users(:donald_duck).password)
-    get :show, :id => fulfilled_demands(:fulfilled_demand_N).id
+    get :show, :format => 'xml',
+        :id => fulfilled_demands(:fulfilled_demand_N).id
     assert_response :success
+    assert_equal 'application/xml', @response.content_type
     assert_not_nil assigns(:fulfilled_demand)
     # testing response content
     fd = assigns(:fulfilled_demand)
@@ -88,9 +90,9 @@ class FulfilledDemandsControllerTest < ActionController::TestCase
   test "get a specific fulfilled demand format html" do
     set_authorization_header(users(:donald_duck).nick_name,
                              users(:donald_duck).password)
-    get :show, :id => fulfilled_demands(:fulfilled_demand_N).id,
-        :format => "html"
+    get :show, :id => fulfilled_demands(:fulfilled_demand_N).id
     assert_response :success
+    assert_equal 'text/html', @response.content_type
     assert_template "show"
     assert_not_nil assigns(:fulfilled_demand)
   end
@@ -122,7 +124,8 @@ class FulfilledDemandsControllerTest < ActionController::TestCase
     set_authorization_header(users(:mickey_mouse).nick_name,
                              users(:mickey_mouse).password)
     assert_difference('FulfilledDemand.count', -1) do
-      delete :destroy, :id => fulfilled_demands(:fulfilled_demand_n_2).id
+      delete :destroy, :format => 'xml',
+          :id => fulfilled_demands(:fulfilled_demand_n_2).id
     end
     assert_response :success
     # check the processor
@@ -135,8 +138,7 @@ class FulfilledDemandsControllerTest < ActionController::TestCase
     set_authorization_header(users(:mickey_mouse).nick_name,
                              users(:mickey_mouse).password)
     assert_difference('FulfilledDemand.count', -1) do
-      delete :destroy, :id => fulfilled_demands(:fulfilled_demand_n_2).id,
-          :format => "html"
+      delete :destroy, :id => fulfilled_demands(:fulfilled_demand_n_2).id
     end
     assert_redirected_to demands_url
     # check the processor

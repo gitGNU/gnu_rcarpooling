@@ -26,6 +26,7 @@ class NotificationsControllerTest < ActionController::TestCase
     set_authorization_header(user.nick_name, user.password)
     get :index, :user_id => user.id
     assert_response :success
+    assert_equal 'text/javascript', @response.content_type
     assert_not_nil assigns(:notifications)
   end
 
@@ -59,6 +60,7 @@ class NotificationsControllerTest < ActionController::TestCase
     set_authorization_header(user.nick_name, user.password)
     get :show, :user_id => user.id, :id => notifications(:dd1)
     assert_response :success
+    assert_equal 'text/javascript', @response.content_type
     assert_not_nil assigns(:notification)
     #
     n = assigns(:notification)

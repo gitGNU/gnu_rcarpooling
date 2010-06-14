@@ -26,8 +26,8 @@ class FulfilledDemandsController < ApplicationController
     if @fulfilled_demand
       if @fulfilled_demand.suitor == User.find(params[:uid])
         respond_to do |format|
-          format.xml
           format.html
+          format.xml
         end
       else
         head :forbidden
@@ -52,10 +52,11 @@ class FulfilledDemandsController < ApplicationController
           @fulfilled_demand.demand.destroy
           @fulfilled_demand.destroy
           respond_to do |format|
+            format.html do
+              flash[:notice] = I18n.t('notices.fulfilled_demand_deleted')
+              redirect_to demands_url
+            end
             format.xml { head :ok }
-            format.html { flash[:notice] = I18n.t(
-                          'notices.fulfilled_demand_deleted')
-                        redirect_to demands_url }
           end
         else
           head :method_not_allowed

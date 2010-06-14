@@ -21,8 +21,8 @@ class PlacesController < ApplicationController
   def index
     @places = Place.find :all
     respond_to do |format|
-      format.xml
       format.html
+      format.xml
     end
   end
 
@@ -32,8 +32,8 @@ class PlacesController < ApplicationController
     @place = Place.find_by_id(params[:id])
     if @place
       respond_to do |format|
-        format.xml
         format.html
+        format.xml
       end
     else
       head :not_found

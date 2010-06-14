@@ -23,14 +23,14 @@ class OfferingsController < ApplicationController
   def index
     @offerer = User.find(params[:uid])
     respond_to do |format|
-      format.xml {
-        @offerings = @offerer.offerings.find(:all,
-                                             :order => "created_at DESC")
-      }
-      format.html {
+      format.html do
         @offerings = @offerer.offerings.paginate :page => params[:page],
           :order => 'created_at DESC', :per_page => 4
-      }
+      end
+      format.xml do
+        @offerings = @offerer.offerings.find(:all,
+                                             :order => "created_at DESC")
+      end
     end
   end
 
@@ -51,8 +51,8 @@ class OfferingsController < ApplicationController
       if @offering.offerer == User.find(params[:uid])
         unless @offering.in_use?
           respond_to do |format|
-            format.xml
             format.html
+            format.xml
           end
         else
           redirect_to( used_offering_url(@offering.used_offering),
@@ -92,17 +92,25 @@ class OfferingsController < ApplicationController
       processor.process_incoming_offering(@offering)
       #
       respond_to do |format|
-        format.xml { render :action => "show", :status => :created,
-                     :location => @offering }
-        format.html { flash[:notice] = I18n.t('notices.offering_created')
-                      redirect_to offering_url(@offering) }
+        format.html do
+          flash[:notice] = I18n.t('notices.offering_created')
+          redirect_to offering_url(@offering)
+        end
+        format.xml do
+          render :action => "show", :status => :created,
+              :location => @offering
+        end
       end
     else
       respond_to do |format|
-        format.xml { render :xml => @offering.errors,
-                     :status => :unprocessable_entity }
-        format.html { @places = Place.find :all
-                      render :action => "new" }
+        format.html do
+          @places = Place.find :all
+          render :action => "new"
+        end
+        format.xml do
+          render :xml => @offering.errors,
+              :status => :unprocessable_entity
+        end
       end
     end
   end
@@ -122,10 +130,11 @@ class OfferingsController < ApplicationController
             processor.revoke_offering(@offering)
             @offering.destroy
             respond_to do |format|
+              format.html do
+                flash[:notice] = I18n.t('notices.offering_deleted')
+                redirect_to offerings_url
+              end
               format.xml { head :ok }
-              format.html { flash[:notice] =
-                            I18n.t('notices.offering_deleted')
-                          redirect_to offerings_url }
             end
           else
             head :method_not_allowed

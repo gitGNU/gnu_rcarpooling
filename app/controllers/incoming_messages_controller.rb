@@ -30,8 +30,8 @@ class IncomingMessagesController < ApplicationController
       end
     else
       respond_to do |format|
-        format.xml { @incoming_messages = @user.incoming_messages; render }
         format.html
+        format.xml { @incoming_messages = @user.incoming_messages }
       end
     end
   end

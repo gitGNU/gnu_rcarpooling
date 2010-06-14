@@ -39,8 +39,9 @@ class UsedOfferingsControllerTest < ActionController::TestCase
   test "get a specific used offering" do
     set_authorization_header(users(:mickey_mouse).nick_name,
                              users(:mickey_mouse).password)
-    get :show, :id => used_offerings(:used_offering_N).id
+    get :show, :format => 'xml', :id => used_offerings(:used_offering_N).id
     assert_response :success
+    assert_equal 'application/xml', @response.content_type
     assert_not_nil assigns(:used_offering)
     # testing response content
     uo = assigns(:used_offering)
@@ -70,9 +71,9 @@ class UsedOfferingsControllerTest < ActionController::TestCase
   test "get a specific used offering, format html" do
     set_authorization_header(users(:mickey_mouse).nick_name,
                              users(:mickey_mouse).password)
-    get :show, :format => "html",
-        :id => used_offerings(:used_offering_N).id
+    get :show, :id => used_offerings(:used_offering_N).id
     assert_response :success
+    assert_equal 'text/html', @response.content_type
     assert_not_nil assigns(:used_offering)
   end
 
@@ -103,7 +104,8 @@ class UsedOfferingsControllerTest < ActionController::TestCase
     set_authorization_header(users(:mickey_mouse).nick_name,
                              users(:mickey_mouse).password)
     assert_difference('UsedOffering.count', -1) do
-      delete :destroy, :id => used_offerings(:used_offering_2).id
+      delete :destroy, :format => 'xml',
+          :id => used_offerings(:used_offering_2).id
     end
     assert_response :success
     # check the processor
@@ -117,7 +119,7 @@ class UsedOfferingsControllerTest < ActionController::TestCase
     set_authorization_header(offering.offerer.nick_name,
                              offering.offerer.password)
     assert_difference('UsedOffering.count', -1) do
-      delete :destroy, :format => "html", :id => offering.id
+      delete :destroy, :id => offering.id
     end
     assert_redirected_to offerings_url
     # check the processor

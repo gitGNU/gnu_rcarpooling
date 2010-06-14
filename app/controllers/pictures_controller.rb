@@ -62,15 +62,19 @@ class PicturesController < ApplicationController
       @picture = @user.picture
       if @picture.save
         respond_to do |format|
+          format.html do
+            flash[:notice] = I18n.t 'notices.picture_uploaded'
+            redirect_to user_url(@user)
+          end
           format.xml { head :no_content }
-          format.html { flash[:notice] = I18n.t 'notices.picture_uploaded'
-                        redirect_to user_url(@user) }
         end
       else
         respond_to do |format|
-          format.xml { render :xml => @picture.errors,
-                        :status => :unprocessable_entity }
           format.html { render :action => "edit" }
+          format.xml do
+            render :xml => @picture.errors,
+                :status => :unprocessable_entity
+          end
         end
       end
     end
@@ -85,9 +89,11 @@ class PicturesController < ApplicationController
       if @user.has_picture?
         @user.picture.destroy
         respond_to do |format|
+          format.html do
+            flash[:notice] = I18n.t 'notices.picture_deleted'
+            redirect_to user_url(@user)
+          end
           format.xml { head :ok }
-          format.html { flash[:notice] = I18n.t 'notices.picture_deleted'
-                        redirect_to user_url(@user) }
         end
       else
         head :not_found

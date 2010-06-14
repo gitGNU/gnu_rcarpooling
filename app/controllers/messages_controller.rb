@@ -39,13 +39,13 @@ class MessagesController < ApplicationController
     end
     if @message.save
       respond_to do |format|
-        format.xml do
-          render :template => 'sent_messages/show', :status => :created,
-              :location => sent_message_url(@message)
-        end
         format.html do
           flash[:notice] = I18n.t 'notices.message_sent'
           redirect_to sent_messages_url
+        end
+        format.xml do
+          render :template => 'sent_messages/show', :status => :created,
+              :location => sent_message_url(@message)
         end
       end
       # forwarding by email
@@ -56,10 +56,10 @@ class MessagesController < ApplicationController
       end
     else
       respond_to do |format|
+        format.html { render :action => 'new' }
         format.xml do
           render :xml => @message.errors, :status => :unprocessable_entity
         end
-        format.html { render :action => 'new' }
       end
     end
   end

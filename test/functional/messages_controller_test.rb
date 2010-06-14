@@ -34,7 +34,8 @@ class MessagesControllerTest < ActionController::TestCase
     recipients = [users(:donald_duck), users(:user_N)]
     assert_difference('Message.count', 1) do
       assert_difference('ForwardedMessage.count', 2) do
-        post :create, :message => { :subject => "hello world!",
+        post :create, :format => 'xml',
+                      :message => { :subject => "hello world!",
                                     :content => "foo bar",
                                     :recipients_ids_string =>
                                       "#{recipients[0].id}, " +
@@ -43,6 +44,7 @@ class MessagesControllerTest < ActionController::TestCase
       end
     end
     assert_response :created
+    assert_equal 'application/xml', @response.content_type
     assert_not_nil assigns(:message)
     message = assigns(:message)
     assert_equal sender, message.sender
@@ -78,7 +80,8 @@ class MessagesControllerTest < ActionController::TestCase
     recipients = [users(:donald_duck), users(:user_N)]
     assert_difference('Message.count', 1) do
       assert_difference('ForwardedMessage.count', 2) do
-        post :create, :message => { :subject => "hello world!",
+        post :create, :format => 'xml',
+                      :message => { :subject => "hello world!",
                                     :content => "foo bar",
                                     :recipients_ids_string =>
                           "#{recipients[0].name}<#{recipients[0].id}>, " +
@@ -87,6 +90,7 @@ class MessagesControllerTest < ActionController::TestCase
       end
     end
     assert_response :created
+    assert_equal 'application/xml', @response.content_type
   end
 
 
@@ -104,8 +108,7 @@ class MessagesControllerTest < ActionController::TestCase
                                     :recipients_ids_string =>
                                       "#{recipients[0].id}," +
                                       "#{recipients[1].id}"
-                                  },
-                                  :format => 'html'
+                                  }
       end
     end
     assert_redirected_to sent_messages_url
@@ -141,7 +144,8 @@ class MessagesControllerTest < ActionController::TestCase
     recipients = [users(:donald_duck), sender] # INVALID RECIPIENT
     assert_difference('Message.count', 0) do
       assert_difference('ForwardedMessage.count', 0) do
-        post :create, :message => { :subject => "hello world!",
+        post :create, :format => 'xml',
+                      :message => { :subject => "hello world!",
                                     :content => "foo bar",
                                     :recipients_ids_string =>
                                       "#{recipients[0].id}," +
@@ -161,7 +165,8 @@ class MessagesControllerTest < ActionController::TestCase
     assert_difference('Message.count', 0) do
       assert_difference('ForwardedMessage.count', 0) do
         # UNEXISTENT RECIPIENTS
-        post :create, :message => { :subject => "hello world!",
+        post :create, :format => 'xml',
+                      :message => { :subject => "hello world!",
                                     :content => "foo bar",
                                     :recipients_ids_string => "-1,-2"
                                   }
@@ -182,8 +187,7 @@ class MessagesControllerTest < ActionController::TestCase
         post :create, :message => { :subject => "hello world!",
                                     :content => "foo bar",
                                     :recipients_ids_string => "-1,-2"
-                                  },
-                                  :format => 'html'
+                                  }
       end
     end
     assert_template 'new'

@@ -22,12 +22,11 @@ class SentMessagesController < ApplicationController
   # GET /sent_messages
   def index
     respond_to do |format|
-      format.xml { @messages = @user.sent_messages; render }
       format.html do
         @messages = @user.sent_messages.paginate(:page => params[:page],
                                                  :per_page => 6)
-        render
       end
+      format.xml { @messages = @user.sent_messages }
     end
   end
 
@@ -45,7 +44,7 @@ class SentMessagesController < ApplicationController
           end
         else
           respond_to do |format|
-            format.xml { render }
+            format.xml
           end
         end
       else

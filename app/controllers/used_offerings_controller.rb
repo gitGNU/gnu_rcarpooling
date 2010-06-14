@@ -27,8 +27,8 @@ class UsedOfferingsController < ApplicationController
     if @used_offering
       if @used_offering.offerer == User.find(params[:uid])
         respond_to do |format|
-          format.xml
           format.html
+          format.xml
         end
       else
         head :forbidden
@@ -54,10 +54,11 @@ class UsedOfferingsController < ApplicationController
           @used_offering.offering.destroy
           @used_offering.destroy
           respond_to do |format|
+            format.html do
+              flash[:notice] = I18n.t 'notices.used_offering_deleted'
+              redirect_to offerings_url
+            end
             format.xml { head :ok }
-            format.html { flash[:notice] =
-                            I18n.t 'notices.used_offering_deleted'
-                        redirect_to offerings_url }
           end
         else
           head :method_not_allowed

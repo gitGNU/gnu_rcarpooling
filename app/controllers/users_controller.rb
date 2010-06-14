@@ -52,26 +52,26 @@ class UsersController < ApplicationController
     if @user
       if params[:uid] == @user.id
         respond_to do |format|
-          format.xml
           format.html
+          format.xml
         end
       else
         @requester = User.find(params[:uid])
         respond_to do |format|
-          format.xml do
-            if @user.visible_by_all? or (@user.visible_only_by_known? and
-                                         @user.knows?(@requester))
-              render :template => 'users/show_public.xml.builder'
-            else
-              head :forbidden
-            end
-          end
           format.html do
             if @user.visible_by_all? or (@user.visible_only_by_known? and
                                          @user.knows?(@requester))
               render :template => 'users/show_public.html.erb'
             else
               render :template => 'users/show_forbidden.html.erb'
+            end
+          end
+          format.xml do
+            if @user.visible_by_all? or (@user.visible_only_by_known? and
+                                         @user.knows?(@requester))
+              render :template => 'users/show_public.xml.builder'
+            else
+              head :forbidden
             end
           end
         end
@@ -126,15 +126,19 @@ class UsersController < ApplicationController
         # now save
         if @user.save
           respond_to do |format|
+            format.html do
+              flash[:notice] = I18n.t('notices.user_updated')
+              redirect_to @user
+            end
             format.xml { render :action => :show }
-            format.html { flash[:notice] = I18n.t('notices.user_updated')
-                          redirect_to @user }
           end
         else
           respond_to do |format|
-            format.xml { render :xml => @user.errors,
-                         :status => :unprocessable_entity }
             format.html { render :action => "edit" }
+            format.xml do
+              render :xml => @user.errors,
+                  :status => :unprocessable_entity
+            end
           end
         end
       else
@@ -172,17 +176,23 @@ class UsersController < ApplicationController
     end
     if @user.errors.empty? and @user.save
       respond_to do |format|
-        format.xml { render :action => :show, :status => :created,
-                     :location => @user }
-        format.html { flash[:notice] = I18n.t('notices.user_created')
-                      session[:uid] = @user.id
-                      redirect_to @user }
+        format.html do
+          flash[:notice] = I18n.t('notices.user_created')
+          session[:uid] = @user.id
+          redirect_to @user
+        end
+        format.xml do
+          render :action => :show, :status => :created,
+              :location => @user
+        end
       end
     else
       respond_to do |format|
-        format.xml { render :xml => @user.errors,
-                     :status => :unprocessable_entity }
         format.html { render :action => "new" }
+        format.xml do
+          render :xml => @user.errors,
+              :status => :unprocessable_entity
+        end
       end
     end
   end
@@ -195,9 +205,7 @@ class UsersController < ApplicationController
       if @user.id != params[:uid]
         head :forbidden
       else
-        respond_to do |format|
-          format.html
-        end
+        render
       end
     else
       head :not_found

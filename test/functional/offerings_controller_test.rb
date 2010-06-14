@@ -38,8 +38,9 @@ class OfferingsControllerTest < ActionController::TestCase
   test "get all offerings" do
     user = users(:donald_duck)
     set_authorization_header(user.nick_name, user.password)
-    get :index
+    get :index, :format => 'xml'
     assert_response :success
+    assert_equal 'application/xml', @response.content_type
     assert_not_nil assigns(:offerings)
     offerings = assigns(:offerings)
     assert_equal user.offerings, offerings
@@ -56,8 +57,9 @@ class OfferingsControllerTest < ActionController::TestCase
   test "get all offerings format html" do
     user = users(:donald_duck)
     set_authorization_header(user.nick_name, user.password)
-    get :index, :format => "html"
+    get :index
     assert_response :success
+    assert_equal 'text/html', @response.content_type
     assert_not_nil assigns(:offerings)
     offerings = assigns(:offerings)
     assert_equal user.offerings, offerings
@@ -73,6 +75,7 @@ class OfferingsControllerTest < ActionController::TestCase
   test "get the form for a new offering" do
     get :new
     assert_response :success
+    assert_equal 'text/html', @response.content_type
     assert_not_nil assigns(:offering)
     assert_not_nil assigns(:places)
   end
@@ -81,9 +84,10 @@ class OfferingsControllerTest < ActionController::TestCase
   test "get a specific offering" do
     set_authorization_header(users(:donald_duck).nick_name,
                              users(:donald_duck).password)
-    get :show,
+    get :show, :format => 'xml',
         :id => offerings(:donald_duck_offering_n_2_dep_in_the_past).id
     assert_response :success
+    assert_equal 'application/xml', @response.content_type
     assert_not_nil assigns(:offering)
     # testing response content
     o = assigns(:offering)
@@ -110,9 +114,10 @@ class OfferingsControllerTest < ActionController::TestCase
   test "get a specific offering, format html" do
     set_authorization_header(users(:donald_duck).nick_name,
                              users(:donald_duck).password)
-    get :show, :format => "html",
+    get :show,
         :id => offerings(:donald_duck_offering_n_2_dep_in_the_past).id
     assert_response :success
+    assert_equal 'text/html', @response.content_type
     assert_not_nil assigns(:offering)
   end
 
@@ -155,7 +160,7 @@ class OfferingsControllerTest < ActionController::TestCase
                              users(:donald_duck).password)
     departure_time = 10.hours.from_now
     assert_difference('Offering.count', 1) do
-      post :create, :offering => {
+      post :create, :format => 'xml', :offering => {
         :departure_place_id => places(:sede_di_via_ravasi).id,
         :arrival_place_id => places(:sede_di_via_dunant).id,
         :departure_time => departure_time,
@@ -164,6 +169,7 @@ class OfferingsControllerTest < ActionController::TestCase
         :note => "this is my note"}
     end
     assert_response :created
+    assert_equal 'application/xml', @response.content_type
     assert_not_nil assigns(:offering)
     offering = assigns(:offering)
     assert_equal users(:donald_duck), offering.offerer
@@ -201,7 +207,7 @@ class OfferingsControllerTest < ActionController::TestCase
                              users(:donald_duck).password)
     departure_time = 10.hours.from_now
     assert_difference('Offering.count', 1) do
-      post :create, :format => "html", :offering => {
+      post :create, :offering => {
         :departure_place_id => places(:sede_di_via_ravasi).id,
         :arrival_place_id => places(:sede_di_via_dunant).id,
         :departure_time => departure_time,
@@ -226,7 +232,7 @@ class OfferingsControllerTest < ActionController::TestCase
     set_authorization_header(users(:donald_duck).nick_name,
                              users(:donald_duck).password)
     assert_difference('Offering.count', 0) do
-      post :create, :offering => {
+      post :create, :format => 'xml', :offering => {
         :departure_place_id => places(:sede_di_via_ravasi).id,
         :arrival_place_id => places(:sede_di_via_dunant).id,
         # departure_time missed
@@ -243,7 +249,7 @@ class OfferingsControllerTest < ActionController::TestCase
     set_authorization_header(users(:donald_duck).nick_name,
                              users(:donald_duck).password)
     assert_difference('Offering.count', 0) do
-      post :create, :format => "html", :offering => {
+      post :create, :offering => {
         :departure_place_id => places(:sede_di_via_ravasi).id,
         :arrival_place_id => places(:sede_di_via_dunant).id,
         # departure_time missed
@@ -251,6 +257,7 @@ class OfferingsControllerTest < ActionController::TestCase
         :expiry_time => 15.minutes.from_now }
     end
     assert_template "new"
+    assert_equal 'text/html', @response.content_type
     # check the processor
     assert ! @processor.process_incoming_offering_called?
   end
@@ -261,7 +268,7 @@ class OfferingsControllerTest < ActionController::TestCase
     set_authorization_header(users(:donald_duck).nick_name,
                              users(:donald_duck).password)
     assert_difference('Offering.count', 0) do
-      post :create, :offering => {
+      post :create, :format => 'xml', :offering => {
         :departure_place_id => places(:sede_di_via_ravasi).id,
         :arrival_place_id => places(:stazione_fnm).id,
         :departure_time => 1.hour.from_now,
@@ -269,6 +276,7 @@ class OfferingsControllerTest < ActionController::TestCase
         :expiry_time => 30.minutes.from_now }
     end
     assert_response :unprocessable_entity
+    assert_equal 'application/xml', @response.content_type
     # check the processor
     assert ! @processor.process_incoming_offering_called?
   end
@@ -296,7 +304,7 @@ class OfferingsControllerTest < ActionController::TestCase
     set_authorization_header(users(:mickey_mouse).nick_name,
                              users(:mickey_mouse).password)
     departure_time = 2.days.from_now
-    post :create, :offering => {
+    post :create, :format => 'xml', :offering => {
       :departure_place_id => places(:sede_di_via_ravasi).id,
       :arrival_place_id => places(:sede_di_via_dunant).id,
       :departure_time => departure_time,
@@ -304,6 +312,7 @@ class OfferingsControllerTest < ActionController::TestCase
       :expiry_time => departure_time - 1.hour,
       :offerer_id => users(:donald_duck).id}
     assert_response :created
+    assert_equal 'application/xml', @response.content_type
     assert_not_nil assigns(:offering)
     just_created = assigns(:offering)
     assert_equal users(:mickey_mouse), just_created.offerer
@@ -316,7 +325,7 @@ class OfferingsControllerTest < ActionController::TestCase
     set_authorization_header(users(:mickey_mouse).nick_name,
                              users(:mickey_mouse).password)
     assert_difference('Offering.count', 0) do
-      post :create, :offering => {
+      post :create, :format => 'xml', :offering => {
         :departure_place_id => places(:sede_di_via_ravasi).id,
         :arrival_place_id => places(:sede_di_via_dunant).id,
         :departure_time => 1.hour.ago,
@@ -324,6 +333,7 @@ class OfferingsControllerTest < ActionController::TestCase
         :expiry_time => 15.minutes.from_now }
     end
     assert_response :unprocessable_entity
+    assert_equal 'application/xml', @response.content_type
     # check the processor
     assert ! @processor.process_incoming_offering_called?
   end
@@ -333,7 +343,7 @@ class OfferingsControllerTest < ActionController::TestCase
     set_authorization_header(users(:mickey_mouse).nick_name,
                              users(:mickey_mouse).password)
     assert_difference('Offering.count', -1) do
-      delete :destroy,
+      delete :destroy, :format => 'xml',
           :id => offerings(:mickey_mouse_offering_n_1).id
     end
     assert_response :success
@@ -346,7 +356,7 @@ class OfferingsControllerTest < ActionController::TestCase
     set_authorization_header(users(:mickey_mouse).nick_name,
                              users(:mickey_mouse).password)
     assert_difference('Offering.count', -1) do
-      delete :destroy, :format => "html",
+      delete :destroy,
           :id => offerings(:mickey_mouse_offering_n_1).id
     end
     assert_redirected_to offerings_url

@@ -41,8 +41,9 @@ class UsersControllerTest < ActionController::TestCase
     user.save!
     #
     set_authorization_header(user.nick_name, user.password)
-    get :show, :id => user.id
+    get :show, :format => 'xml', :id => user.id
     assert_response :success
+    assert_equal 'application/xml', @response.content_type
     assert_not_nil assigns(:user)
     # testing response content
     assert_select "user:root[id=#{user.id}][href=#{user_url(user)}]" do
@@ -108,8 +109,9 @@ class UsersControllerTest < ActionController::TestCase
     user.public_profile_visibility = User::PUBLIC_VISIBILITY[:all]
     user.save!
     #
-    get :show, :id => user.id
+    get :show, :format => 'xml', :id => user.id
     assert_response :success
+    assert_equal 'application/xml', @response.content_type
     assert_not_nil assigns(:requester)
     assert_equal requester, assigns(:requester)
     # testing response contents
@@ -139,8 +141,9 @@ class UsersControllerTest < ActionController::TestCase
     user.public_profile_visibility = User::PUBLIC_VISIBILITY[:all]
     user.save!
     #
-    get :show, :id => user.id, :format => "html"
+    get :show, :id => user.id
     assert_response :success
+    assert_equal 'text/html', @response.content_type
     assert_template 'show_public'
     assert_not_nil assigns(:requester)
     assert_equal requester, assigns(:requester)
@@ -157,8 +160,9 @@ class UsersControllerTest < ActionController::TestCase
     user.public_profile_visibility = User::PUBLIC_VISIBILITY[:only_known]
     user.save!
     #
-    get :show, :id => user.id
+    get :show, :format => 'xml', :id => user.id
     assert_response :success
+    assert_equal 'application/xml', @response.content_type
     assert_not_nil assigns(:requester)
     assert_equal requester, assigns(:requester)
     # testing response contents
@@ -189,8 +193,9 @@ class UsersControllerTest < ActionController::TestCase
     user.public_profile_visibility = User::PUBLIC_VISIBILITY[:only_known]
     user.save!
     #
-    get :show, :id => user.id, :format => "html"
+    get :show, :id => user.id
     assert_response :success
+    assert_equal 'text/html', @response.content_type
     assert_template 'show_public'
     assert_not_nil assigns(:requester)
     assert_equal requester, assigns(:requester)
@@ -207,7 +212,7 @@ class UsersControllerTest < ActionController::TestCase
     user.public_profile_visibility = User::PUBLIC_VISIBILITY[:only_known]
     user.save!
     #
-    get :show, :id => user.id
+    get :show, :format => 'xml', :id => user.id
     assert_response :forbidden
   end
 
@@ -222,8 +227,9 @@ class UsersControllerTest < ActionController::TestCase
     user.public_profile_visibility = User::PUBLIC_VISIBILITY[:only_known]
     user.save!
     #
-    get :show, :id => user.id, :format => 'html'
+    get :show, :id => user.id
     assert_response :success
+    assert_equal 'text/html', @response.content_type
     assert_template 'show_forbidden'
   end
 
@@ -237,7 +243,7 @@ class UsersControllerTest < ActionController::TestCase
     user.public_profile_visibility = User::PUBLIC_VISIBILITY[:no_one]
     user.save!
     #
-    get :show, :id => user.id
+    get :show, :format => 'xml', :id => user.id
     assert_response :forbidden
   end
 
@@ -251,8 +257,9 @@ class UsersControllerTest < ActionController::TestCase
     user.public_profile_visibility = User::PUBLIC_VISIBILITY[:no_one]
     user.save!
     #
-    get :show, :id => user.id, :format => 'html'
+    get :show, :id => user.id
     assert_response :success
+    assert_equal 'text/html', @response.content_type
     assert_template 'show_forbidden'
   end
 
@@ -265,6 +272,7 @@ class UsersControllerTest < ActionController::TestCase
                              users(:mickey_mouse).password)
     get :index
     assert_response :success
+    assert_equal 'text/html', @response.content_type
   end
 
 
@@ -403,6 +411,7 @@ class UsersControllerTest < ActionController::TestCase
                                               User::PUBLIC_VISIBILITY[:all]
                                           }
     assert_response :success
+    assert_equal 'application/xml', @response.content_type
     assert_not_nil assigns(:user)
     user_updated = assigns(:user)
     assert_equal user.first_name, user_updated.first_name
@@ -431,6 +440,7 @@ class UsersControllerTest < ActionController::TestCase
                                            :car_details => ""
                                           }
     assert_response :success
+    assert_equal 'application/xml', @response.content_type
     assert_not_nil assigns(:user)
     user_updated = assigns(:user)
     assert_nil user_updated.telephone_number
@@ -443,7 +453,7 @@ class UsersControllerTest < ActionController::TestCase
     user = users(:mickey_mouse)
     set_authorization_header(user.nick_name, user.password)
     #
-    put :update, :format => "html",
+    put :update,
                 :id => user.id, :user => {:first_name => "Minnie",
                                           :last_name => "Minnielast",
                                           :sex => "F",
@@ -524,6 +534,7 @@ class UsersControllerTest < ActionController::TestCase
                                               languages(:it).id
                                           }
     assert_response :unprocessable_entity
+    assert_equal 'application/xml', @response.content_type
   end
 
 
@@ -531,13 +542,14 @@ class UsersControllerTest < ActionController::TestCase
     user = users(:mickey_mouse)
     set_authorization_header(user.nick_name, user.password)
     #
-    put :update, :format => "html",
+    put :update,
                  :id => user.id, :user => {:email => "",
                                            :sex => "F",
                                            :max_foot_length => 1000,
                                            :language_id =>
                                               languages(:it).id
                                           }
+    assert_equal 'text/html', @response.content_type
     assert_template "edit"
     assert_select ".errors"
   end
@@ -547,11 +559,13 @@ class UsersControllerTest < ActionController::TestCase
     user = users(:mickey_mouse)
     set_authorization_header(user.nick_name, user.password)
     #
-    put :update, :id => user.id, :user => {:nick_name => "NEW_NICK",
+    put :update, :format => 'xml',
+                 :id => user.id, :user => {:nick_name => "NEW_NICK",
                                            :password => "NEW_PASS",
                                            :score => 9999999
                                           }
     assert_response :success
+    assert_equal 'application/xml', @response.content_type
     assert_not_nil assigns(:user)
     # check the entity-body returned
     user_updated = assigns(:user)
@@ -580,6 +594,7 @@ class UsersControllerTest < ActionController::TestCase
                             }
     end
     assert_response :created
+    assert_equal 'application/xml', @response.content_type
     assert_not_nil assigns(:user)
     uncle_scrooge = assigns(:user)
     assert_equal user_url(uncle_scrooge), @response.location
@@ -601,7 +616,7 @@ class UsersControllerTest < ActionController::TestCase
   test "create a user, format HTML" do
     requester = potential_users(:uncle_scrooge)
     assert_difference('User.count', 1) do
-      post :create, :format => "html",
+      post :create,
                     :user => {:first_name => "Uncle",
                               :last_name => "Scrooge",
                               :email => "uncle@scrooge",
@@ -635,7 +650,8 @@ class UsersControllerTest < ActionController::TestCase
 
   test "cannot create a user without credentials" do
     assert_difference('User.count', 0) do
-      post :create, :user => {:first_name => "Uncle",
+      post :create, :format => 'xml',
+                    :user => {:first_name => "Uncle",
                               :last_name => "Scrooge",
                               :email => "uncle@scrooge",
                               :sex => "M",
@@ -644,12 +660,13 @@ class UsersControllerTest < ActionController::TestCase
                             }
     end
     assert_response :unprocessable_entity
+    assert_equal 'application/xml', @response.content_type
   end
 
 
   test "cannot create a user without credentials, format html" do
     assert_difference('User.count', 0) do
-      post :create, :format => "html",
+      post :create,
                               :user => {:first_name => "Uncle",
                               :last_name => "Scrooge",
                               :email => "uncle@scrooge",
@@ -658,6 +675,7 @@ class UsersControllerTest < ActionController::TestCase
                               :max_foot_length => 1000
                             }
     end
+    assert_equal 'text/html', @response.content_type
     assert_template "new"
     assert_select ".errors"
     assert !session[:uid]
@@ -667,24 +685,7 @@ class UsersControllerTest < ActionController::TestCase
   test "cannot create a user if my account is already registered" do
     user = users(:mickey_mouse) # already registered
     assert_difference('User.count', 0) do
-      post :create, :user => {:first_name => "Uncle",
-                              :last_name => "Scrooge",
-                              :email => "uncle@scrooge",
-                              :sex => "M",
-                              :language_id => languages(:it).id,
-                              :max_foot_length => 1000,
-                              :nick_name => user.nick_name,
-                              :password => user.password
-                            }
-    end
-    assert_response :unprocessable_entity
-  end
-
-
-  test "cannot create a user if my account is already registered, format html" do
-    user = users(:mickey_mouse) # already registered
-    assert_difference('User.count', 0) do
-      post :create, :format => "html",
+      post :create, :format => 'xml',
                     :user => {:first_name => "Uncle",
                               :last_name => "Scrooge",
                               :email => "uncle@scrooge",
@@ -695,6 +696,26 @@ class UsersControllerTest < ActionController::TestCase
                               :password => user.password
                             }
     end
+    assert_response :unprocessable_entity
+    assert_equal 'application/xml', @response.content_type
+  end
+
+
+  test "cannot create a user if my account is already registered, format html" do
+    user = users(:mickey_mouse) # already registered
+    assert_difference('User.count', 0) do
+      post :create,
+                    :user => {:first_name => "Uncle",
+                              :last_name => "Scrooge",
+                              :email => "uncle@scrooge",
+                              :sex => "M",
+                              :language_id => languages(:it).id,
+                              :max_foot_length => 1000,
+                              :nick_name => user.nick_name,
+                              :password => user.password
+                            }
+    end
+    assert_equal 'text/html', @response.content_type
     assert_template "new"
     assert_select ".errors"
     assert !session[:uid]
@@ -716,13 +737,14 @@ class UsersControllerTest < ActionController::TestCase
                             }
     end
     assert_response :unprocessable_entity
+    assert_equal 'application/xml', @response.content_type
   end
 
 
   test "cannot create a user with wrong params, format HTML" do
     requester = potential_users(:uncle_scrooge)
     assert_difference('User.count', 0) do
-      post :create, :format => "html",
+      post :create,
                   :user => {# first name missed
                               :last_name => "Scrooge",
                               :email => "uncle@scrooge",
@@ -733,6 +755,7 @@ class UsersControllerTest < ActionController::TestCase
                               :password => requester.password
                             }
     end
+    assert_equal 'text/html', @response.content_type
     assert_template "users/new.html.erb"
     assert_select ".errors"
     assert !session[:uid]
@@ -753,12 +776,13 @@ class UsersControllerTest < ActionController::TestCase
                             }
     end
     assert_response :unprocessable_entity
+    assert_equal 'application/xml', @response.content_type
   end
 
 
   test "cannot create a user if not a potential user, format html" do
     assert_difference('User.count', 0) do
-      post :create, :format => "html",
+      post :create,
                     :user => {:first_name => "Uncle",
                               :last_name => "Scrooge",
                               :email => "uncle@scrooge",
@@ -769,6 +793,7 @@ class UsersControllerTest < ActionController::TestCase
                               :password => "bar"
                             }
     end
+    assert_equal 'text/html', @response.content_type
     assert_template "users/new.html.erb"
     assert_select ".errors"
     assert !session[:uid]

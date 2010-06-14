@@ -49,6 +49,7 @@ class PicturesControllerTest < ActionController::TestCase
     set_authorization_header(user.nick_name, user.password)
     get :edit, :user_id => user.id
     assert_response :success
+    assert_equal 'text/html', @response.content_type
   end
 
 
@@ -85,6 +86,7 @@ class PicturesControllerTest < ActionController::TestCase
     assert user.shows_picture?
     get :show, :user_id => user.id
     assert_response :success
+    assert_equal 'image/png', @response.content_type
   end
 
 
@@ -151,7 +153,7 @@ class PicturesControllerTest < ActionController::TestCase
     set_authorization_header(user.nick_name, user.password)
     assert_difference('UserPicture.count', 1) do
       assert_difference('DbFile.count', 1) do
-        put :update, :user_id => user.id,
+        put :update, :format => 'xml', :user_id => user.id,
             :picture => {
               :uploaded_data => fixture_file_upload("files/image.png",
                                                   "image/png")
@@ -169,7 +171,7 @@ class PicturesControllerTest < ActionController::TestCase
     set_authorization_header(user.nick_name, user.password)
     assert_difference('UserPicture.count', 1) do
       assert_difference('DbFile.count', 1) do
-        put :update, :user_id => user.id, :format => "html",
+        put :update, :user_id => user.id,
             :picture => {
                   :uploaded_data => fixture_file_upload("files/image.png",
                                                   "image/png")
@@ -193,7 +195,7 @@ class PicturesControllerTest < ActionController::TestCase
     set_authorization_header(user.nick_name, user.password)
     assert_difference('UserPicture.count', 0) do
       assert_difference('DbFile.count', 0) do
-        put :update, :user_id => user.id, :picture => {
+        put :update, :format => 'xml', :user_id => user.id, :picture => {
             :uploaded_data => fixture_file_upload("files/image.png",
                                                   "image/png")}
       end
@@ -209,12 +211,13 @@ class PicturesControllerTest < ActionController::TestCase
     set_authorization_header(user.nick_name, user.password)
     assert_difference('UserPicture.count', 0) do
       assert_difference('DbFile.count', 0) do
-        put :update, :user_id => user.id, :picture => {
+        put :update, :format => 'xml', :user_id => user.id, :picture => {
             :uploaded_data => fixture_file_upload("files/text_file.txt",
                                                   "text/plain") }
       end
     end
     assert_response :unprocessable_entity
+    assert_equal 'application/xml', @response.content_type
   end
 
 
@@ -223,13 +226,14 @@ class PicturesControllerTest < ActionController::TestCase
     set_authorization_header(user.nick_name, user.password)
     assert_difference('UserPicture.count', 0) do
       assert_difference('DbFile.count', 0) do
-        put :update, :user_id => user.id, :format => "html",
+        put :update, :user_id => user.id,
             :picture => {
                 :uploaded_data => fixture_file_upload("files/text_file.txt",
                                                   "text/plain")
                         }
       end
     end
+    assert_equal 'text/html', @response.content_type
     assert_template "edit"
     assert_select ".errors"
   end
@@ -280,7 +284,7 @@ class PicturesControllerTest < ActionController::TestCase
     #
     assert_difference('UserPicture.count', -1) do
       assert_difference('DbFile.count', -1) do
-        delete :destroy, :user_id => user.id
+        delete :destroy, :format => 'xml', :user_id => user.id
       end
     end
     assert_response :ok
@@ -301,7 +305,7 @@ class PicturesControllerTest < ActionController::TestCase
     #
     assert_difference('UserPicture.count', -1) do
       assert_difference('DbFile.count', -1) do
-        delete :destroy, :user_id => user.id, :format => "html"
+        delete :destroy, :user_id => user.id
       end
     end
     assert_redirected_to user_url(user)

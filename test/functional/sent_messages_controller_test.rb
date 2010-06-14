@@ -25,8 +25,9 @@ class SentMessagesControllerTest < ActionController::TestCase
     user = users(:mickey_mouse)
     set_authorization_header(user.nick_name, user.password)
     #
-    get :index
+    get :index, :format => 'xml'
     assert_response :success
+    assert_equal 'application/xml', @response.content_type
     assert_not_nil assigns(:messages)
     messages = assigns(:messages)
     assert_equal user.sent_messages.find(:all,
@@ -54,8 +55,9 @@ class SentMessagesControllerTest < ActionController::TestCase
     user = users(:mickey_mouse)
     set_authorization_header(user.nick_name, user.password)
     #
-    get :index, :format => 'html'
+    get :index
     assert_response :success
+    assert_equal 'text/html', @response.content_type
     assert_not_nil assigns(:messages)
   end
 
@@ -64,7 +66,7 @@ class SentMessagesControllerTest < ActionController::TestCase
     user = users(:mickey_mouse)
     set_authorization_header(user.nick_name, user.password)
     #
-    get :index
+    get :index, :format => 'xml'
     messages = assigns(:messages)
     assert !messages.include?(messages(:three))
   end
@@ -82,8 +84,9 @@ class SentMessagesControllerTest < ActionController::TestCase
     user = users(:mickey_mouse)
     set_authorization_header(user.nick_name, user.password)
     #
-    get :show, :id => messages(:two).id
+    get :show, :format => 'xml', :id => messages(:two).id
     assert_response :success
+    assert_equal 'application/xml', @response.content_type
     assert_not_nil assigns(:message)
     message = assigns(:message)
     # testing response content
